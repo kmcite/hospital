@@ -4,95 +4,71 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:8993330208181509714",
-      "lastPropertyId": "12:7809125318447076957",
+      "id": "1:1941326436439581546",
+      "lastPropertyId": "11:4509119896587817721",
       "name": "Patient",
       "properties": [
         {
-          "id": "1:1223470783315231365",
+          "id": "1:6816730214993508920",
           "name": "id",
           "type": 6,
-          "flags": 129
+          "flags": 1
         },
         {
-          "id": "2:4419924368100883402",
-          "name": "symptom",
-          "type": 9
-        },
-        {
-          "id": "3:6855152763138162835",
-          "name": "admissionTime",
-          "type": 6
-        },
-        {
-          "id": "4:5075407596357685463",
-          "name": "remainingTime",
-          "type": 6
-        },
-        {
-          "id": "5:2721474598358781380",
-          "name": "isEmergency",
-          "type": 1
-        },
-        {
-          "id": "6:5110585910523795802",
-          "name": "canPay",
-          "type": 1
-        },
-        {
-          "id": "7:6427398523926189203",
-          "name": "satisfaction",
-          "type": 8
-        },
-        {
-          "id": "8:4839380656914980754",
+          "id": "2:2797816124476418466",
           "name": "name",
           "type": 9
         },
         {
-          "id": "9:2965256536913368834",
-          "name": "timeRequired",
+          "id": "3:7392177203474789709",
+          "name": "symptom",
+          "type": 9
+        },
+        {
+          "id": "4:223793150039748793",
+          "name": "admissionTime",
           "type": 6
         },
         {
-          "id": "10:2152564434425586765",
+          "id": "5:1126906536761735054",
+          "name": "remainingTime",
+          "type": 6
+        },
+        {
+          "id": "6:8360985854115714550",
+          "name": "isEmergency",
+          "type": 1
+        },
+        {
+          "id": "7:3012939891296644746",
+          "name": "canPay",
+          "type": 1
+        },
+        {
+          "id": "8:878965007962910041",
+          "name": "satisfaction",
+          "type": 8
+        },
+        {
+          "id": "9:2257394864256610816",
           "name": "isAdmitted",
           "type": 1
         },
         {
-          "id": "11:7860698566592106",
+          "id": "10:7114999177190999032",
           "name": "isAlive",
           "type": 1
         },
         {
-          "id": "12:7809125318447076957",
+          "id": "11:4509119896587817721",
           "name": "investigations",
           "type": 30
         }
       ],
       "relations": []
-    },
-    {
-      "id": "2:5713164610357897702",
-      "lastPropertyId": "2:8608665018601083275",
-      "name": "Symptom",
-      "properties": [
-        {
-          "id": "1:5305862788319346450",
-          "name": "id",
-          "type": 6,
-          "flags": 129
-        },
-        {
-          "id": "2:8608665018601083275",
-          "name": "description",
-          "type": 9
-        }
-      ],
-      "relations": []
     }
   ],
-  "lastEntityId": "2:5713164610357897702",
+  "lastEntityId": "1:1941326436439581546",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -1,32 +1,35 @@
-import 'package:hospital/hospital/hospital_page.dart';
-import 'package:hospital/hospital/navigator/navigator.dart';
-import 'package:hospital/hospital/resources/resources.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/domain/api/dark.dart';
+import 'package:hospital/features/hospital_page.dart';
+import 'package:hospital/navigator.dart';
 import 'package:hospital/objectbox.g.dart';
 import 'main.dart';
 export 'package:manager/manager.dart';
 
-void main() async {
-  final directory = await getApplicationDocumentsDirectory();
-  store = await openStore(
-    directory: join(directory.path, 'hospital'),
-  );
-  runApp(const MyApp());
-  inform();
+void main() => manager(HospitalApp(), openStore: openStore);
+
+mixin HospitalBloc {
+  GlobalKey<NavigatorState> get navigatorKey => navigator.navigatorKey;
+  bool get dark => darkRM.state;
 }
 
-class MyApp extends UI {
-  const MyApp({super.key});
+class HospitalApp extends UI with HospitalBloc {
+  const HospitalApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     return MaterialApp(
-      navigatorKey: navigator.navigatorKey,
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'ER',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.dark,
+      builder: (context, child) {
+        return FTheme(
+          data: dark ? FThemes.yellow.dark : FThemes.blue.light,
+          child: child!,
+        );
+      },
       home: const HospitalPage(),
     );
   }
 }
+
+typedef UI = ReactiveStatelessWidget;
