@@ -4,79 +4,133 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:1941326436439581546",
-      "lastPropertyId": "11:4509119896587817721",
-      "name": "Patient",
+      "id": "1:4110822070583060904",
+      "lastPropertyId": "4:4901587164367284488",
+      "name": "Doctor",
       "properties": [
         {
-          "id": "1:6816730214993508920",
+          "id": "1:3404051537654883535",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:2797816124476418466",
+          "id": "2:8304075602892795630",
+          "name": "price",
+          "type": 6
+        },
+        {
+          "id": "3:3484133809044409389",
           "name": "name",
           "type": 9
         },
         {
-          "id": "3:7392177203474789709",
-          "name": "symptom",
+          "id": "4:4901587164367284488",
+          "name": "statusIndex",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:3529915745998680988",
+      "lastPropertyId": "8:856222665409088164",
+      "name": "Patient",
+      "properties": [
+        {
+          "id": "1:6642588936781955276",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5046111014958674273",
+          "name": "name",
           "type": 9
         },
         {
-          "id": "4:223793150039748793",
+          "id": "3:7948808461284005432",
           "name": "admissionTime",
           "type": 6
         },
         {
-          "id": "5:1126906536761735054",
+          "id": "4:4545800303850573567",
           "name": "remainingTime",
           "type": 6
         },
         {
-          "id": "6:8360985854115714550",
-          "name": "isEmergency",
-          "type": 1
-        },
-        {
-          "id": "7:3012939891296644746",
+          "id": "5:2314800342928380572",
           "name": "canPay",
           "type": 1
         },
         {
-          "id": "8:878965007962910041",
+          "id": "6:4598056687925377854",
           "name": "satisfaction",
           "type": 8
         },
         {
-          "id": "9:2257394864256610816",
-          "name": "isAdmitted",
-          "type": 1
+          "id": "7:6190240140480659087",
+          "name": "statusIndex",
+          "type": 6
         },
         {
-          "id": "10:7114999177190999032",
-          "name": "isAlive",
-          "type": 1
+          "id": "8:856222665409088164",
+          "name": "doctorId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:6762657594851620625",
+          "relationTarget": "Doctor"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:249217739396788976",
+          "name": "symptoms",
+          "targetId": "3:6091478560037640980"
+        }
+      ]
+    },
+    {
+      "id": "3:6091478560037640980",
+      "lastPropertyId": "5:4149983276551478339",
+      "name": "Symptom",
+      "properties": [
+        {
+          "id": "1:8232049318871517870",
+          "name": "id",
+          "type": 6,
+          "flags": 1
         },
         {
-          "id": "11:4509119896587817721",
-          "name": "investigations",
-          "type": 30
+          "id": "2:1799024412073032505",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:5583803732499344539",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:1372346483468444341",
+          "name": "cost",
+          "type": 6
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:1941326436439581546",
-  "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastEntityId": "3:6091478560037640980",
+  "lastIndexId": "1:6762657594851620625",
+  "lastRelationId": "1:249217739396788976",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    4149983276551478339
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

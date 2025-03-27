@@ -1,56 +1,46 @@
 import 'package:hospital/domain/models/doctor.dart';
-import 'package:hospital/main.dart';
+import 'package:manager/crud.dart';
 
-final doctorsRepository = Doctors();
+final doctorsRepository = DoctorsRepository();
 
-typedef _Doctors = ({
-  List<Doctor> hired,
-  List<Doctor> availableForHire,
-  List<Doctor> onDuty,
-});
-
-extension _ on _Doctors {
-  // ignore: unused_element
-  _Doctors copyWith({
-    List<Doctor>? hired,
-    List<Doctor>? availableForHire,
-    List<Doctor>? onDuty,
-  }) {
-    return (
-      hired: hired ?? this.hired,
-      availableForHire: availableForHire ?? this.availableForHire,
-      onDuty: onDuty ?? this.onDuty,
-    );
+class DoctorsRepository with CRUD<Doctor> {
+  Iterable<Doctor> get doctorsHired => getDoctorsByStatus();
+  Iterable<Doctor> get doctorsAvailableForHire {
+    return getDoctorsByStatus(DoctorStatus.availableForHire);
   }
-}
 
-final _Doctors doctors = (
-  hired: [],
-  availableForHire: [],
-  onDuty: [],
-);
+  Iterable<Doctor> get doctorsOnDuty => getDoctorsByStatus(DoctorStatus.onDuty);
+  Iterable<Doctor> get doctorsOnLeave {
+    return getDoctorsByStatus(DoctorStatus.onLeave);
+  }
 
-class Doctors {
-  final doctorsRM = RM.inject(() => doctors);
-  _Doctors get state => doctorsRM.state;
-  set state(_Doctors _state) => doctorsRM.state = _state;
-  List<Doctor> get doctorsAvailableForHire => state.availableForHire;
-  List<Doctor> get doctorsHired => state.hired;
-  List<Doctor> get doctorsOnDuty => state.onDuty;
+  Iterable<Doctor> getDoctorsByStatus([
+    DoctorStatus status = DoctorStatus.hired,
+  ]) {
+    return getAll().where((doctor) => doctor.status == status);
+  }
 
+  void status(Doctor doctor, DoctorStatus _status) {
+    put(doctor..status = _status);
+  }
+
+  @deprecated
   void hire(Doctor doctor) {
-    state = state.copyWith(hired: List.of(doctorsHired)..add(doctor));
+    put(doctor..status = DoctorStatus.hired);
   }
 
+  @deprecated
   void fire(Doctor doctor) {
-    state = state.copyWith(hired: List.of(doctorsHired)..remove(doctor));
+    put(doctor..status = DoctorStatus.availableForHire);
   }
 
+  @deprecated
   void callForDuty(Doctor doctor) {
-    state = state.copyWith(onDuty: List.of(doctorsOnDuty)..add(doctor));
+    put(doctor..status = DoctorStatus.onDuty);
   }
 
+  @deprecated
   void leave(Doctor doctor) {
-    state = state.copyWith(onDuty: List.of(doctorsOnDuty)..remove(doctor));
+    put(doctor..status = DoctorStatus.onLeave);
   }
 }

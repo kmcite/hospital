@@ -249,18 +249,18 @@ packages:
     dependency: "direct main"
     description:
       name: forui
-      sha256: "3ebbf39d57f0667afc47cbab86b0afe679bba2173a51afc21855053663dc5062"
+      sha256: bcdfc071ee317c8efdee5015866ad10bdabaa98ef6aaada0c285be0d1c491051
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.1+1"
+    version: "0.10.0+1"
   forui_assets:
     dependency: transitive
     description:
       name: forui_assets
-      sha256: df0f24b47ff0c3e16811bb4ad597b426b8e1a62fcf2fea7d95923ef4d6e8aa2c
+      sha256: fa1a13b8e1fcd73bd6a142cb8861043ee6442b1459a373518394b75bc933ead3
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.1"
+    version: "0.10.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -436,14 +436,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   nitrogen_flutter_svg:
     dependency: transitive
     description:
@@ -612,14 +604,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.2"
   pub_semver:
     dependency: transitive
     description:
@@ -866,5 +850,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.7.0 <4.0.0"
-  flutter: ">=3.27.0"
+  dart: ">=3.7.2 <4.0.0"
+  flutter: ">=3.29.0"

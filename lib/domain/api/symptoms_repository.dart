@@ -1,16 +1,21 @@
-import 'package:hospital/main.dart';
-import 'package:objectbox/objectbox.dart';
-
-class Symptom {
-  @Id()
-  int id = 0;
-  String name = '';
-}
+import 'package:faker/faker.dart';
+import 'package:hospital/domain/models/symptom.dart';
+import 'package:manager/crud.dart';
 
 final symptomsRepository = SymptomsRepository();
 
 class SymptomsRepository with CRUD<Symptom> {
   // ignore: unused_element
+  void initialize() {
+    for (var sym in _getAll()) {
+      put(
+        Symptom()
+          ..name = sym
+          ..cost = random.integer(50, min: 20),
+      );
+    }
+  }
+
   List<String> _getAll() {
     return [
       // General Symptoms
