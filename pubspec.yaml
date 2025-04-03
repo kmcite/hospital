@@ -5,21 +5,26 @@ version: 0.1.0
 
 environment:
   sdk: ^3.6.0
-# resolution: workspace
 dependencies:
   states_rebuilder: ^6.4.0
   forui: ^0.10.0+1
   flutter:
     sdk: flutter
-  objectbox_generator: ^4.1.0
-  objectbox_flutter_libs: ^4.1.0
-  objectbox: ^4.1.0
   build_runner: ^2.4.15
   uuid: ^4.5.1
-  manager:
-    path: ..//manager
   icons_plus: ^5.0.0 
   path_provider: ^2.1.5
   faker: ^2.2.0
+  # floor: 
+  # floor_generator: 
+  objectbox: 4.0.3
+  objectbox_flutter_libs: 4.0.3
+  objectbox_generator: 4.0.3
+  copy_with_extension: 
+  copy_with_extension_gen: 
+  manager:
+    path: ..//manager
+  flame: ^1.27.0
+  
 flutter:
   uses-material-design: true

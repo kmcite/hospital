@@ -5,12 +5,12 @@ import 'package:hospital/ui/core/funds_badge.dart';
 
 mixin HospitalBannerX {
   void toggle() {
-    settingsRepository(
-      settingsRepository()..dark = !dark,
-    );
+    settingsRepository
+      ..state = (settingsRepository.state..dark = !dark)
+      ..notify();
   }
 
-  bool get dark => settingsRepository().dark;
+  bool get dark => settingsRepository.state.dark;
 }
 
 class HospitalBanner extends UI

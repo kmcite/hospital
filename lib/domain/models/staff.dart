@@ -1,6 +1,13 @@
 import 'dart:math';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:objectbox/objectbox.dart';
+
+@Entity()
+@CopyWith()
 class StaffMember {
+  @Id(assignable: true)
+  int id;
   final String name;
   final String role;
   final int salary;
@@ -8,6 +15,7 @@ class StaffMember {
   final double quality;
 
   StaffMember({
+    this.id = 0,
     required this.name,
     required this.role,
     required this.salary,

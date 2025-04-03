@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/domain/api/symptoms_repository.dart';
 import 'package:hospital/domain/models/symptom.dart';
 import 'package:hospital/main.dart';
 import 'package:hospital/navigator.dart';
-import 'package:hospital/utils/api.dart';
 
-final _symptomRepository = signal(Symptom());
+final _symptomRepository = RM.inject(() => Symptom());
 
 class SymptomsPage extends UI with SymptomUpdaterX {
   @override
@@ -14,37 +12,36 @@ class SymptomsPage extends UI with SymptomUpdaterX {
       appBar: AppBar(
         title: 'Symptoms'.text(),
       ),
-      body: ListView.builder(
-        itemCount: symptomsRepository.getAll().length,
-        itemBuilder: (context, index) {
-          final _symptom = symptomsRepository.getAll().elementAt(index);
-          return ListTile(
-            title: _symptom.name.text(),
-            subtitle: _symptom.description.text(),
-            trailing: _symptom.cost.text(),
-            onTap: () {
-              symptom(_symptom);
-              navigator.toDialog(SymptomUpdaterDialog());
-            },
-          );
-        },
-      ),
+      // body: ListView.builder(
+      //   itemCount: symptomsRepository.getAll().length,
+      //   itemBuilder: (context, index) {
+      //     final _symptom = symptomsRepository.getAll().elementAt(index);
+      //     return ListTile(
+      //       title: _symptom.name.text(),
+      //       subtitle: _symptom.description.text(),
+      //       trailing: _symptom.cost.text(),
+      //       onTap: () {
+      //         symptom(_symptom);
+      //         navigator.toDialog(SymptomUpdaterDialog());
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 }
 
 mixin SymptomUpdaterX {
-  Modifier<Symptom> get symptom => _symptomRepository;
+  Injected<Symptom> get symptom => _symptomRepository;
 
   void back() {
     navigator.back();
-    _symptomRepository(Symptom());
+    _symptomRepository.state = (Symptom());
   }
 
   void save() {
-    symptomsRepository.put(symptom());
     navigator.back();
-    _symptomRepository(Symptom());
+    _symptomRepository.state = (symptom.state);
   }
 }
 
@@ -60,9 +57,9 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterX {
             children: [
               IconButton(
                   onPressed: navigator.back, icon: Icon(Icons.arrow_back)),
-              symptom().name.text().pad(),
+              symptom.state.name.text().pad(),
               CircleAvatar(
-                child: symptom().cost.text(),
+                child: symptom.state.cost.text(),
               ),
             ],
           ),
@@ -70,32 +67,32 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterX {
             decoration: InputDecoration(
               labelText: 'name',
             ),
-            initialValue: symptom().name,
+            initialValue: symptom.state.name,
             onChanged: (value) {
-              symptom(symptom()..name = value);
+              symptom.state = (symptom.state..name = value);
             },
           ).pad(),
           TextFormField(
             decoration: InputDecoration(
               labelText: 'description',
             ),
-            initialValue: symptom().description,
+            initialValue: symptom.state.description,
             onChanged: (value) {
-              symptom(symptom()..description = value);
+              symptom.state = (symptom.state..description = value);
             },
           ).pad(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () {
-                  symptom(symptom()..cost = symptom().cost + 10);
-                },
+                onPressed: () => symptom.state =
+                    (symptom.state..cost = symptom.state.cost + 10),
                 icon: Icon(Icons.add),
               ),
               IconButton(
                 onPressed: () {
-                  symptom(symptom()..cost = symptom().cost - 10);
+                  symptom.state =
+                      (symptom.state..cost = symptom.state.cost - 10);
                 },
                 icon: Icon(Icons.crop_sharp),
               ),

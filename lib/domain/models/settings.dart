@@ -48,13 +48,15 @@ class Settings {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "doctorsCapacity": doctorsCapacity,
-        "nursingCapacity": nursingCapacity,
-        "funds": funds,
-        "charity": charity,
-        "admissionBeds": admissionBeds,
-        "waitingBeds": waitingBeds,
-        "dark": dark,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      "doctorsCapacity": doctorsCapacity,
+      "nursingCapacity": nursingCapacity,
+      "funds": funds,
+      "charity": charity,
+      "admissionBeds": admissionBeds,
+      "waitingBeds": waitingBeds,
+      "dark": dark,
+    };
+  }
 }

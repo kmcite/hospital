@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/domain/api/doctors.dart';
 import 'package:hospital/domain/api/settings_repository.dart';
 import 'package:hospital/navigator.dart';
 import 'package:hospital/ui/hospital/banner.dart';
@@ -11,10 +10,14 @@ import 'package:hospital/ui/symptoms.dart';
 import '../../domain/models/doctor.dart';
 
 mixin HospitalBloc {
-  int get hospitalFunds => settingsRepository().funds;
-  int get charityFunds => settingsRepository().charity;
-  Iterable<Doctor> get onDutyDoctors => doctorsRepository.doctorsOnDuty;
-  Iterable<Doctor> get doctorsAlreadyHired => doctorsRepository.doctorsHired;
+  int get hospitalFunds => settingsRepository.state.funds;
+  int get charityFunds => settingsRepository.state.charity;
+  Iterable<Doctor> get onDutyDoctors =>
+      // doctorsRepository.doctorsOnDuty
+      [];
+  Iterable<Doctor> get doctorsAlreadyHired =>
+      //  doctorsRepository.doctorsHired
+      [];
 
   // void hire(Doctor doctor) {
   // final price = doctor.price;
@@ -34,27 +37,13 @@ class HospitalPage extends UI with HospitalBloc {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HospitalBanner(),
-      body: Stack(
+      body: Column(
         children: [
-          Opacity(
-            child: Icon(
-              Icons.local_hospital,
-              size: 180,
-            ),
-            opacity: .5,
-          ).center(),
-          Opacity(
-            opacity: 1,
-            child: ListView(
-              children: [
-                HospitalCounters(),
-                Divider(),
-                DoctorsLounge(),
-              ],
-            ).pad(),
-          ),
+          HospitalCounters(),
+          Divider(),
+          Expanded(child: DoctorsLounge()),
         ],
-      ),
+      ).pad(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => navigator.to(SymptomsPage()),
       ),

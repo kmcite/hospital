@@ -1,17 +1,15 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
-import 'package:hospital/domain/api/doctors.dart';
-import 'package:hospital/domain/api/settings_repository.dart';
 import 'package:hospital/domain/models/doctor.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/navigator.dart' show navigator;
-import 'package:states_rebuilder/states_rebuilder.dart';
+import 'package:hospital/navigator.dart';
 
 mixin HireDoctorX {
-  late final doctorRM = signal(_generateDoctor());
-  bool get isHiringLimitReached =>
-      doctorsRepository.getAll().length >= settingsRepository().doctorsCapacity;
+  late final doctorRM = RM.inject(_generateDoctor);
+  bool get isHiringLimitReached => true
+      // doctorsRepository.getAll().length >= settingsRepository().doctorsCapacity
+      ;
   Doctor _generateDoctor() => Doctor()
     ..price = random.integer(
       200,
@@ -41,8 +39,8 @@ class HireDoctorDialog extends UI with HireDoctorX {
               mainAxisSize: MainAxisSize.min,
               children: [
                 'HIRE DOCTOR?'.text().pad(),
-                doctorRM().name.text(),
-                doctorRM().price.text(),
+                doctorRM.state.name.text(),
+                doctorRM.state.price.text(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

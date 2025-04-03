@@ -16,124 +16,154 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'domain/models/doctor.dart';
 import 'domain/models/patient.dart';
+import 'domain/models/staff.dart';
 import 'domain/models/symptom.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 4110822070583060904),
-      name: 'Doctor',
-      lastPropertyId: const obx_int.IdUid(4, 4901587164367284488),
+      id: const obx_int.IdUid(1, 3589654410475671040),
+      name: 'Patient',
+      lastPropertyId: const obx_int.IdUid(8, 7091596234148460842),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3404051537654883535),
+            id: const obx_int.IdUid(1, 4507273143516838626),
             name: 'id',
             type: 6,
-            flags: 1),
+            flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 8304075602892795630),
-            name: 'price',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 3484133809044409389),
+            id: const obx_int.IdUid(2, 5043518156541593493),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4901587164367284488),
+            id: const obx_int.IdUid(3, 7161594422533731529),
+            name: 'admissionTime',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 2785636215794750152),
+            name: 'remainingTime',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6817622524845841765),
+            name: 'canPay',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 2191306056843805128),
+            name: 'satisfaction',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 5386671366383370203),
             name: 'statusIndex',
             type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[
-        obx_int.ModelBacklink(
-            name: 'patients', srcEntity: 'Patient', srcField: 'doctor')
-      ]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 3529915745998680988),
-      name: 'Patient',
-      lastPropertyId: const obx_int.IdUid(8, 856222665409088164),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6642588936781955276),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 5046111014958674273),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7948808461284005432),
-            name: 'admissionTime',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4545800303850573567),
-            name: 'remainingTime',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 2314800342928380572),
-            name: 'canPay',
-            type: 1,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 4598056687925377854),
-            name: 'satisfaction',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 6190240140480659087),
-            name: 'statusIndex',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 856222665409088164),
-            name: 'doctorId',
-            type: 11,
-            flags: 520,
-            indexId: const obx_int.IdUid(1, 6762657594851620625),
-            relationTarget: 'Doctor')
-      ],
-      relations: <obx_int.ModelRelation>[
-        obx_int.ModelRelation(
-            id: const obx_int.IdUid(1, 249217739396788976),
-            name: 'symptoms',
-            targetId: const obx_int.IdUid(3, 6091478560037640980))
-      ],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(3, 6091478560037640980),
+      id: const obx_int.IdUid(2, 966435369277457379),
       name: 'Symptom',
-      lastPropertyId: const obx_int.IdUid(5, 4149983276551478339),
+      lastPropertyId: const obx_int.IdUid(4, 4887158961425148644),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 8232049318871517870),
+            id: const obx_int.IdUid(1, 5707638972660770848),
             name: 'id',
             type: 6,
-            flags: 1),
+            flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1799024412073032505),
+            id: const obx_int.IdUid(2, 6115484847584465177),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 5583803732499344539),
+            id: const obx_int.IdUid(3, 2115122784576756280),
             name: 'description',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 1372346483468444341),
+            id: const obx_int.IdUid(4, 4887158961425148644),
             name: 'cost',
             type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(3, 852381956415032145),
+      name: 'Doctor',
+      lastPropertyId: const obx_int.IdUid(4, 4359061917910403776),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6971711276057121047),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 701883069965648352),
+            name: 'price',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 7533788095722960118),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 4359061917910403776),
+            name: 'statusIndex',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(2, 2152878305696205034),
+            name: 'patients',
+            targetId: const obx_int.IdUid(1, 3589654410475671040))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(4, 3157690795780189958),
+      name: 'StaffMember',
+      lastPropertyId: const obx_int.IdUid(6, 6444217843449839179),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 7836165155917857025),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 6554558583321488485),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 5108080924223681354),
+            name: 'role',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 602064432013185771),
+            name: 'salary',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 8852562202791911366),
+            name: 'efficiency',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 6444217843449839179),
+            name: 'quality',
+            type: 8,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -175,64 +205,23 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(3, 6091478560037640980),
-      lastIndexId: const obx_int.IdUid(1, 6762657594851620625),
-      lastRelationId: const obx_int.IdUid(1, 249217739396788976),
+      lastEntityId: const obx_int.IdUid(4, 3157690795780189958),
+      lastIndexId: const obx_int.IdUid(1, 7254869800110046398),
+      lastRelationId: const obx_int.IdUid(2, 2152878305696205034),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
-      retiredIndexUids: const [],
-      retiredPropertyUids: const [4149983276551478339],
-      retiredRelationUids: const [],
+      retiredIndexUids: const [7254869800110046398],
+      retiredPropertyUids: const [7091596234148460842],
+      retiredRelationUids: const [7427554691800462366],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    Doctor: obx_int.EntityDefinition<Doctor>(
-        model: _entities[0],
-        toOneRelations: (Doctor object) => [],
-        toManyRelations: (Doctor object) => {
-              obx_int.RelInfo<Patient>.toOneBacklink(
-                      8, object.id, (Patient srcObject) => srcObject.doctor):
-                  object.patients
-            },
-        getId: (Doctor object) => object.id,
-        setId: (Doctor object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Doctor object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(5);
-          fbb.addInt64(0, object.id);
-          fbb.addInt64(1, object.price);
-          fbb.addOffset(2, nameOffset);
-          fbb.addInt64(3, object.statusIndex);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-
-          final object = Doctor()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..price = const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0)
-            ..name = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 8, '')
-            ..statusIndex =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-          obx_int.InternalToManyAccess.setRelInfo<Doctor>(
-              object.patients,
-              store,
-              obx_int.RelInfo<Patient>.toOneBacklink(
-                  8, object.id, (Patient srcObject) => srcObject.doctor));
-          return object;
-        }),
     Patient: obx_int.EntityDefinition<Patient>(
-        model: _entities[1],
-        toOneRelations: (Patient object) => [object.doctor],
-        toManyRelations: (Patient object) =>
-            {obx_int.RelInfo<Patient>.toMany(1, object.id): object.symptoms},
+        model: _entities[0],
+        toOneRelations: (Patient object) => [],
+        toManyRelations: (Patient object) => {},
         getId: (Patient object) => object.id,
         setId: (Patient object, int id) {
           object.id = id;
@@ -247,37 +236,39 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addBool(4, object.canPay);
           fbb.addFloat64(5, object.satisfaction);
           fbb.addInt64(6, object.statusIndex);
-          fbb.addInt64(7, object.doctor.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final admissionTimeParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final remainingTimeParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final canPayParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
+          final satisfactionParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final statusIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+          final object = Patient(
+              id: idParam,
+              name: nameParam,
+              admissionTime: admissionTimeParam,
+              remainingTime: remainingTimeParam,
+              canPay: canPayParam,
+              satisfaction: satisfactionParam,
+              statusIndex: statusIndexParam);
 
-          final object = Patient()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..name = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '')
-            ..admissionTime =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0)
-            ..remainingTime =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0)
-            ..canPay =
-                const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false)
-            ..satisfaction =
-                const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0)
-            ..statusIndex =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
-          object.doctor.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
-          object.doctor.attach(store);
-          obx_int.InternalToManyAccess.setRelInfo<Patient>(object.symptoms,
-              store, obx_int.RelInfo<Patient>.toMany(1, object.id));
           return object;
         }),
     Symptom: obx_int.EntityDefinition<Symptom>(
-        model: _entities[2],
+        model: _entities[1],
         toOneRelations: (Symptom object) => [],
         toManyRelations: (Symptom object) => {},
         getId: (Symptom object) => object.id,
@@ -287,7 +278,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Symptom object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final descriptionOffset = fbb.writeString(object.description);
-          fbb.startTable(6);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, descriptionOffset);
@@ -298,15 +289,111 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, '');
+          final costParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final object = Symptom(
+              id: idParam,
+              name: nameParam,
+              description: descriptionParam,
+              cost: costParam);
 
-          final object = Symptom()
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0)
-            ..name = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 6, '')
-            ..description = const fb.StringReader(asciiOptimization: true)
-                .vTableGet(buffer, rootOffset, 8, '')
-            ..cost =
-                const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          return object;
+        }),
+    Doctor: obx_int.EntityDefinition<Doctor>(
+        model: _entities[2],
+        toOneRelations: (Doctor object) => [],
+        toManyRelations: (Doctor object) =>
+            {obx_int.RelInfo<Doctor>.toMany(2, object.id!): object.patients},
+        getId: (Doctor object) => object.id,
+        setId: (Doctor object, int id) {
+          if (object.id != id) {
+            throw ArgumentError('Field Doctor.id is read-only '
+                '(final or getter-only) and it was declared to be self-assigned. '
+                'However, the currently inserted object (.id=${object.id}) '
+                "doesn't match the inserted ID (ID $id). "
+                'You must assign an ID before calling [box.put()].');
+          }
+        },
+        objectToFB: (Doctor object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addInt64(1, object.price);
+          fbb.addOffset(2, nameOffset);
+          fbb.addInt64(3, object.statusIndex);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final priceParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          final statusIndexParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final object = Doctor(
+              id: idParam,
+              name: nameParam,
+              price: priceParam,
+              statusIndex: statusIndexParam);
+          obx_int.InternalToManyAccess.setRelInfo<Doctor>(object.patients,
+              store, obx_int.RelInfo<Doctor>.toMany(2, object.id!));
+          return object;
+        }),
+    StaffMember: obx_int.EntityDefinition<StaffMember>(
+        model: _entities[3],
+        toOneRelations: (StaffMember object) => [],
+        toManyRelations: (StaffMember object) => {},
+        getId: (StaffMember object) => object.id,
+        setId: (StaffMember object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StaffMember object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final roleOffset = fbb.writeString(object.role);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, roleOffset);
+          fbb.addInt64(3, object.salary);
+          fbb.addFloat64(4, object.efficiency);
+          fbb.addFloat64(5, object.quality);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final roleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final salaryParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final efficiencyParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0);
+          final qualityParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final object = StaffMember(
+              id: idParam,
+              name: nameParam,
+              role: roleParam,
+              salary: salaryParam,
+              efficiency: efficiencyParam,
+              quality: qualityParam);
 
           return object;
         })
@@ -315,83 +402,102 @@ obx_int.ModelDefinition getObjectBoxModel() {
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [Doctor] entity fields to define ObjectBox queries.
-class Doctor_ {
-  /// See [Doctor.id].
-  static final id =
-      obx.QueryIntegerProperty<Doctor>(_entities[0].properties[0]);
-
-  /// See [Doctor.price].
-  static final price =
-      obx.QueryIntegerProperty<Doctor>(_entities[0].properties[1]);
-
-  /// See [Doctor.name].
-  static final name =
-      obx.QueryStringProperty<Doctor>(_entities[0].properties[2]);
-
-  /// See [Doctor.statusIndex].
-  static final statusIndex =
-      obx.QueryIntegerProperty<Doctor>(_entities[0].properties[3]);
-
-  /// see [Doctor.patients]
-  static final patients =
-      obx.QueryBacklinkToMany<Patient, Doctor>(Patient_.doctor);
-}
-
 /// [Patient] entity fields to define ObjectBox queries.
 class Patient_ {
   /// See [Patient.id].
   static final id =
-      obx.QueryIntegerProperty<Patient>(_entities[1].properties[0]);
+      obx.QueryIntegerProperty<Patient>(_entities[0].properties[0]);
 
   /// See [Patient.name].
   static final name =
-      obx.QueryStringProperty<Patient>(_entities[1].properties[1]);
+      obx.QueryStringProperty<Patient>(_entities[0].properties[1]);
 
   /// See [Patient.admissionTime].
   static final admissionTime =
-      obx.QueryIntegerProperty<Patient>(_entities[1].properties[2]);
+      obx.QueryIntegerProperty<Patient>(_entities[0].properties[2]);
 
   /// See [Patient.remainingTime].
   static final remainingTime =
-      obx.QueryIntegerProperty<Patient>(_entities[1].properties[3]);
+      obx.QueryIntegerProperty<Patient>(_entities[0].properties[3]);
 
   /// See [Patient.canPay].
   static final canPay =
-      obx.QueryBooleanProperty<Patient>(_entities[1].properties[4]);
+      obx.QueryBooleanProperty<Patient>(_entities[0].properties[4]);
 
   /// See [Patient.satisfaction].
   static final satisfaction =
-      obx.QueryDoubleProperty<Patient>(_entities[1].properties[5]);
+      obx.QueryDoubleProperty<Patient>(_entities[0].properties[5]);
 
   /// See [Patient.statusIndex].
   static final statusIndex =
-      obx.QueryIntegerProperty<Patient>(_entities[1].properties[6]);
-
-  /// See [Patient.doctor].
-  static final doctor =
-      obx.QueryRelationToOne<Patient, Doctor>(_entities[1].properties[7]);
-
-  /// see [Patient.symptoms]
-  static final symptoms =
-      obx.QueryRelationToMany<Patient, Symptom>(_entities[1].relations[0]);
+      obx.QueryIntegerProperty<Patient>(_entities[0].properties[6]);
 }
 
 /// [Symptom] entity fields to define ObjectBox queries.
 class Symptom_ {
   /// See [Symptom.id].
   static final id =
-      obx.QueryIntegerProperty<Symptom>(_entities[2].properties[0]);
+      obx.QueryIntegerProperty<Symptom>(_entities[1].properties[0]);
 
   /// See [Symptom.name].
   static final name =
-      obx.QueryStringProperty<Symptom>(_entities[2].properties[1]);
+      obx.QueryStringProperty<Symptom>(_entities[1].properties[1]);
 
   /// See [Symptom.description].
   static final description =
-      obx.QueryStringProperty<Symptom>(_entities[2].properties[2]);
+      obx.QueryStringProperty<Symptom>(_entities[1].properties[2]);
 
   /// See [Symptom.cost].
   static final cost =
-      obx.QueryIntegerProperty<Symptom>(_entities[2].properties[3]);
+      obx.QueryIntegerProperty<Symptom>(_entities[1].properties[3]);
+}
+
+/// [Doctor] entity fields to define ObjectBox queries.
+class Doctor_ {
+  /// See [Doctor.id].
+  static final id =
+      obx.QueryIntegerProperty<Doctor>(_entities[2].properties[0]);
+
+  /// See [Doctor.price].
+  static final price =
+      obx.QueryIntegerProperty<Doctor>(_entities[2].properties[1]);
+
+  /// See [Doctor.name].
+  static final name =
+      obx.QueryStringProperty<Doctor>(_entities[2].properties[2]);
+
+  /// See [Doctor.statusIndex].
+  static final statusIndex =
+      obx.QueryIntegerProperty<Doctor>(_entities[2].properties[3]);
+
+  /// see [Doctor.patients]
+  static final patients =
+      obx.QueryRelationToMany<Doctor, Patient>(_entities[2].relations[0]);
+}
+
+/// [StaffMember] entity fields to define ObjectBox queries.
+class StaffMember_ {
+  /// See [StaffMember.id].
+  static final id =
+      obx.QueryIntegerProperty<StaffMember>(_entities[3].properties[0]);
+
+  /// See [StaffMember.name].
+  static final name =
+      obx.QueryStringProperty<StaffMember>(_entities[3].properties[1]);
+
+  /// See [StaffMember.role].
+  static final role =
+      obx.QueryStringProperty<StaffMember>(_entities[3].properties[2]);
+
+  /// See [StaffMember.salary].
+  static final salary =
+      obx.QueryIntegerProperty<StaffMember>(_entities[3].properties[3]);
+
+  /// See [StaffMember.efficiency].
+  static final efficiency =
+      obx.QueryDoubleProperty<StaffMember>(_entities[3].properties[4]);
+
+  /// See [StaffMember.quality].
+  static final quality =
+      obx.QueryDoubleProperty<StaffMember>(_entities[3].properties[5]);
 }

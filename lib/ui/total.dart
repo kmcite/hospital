@@ -7,7 +7,9 @@ import 'package:hospital/navigator.dart';
 import 'package:hospital/ui/core/funds_badge.dart';
 
 mixin TotalPatientsBloc {
-  Iterable<Patient> get patients => patientsRepository.getAll();
+  Iterable<Patient> get patients => [
+        // patientsRepository.getAll()
+      ];
   void admit(Patient p) {
     patientsRepository.put(p..status = Status.admitted);
   }
@@ -39,9 +41,7 @@ class TotalPatientsPage extends UI with TotalPatientsBloc {
               subtitle: patient.status.text(),
               onPress: patient.status == Status.admitted
                   ? null
-                  : () {
-                      admit(patient);
-                    },
+                  : () => admit(patient),
             ).pad();
           },
         ).toList(),
