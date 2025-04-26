@@ -1,12 +1,15 @@
-import 'package:copy_with_extension/copy_with_extension.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:hospital/api/patients_repository.dart';
+
+import 'doctor.dart';
+import 'symptom.dart';
 import 'package:objectbox/objectbox.dart';
 
-part 'patient.g.dart';
-
-@Entity()
-@CopyWith()
-class Patient {
-  @Id(assignable: true)
+// @Entity()
+class Patient extends Model with ChangeNotifier {
+  // @Id(assignable: true)
   int id;
   String name;
   int admissionTime;
@@ -15,19 +18,33 @@ class Patient {
   double satisfaction;
   Urgency urgency;
   int statusIndex;
+  final doctor = ToOne<Doctor>();
+  final symptoms = ToMany<Symptom>();
+  Timer? timer;
   Patient({
     this.id = 0,
     this.name = '',
     this.admissionTime = 0,
-    this.remainingTime = 0,
+    this.remainingTime = 30,
     this.canPay = true,
     this.satisfaction = 1,
     this.urgency = Urgency.stable,
     this.statusIndex = 0,
-  });
+  }) {
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (remainingTime > 0) {
+          remainingTime--;
+        } else {
+          timer.cancel();
+          status = Status.discharged;
+        }
+        notifyListeners();
+      },
+    );
+  }
 
-  // final doctor = ToOne<Doctor>();
-  // final symptoms = ToMany<Symptom>();
   Status get status => Status.values.elementAt(statusIndex);
   set status(Status value) {
     statusIndex = value.index;

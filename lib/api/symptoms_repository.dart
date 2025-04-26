@@ -1,25 +1,10 @@
 import 'package:faker/faker.dart';
-import 'package:hospital/domain/models/symptom.dart';
+import '../models/symptom.dart';
 import 'package:hospital/main.dart';
 
 final symptomsRepository = SymptomsRepository();
 
-// @dao
-// abstract
-class SymptomsRepository with CRUD<Symptom> {
-  // @Query('SELECT * FROM Symptom WHERE id = :id')
-  // Future<Symptom?> get(int id);
-  // @Query('SELECT * FROM Symptom')
-  // Future<List<Symptom>> getAll();
-  // @Query('SELECT * FROM Symptom WHERE name = :name')
-  // Future<Symptom?> getByName(String name);
-  // @insert
-  // Future<void> insertSymptom(Symptom symptom);
-
-  // @update
-  // Future<void> updateSymptom(Symptom symptom);
-
-  // ignore: unused_element
+class SymptomsRepository extends CRUD<Symptom> {
   void initialize() {
     for (var sym in _getAll()) {
       put(
@@ -147,5 +132,10 @@ class SymptomsRepository with CRUD<Symptom> {
       "Vision loss",
       "Flashing lights or floaters",
     ];
+  }
+
+  List<Symptom> getAll() {
+    // Return all symptoms for random selection
+    return super.getAll().toList();
   }
 }

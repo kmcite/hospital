@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/domain/api/doctors.dart';
-import 'package:hospital/domain/models/doctor.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/api/doctors.dart';
+import 'package:hospital/api/faker.dart';
 import 'package:hospital/main.dart';
-
-/// Repository providing lists of doctors
-class DoctorsRepository {
-  List<String> get onDuty => ["Dr. Smith", "Dr. Johnson", "Dr. Williams"];
-  List<String> get onLeave => ["Dr. Brown"];
-  List<String> get availableForHire => ["Dr. Jones", "Dr. Garcia"];
-  List<String> get others => ["Dr. Miller", "Dr. Davis"];
-}
+import 'package:hospital/models/doctor.dart';
 
 /// DoctorsLounge Bloc
 mixin DoctorsLoungeBloc {
@@ -17,151 +11,135 @@ mixin DoctorsLoungeBloc {
   Iterable<Doctor> get onDutyDoctors => getByStatus();
   Iterable<Doctor> get onLeaveDoctors => getByStatus(DoctorStatus.onLeave);
   Iterable<Doctor> get hirable => getByStatus(DoctorStatus.availableForHire);
+  changeStatus(Doctor doc) {
+    if (doc.status == DoctorStatus.onLeave) {
+      doc.status = DoctorStatus.onDuty;
+    } else if (doc.status == DoctorStatus.onDuty) {
+      doc.status = DoctorStatus.onLeave;
+    } else if (doc.status == DoctorStatus.availableForHire) {
+      doc.status = DoctorStatus.onDuty;
+    }
+    doctorsRepository.put(doc);
+  }
 }
 
 class DoctorsLounge extends UI with DoctorsLoungeBloc {
   DoctorsLounge({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            "DOCTORS LOUNGE",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.teal,
-              letterSpacing: 1.5,
-            ),
-          ),
-          const SizedBox(height: 16),
+  Widget build(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          "DOCTORS LOUNGE",
+        ),
+        const SizedBox(height: 16),
 
-          // Grid Layout (2x2)
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final double width = constraints.maxWidth;
-                final double height = constraints.maxHeight;
-
-                return Stack(
+        // Grid Layout (2x2)
+        Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
                   children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: _buildQuadrant(
-                                  "On Duty",
-                                  onDutyDoctors,
-                                ),
-                              ),
-                              Expanded(
-                                child: _buildQuadrant(
-                                  "On Leave",
-                                  [],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: _buildQuadrant(
-                                  "Available for Hire",
-                                  [],
-                                ),
-                              ),
-                              Expanded(
-                                child: _buildQuadrant(
-                                  "Others",
-                                  [],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Expanded(
+                      child: _buildQuadrant(
+                        "On Duty",
+                        onDutyDoctors,
+                        context,
+                      ),
                     ),
-
-                    // Vertical Line
-                    Positioned(
-                      left: width / 2 - 1,
-                      top: 0,
-                      bottom: 0,
-                      child: Container(width: 2, color: Colors.grey[400]),
-                    ),
-
-                    // Horizontal Line
-                    Positioned(
-                      top: height / 2 - 1,
-                      left: 0,
-                      right: 0,
-                      child: Container(height: 2, color: Colors.grey[400]),
+                    Expanded(
+                      child: _buildQuadrant(
+                        "On Leave",
+                        onLeaveDoctors,
+                        context,
+                      ),
                     ),
                   ],
-                );
-              },
-            ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _buildQuadrant(
+                        "Available for Hire",
+                        hirable,
+                        context,
+                      ),
+                    ),
+                    FButton.icon(
+                      onPress: () {
+                        doctorsRepository.put(
+                          Doctor()
+                            ..name = personFaker.name()
+                            ..status = DoctorStatus.availableForHire,
+                        );
+                      },
+                      child: FIcon(FAssets.icons.plus),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   /// Helper method to build each quadrant
-  Widget _buildQuadrant(String title, Iterable<Doctor> doctors) {
+  Widget _buildQuadrant(
+      String title, Iterable<Doctor> doctors, BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.shade300, blurRadius: 4, spreadRadius: 2),
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.2),
+            blurRadius: 4,
+            spreadRadius: 2,
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title Badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.teal,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              title,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
+          title.text(),
           const SizedBox(height: 8),
-          // List of Doctors
           Expanded(
             child: doctors.isNotEmpty
                 ? ListView.separated(
                     itemCount: doctors.length,
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 1, color: Colors.grey),
+                    separatorBuilder: (_, __) => Divider(
+                      height: 1,
+                      color: Theme.of(context).dividerColor,
+                    ),
                     itemBuilder: (_, index) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                        doctors.elementAt(index).name,
-                        style: const TextStyle(fontSize: 16),
+                      child: FTile(
+                        title: Text(
+                          doctors.elementAt(index).name,
+                        ),
+                        onPress: () {
+                          changeStatus(doctors.elementAt(index));
+                        },
                       ),
                     ),
                   )
-                : const Center(child: Text("No doctors available")),
+                : Center(
+                    child: Text(
+                      "No doctors available",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),

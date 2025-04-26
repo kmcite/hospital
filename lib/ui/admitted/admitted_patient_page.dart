@@ -1,95 +1,167 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
-import 'package:hospital/domain/api/patients_repository.dart';
-import 'package:hospital/domain/models/patient.dart';
+import 'package:hospital/api/doctors.dart';
+import 'package:hospital/api/patients_repository.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/models/doctor.dart';
+import 'package:hospital/models/patient.dart';
 import 'package:hospital/navigator.dart';
 
 mixin AdmittedPatientBloc {
-  Injected<Patient> get patient => patientsRepository.single;
+  Iterable<Doctor> doctors = [];
+  Iterable<Patient> patients = [];
+  Patient patient = Patient();
+
+  final put = patientsRepository.put;
+
   void refer() {
-    // set(patient.copyWith(status: Status.referred));
-    // patientsRepository.put(patient);
-    back();
+    if (patient != null) {
+      put(patient..status = Status.referred);
+      back();
+    }
   }
 
   void discharge() {
-    // set(patient.copyWith(status: Status.discharged));
-    // patientsRepository.put(patient);
-    back();
+    if (patient != null) {
+      put(patient..status = Status.discharged);
+      back();
+    }
   }
 
   void back() {
     navigator.back();
   }
+
+  Iterable<Doctor> get availableDoctors =>
+      doctorsRepository.getDoctorsByStatus(DoctorStatus.onDuty);
+
+  void assignDoctor(Doctor doctor) {
+    // doctorsRepository.assignToPatient(doctor, patient());
+  }
+
+  void unassignDoctor() {
+    // if (patient().doctor.target != null) {
+    //   doctorsRepository.unassignFromPatient(
+    //       patient().doctor.target!, patient());
+    // }
+  }
 }
 
+// ignore: must_be_immutable
 class AdmittedPatientPage extends UI with AdmittedPatientBloc {
+  AdmittedPatientPage({super.key});
   @override
-  Widget build(BuildContext context) {
-    return FScaffold(
-      header: FHeader.nested(
-        prefixActions: [
-          FHeaderAction.back(
-            onPress: navigator.back,
+  Widget build(context) {
+    if (patient == null) {
+      return const Center(child: Text('No patient selected'));
+    }
+
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: navigator.back,
+        ),
+        title: Text(patient.name),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.receipt),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {},
+            style: IconButton.styleFrom(
+              foregroundColor: theme.colorScheme.error,
+            ),
           ),
         ],
-        suffixActions: [
-          FButton.icon(
-            style: FButtonStyle.secondary,
-            child: FIcon(FAssets.icons.receipt),
-            onPress: discharge,
-          ),
-          FButton.icon(
-            style: FButtonStyle.destructive,
-            onPress: refer,
-            child: FIcon(FAssets.icons.cross),
-          ),
-        ],
-        title: patient.state.name.text(),
       ),
-      content: Wrap(
-        children: [
-          FBadge(label: patient.state.id.text()).pad(),
-          FBadge(label: patient.state.name.text()).pad(),
-          // FBadge(label: patient.state.symptom.text()).pad(),
-          FBadge(label: patient.state.admissionTime.text()).pad(),
-          FBadge(label: patient.state.remainingTime.text()).pad(),
-          // FBadge(label: patient.state.isEmergency.text()).pad(),
-          FBadge(label: patient.state.canPay.text()).pad(),
-          FBadge(label: patient.state.satisfaction.text()).pad(),
-          FBadge(
-            label: patient.state.urgency.text(),
-          ).pad(),
-          FButton(
-            onPress: () {
-              final urgency = switch (patient.state.urgency) {
-                Urgency.stable => Urgency.critical,
-                Urgency.critical => Urgency.lifeThreatening,
-                Urgency.lifeThreatening => Urgency.stable,
-              };
-              // admittedPatient.stateoc.set(patient.stateopyWith(urgency: urgency));
-            },
-            label: 'Stabilise patient.state'.text(),
-          ).pad(),
-          FButton(
-            onPress: () {
-              final urgency = switch (patient.state.urgency) {
-                Urgency.stable => Urgency.critical,
-                Urgency.critical => Urgency.lifeThreatening,
-                Urgency.lifeThreatening => Urgency.stable,
-              };
-              // admittedPatient.stateoc.set(patient.stateopyWith(urgency: urgency));
-            },
-            label: 'Mark as critical'.text(),
-          ).pad(),
-          // FBadge(label: patient.statesAdmitted.text()).pad(),
-          // FBadge(label: patient.statesAlive.text()).pad(),
-          FBadge(label: patient.state.status.text()).pad(),
-          // FBadge(label: patient().investigations.text()).pad(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Chip(label: Text('#${patient.id}')),
+                Chip(label: Text(patient.name)),
+                Chip(label: Text('Admitted: ${patient.admissionTime}')),
+                Chip(label: Text('Remaining: ${patient.remainingTime}')),
+                Chip(
+                  label: Text(patient.canPay ? 'Can Pay' : 'Cannot Pay'),
+                  backgroundColor: patient.canPay
+                      ? theme.colorScheme.secondaryContainer
+                      : theme.colorScheme.errorContainer,
+                ),
+                Chip(
+                  label: Text('${patient.satisfaction}% Satisfied'),
+                  backgroundColor: patient.satisfaction > 70
+                      ? Colors.green[100]
+                      : patient.satisfaction > 40
+                          ? Colors.orange[100]
+                          : Colors.red[100],
+                ),
+                Chip(
+                  label: Text(patient.urgency.toString()),
+                  backgroundColor: patient.urgency == Urgency.lifeThreatening
+                      ? Colors.red[100]
+                      : patient.urgency == Urgency.critical
+                          ? Colors.orange[100]
+                          : Colors.green[100],
+                ),
+                Chip(label: Text(patient.status.toString())),
+              ],
+            ),
+            const SizedBox(height: 24),
+            patient.doctor.target != null
+                ? Card(
+                    child: ListTile(
+                      title: Text('Dr. ${patient.doctor.target!.name}'),
+                      subtitle: const Text('Assigned Doctor'),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.person_remove),
+                        onPressed: () {},
+                        style: IconButton.styleFrom(
+                          foregroundColor: theme.colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(height: 16),
+            Text(
+              'Available Doctors',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView.builder(
+                itemCount: doctors.length,
+                itemBuilder: (context, index) {
+                  final doctor = doctors.elementAt(index);
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    child: ListTile(
+                      title: Text(doctor.name),
+                      subtitle: Text('On Duty'),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.person_add),
+                        onPressed: () {
+                          // assignDoctor(doctor);
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

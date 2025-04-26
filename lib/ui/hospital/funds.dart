@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/ui/core/funds_badge.dart';
+import '../core/funds_badge.dart';
 
 Widget FundsUI() {
   return Column(

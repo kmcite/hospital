@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/domain/api/settings_repository.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/api/settings_repository.dart';
 
 mixin FundsBloc {
-  int get funds => settingsRepository.state.funds;
-  int get charity => settingsRepository.state.charity;
+  Modifier<int> get funds => settingsRepository.funds;
+  Modifier<int> get charity => settingsRepository.charity;
 }
 
 class FundsBadge extends UI with FundsBloc {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Badge(
-      label: funds.text(),
+      label: Text(
+        funds().toString(),
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }
 
 class CharityBadge extends UI with FundsBloc {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Badge(
-      label: charity.text(),
+      label: Text(
+        charity().toString(),
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }

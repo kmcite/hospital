@@ -1,59 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
-import 'package:hospital/domain/api/patients_repository.dart';
-import 'package:hospital/domain/api/timer.dart';
-import 'package:hospital/ui/core/funds_badge.dart';
+import 'package:hospital/api/patients_repository.dart';
+import 'package:hospital/api/settings_repository.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/models/patient.dart';
+import 'package:hospital/models/settings.dart';
 import 'package:hospital/navigator.dart';
-import 'package:hospital/ui/waiting/waiting_patient_page.dart';
-
-import '../../domain/models/patient.dart';
+import 'package:hospital/ui/admitted/admitted_patients_page.dart';
+import 'waiting_patient_page.dart';
 
 mixin WaitingPatientsBloc {
-  Iterable<Patient> get patients => patientsRepository.getAll();
+  Iterable<Patient> get patients => patientsRepository.getByStatus();
+  Modifier<int> get beds => settingsRepository.beds;
+  Modifier<int> get funds => settingsRepository.funds;
+  Modifier<int> get charity => settingsRepository.charity;
+  Modifier<int> get waitingBeds => settingsRepository.waitingBeds;
+  Modifier<Settings> get settings => settingsRepository.settings;
 
-  void startAutomaticAdmissions() {
-    timerRepository.periodic(
-      4.seconds,
-      () {
-        // final onDutyDoctors = doctorsRepository.doctorsOnDuty;
-        // if (onDutyDoctors.isNotEmpty) {
-        //   for (final doctor in onDutyDoctors) {
-        //     final patient =
-        //         patientsRepository.getPatientsByStatus().firstOrNull;
-        //     if (patient != null) {
-        //       // admit(patient..doctor.target = doctor);
-        //     }
-        //   }
-        //   final waitingPatients = patientsRepository.getPatientsByStatus(
-        //     Status.waiting,
-        //   );
-        //   for (final patient in waitingPatients) {
-        //     admit(patient);
-        //   }
-        // }
-      },
-    );
-  }
+  final remove = patientsRepository.remove;
+  final put = patientsRepository.put;
 
-  // bool get isPatientsFlowEmpty => patients.isEmpty;
+  bool admit(Patient patient) {
+    if (beds() == 0) {
+      return false; // No beds available
+    }
 
-  void admit(Patient patient) {
-    // settingsRepository.funds(50);
-    patientsRepository.put(patient..status = Status.admitted);
+    // Check if the patient can pay for the treatment
+    if (patient.canPay) {
+      // If the patient can pay, check if they have enough funds
+      if (funds() < 10) {
+        return false; // Not enough funds
+      }
+      settings(settings()..funds = funds() - 10); // Deduct funds
+    } else {
+      // If the patient can't pay, check if charity funds are available
+      if (charity() < 10) {
+        return false; // Not enough charity funds
+      }
+      settings(settings()..charity = charity() - 10); // Deduct charity funds
+    }
+    settings(settings()..beds = beds() - 1);
+    put(patient..status = Status.admitted);
+    return true;
   }
 
   void refer(Patient patient) {
-    // settingsRepository.funds(-10);
-    patientsRepository.put(patient..status = Status.referred);
-    patientsRepository.remove(patient.id);
+    settings(settings()..funds = funds() - 10); // Deduct funds
+    put(patient..status = Status.referred);
   }
 
-  void remove(Patient patient) {
-    patientsRepository.remove(patient.id);
+  void discharge(Patient patient) {
+    put(patient..status = Status.discharged);
   }
 
-  Injected<Patient> get patient => patientsRepository.single;
+  Injected<Patient> get patient => selectedPatientRepository;
 
   void details(Patient _patient) {
     patient.state = (_patient);
@@ -68,78 +68,185 @@ class WaitingPatientsPage extends UI with WaitingPatientsBloc {
       header: FHeader.nested(
         title: const Text('Waiting Patients'),
         prefixActions: [
-          FHeaderAction.back(onPress: navigator.back),
-        ],
-        suffixActions: [
-          FundsBadge(),
-          CharityBadge(),
-        ],
-      ),
-      content:
-          //  isPatientsFlowEmpty
-          //     ? Text('no patients are waiting').center()
-          //     :
-          FScaffold(
-        content: GridView.builder(
-          padding: const EdgeInsets.all(8),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: 3 / 4,
+          FButton.icon(
+            child: FIcon(FAssets.icons.arrowLeft),
+            onPress: () => navigator.back(),
           ),
-          itemCount: patients.length,
-          itemBuilder: (context, index) {
-            final patient = patients.elementAt(index);
-            return FTappable(
-              onPress: () {
-                details(patient);
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    patient.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'time: ${patient.remainingTime} seconds',
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Satisfaction: ${patient.satisfaction.toStringAsFixed(1)}%',
-                    style: const TextStyle(fontSize: 14, color: Colors.green),
-                  ),
-                  Row(
-                    children: [
-                      FButton.icon(
-                        onPress: () {
-                          admit(patient);
-                        },
-                        child: FIcon(
-                          FAssets.icons.checkCheck,
-                        ),
-                      ),
-                      FButton.icon(
-                        onPress: () {
-                          refer(patient);
-                        },
-                        child: FIcon(FAssets.icons.octagon),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+        ],
       ),
+      content: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: patients.length,
+        itemBuilder: (context, index) {
+          final patient = patients.elementAt(index);
+          return PatientTile(
+            patient: patient,
+            onAdmit: () {
+              // if (!admit(patient)) {
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     const SnackBar(
+              //       content: Text('No beds available'),
+              //       backgroundColor: Colors.red,
+              //     ),
+              //   );
+              // }
+              admit(patient);
+            },
+            onDischarge: () => discharge(patient),
+            onRefer: () => refer(patient),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PatientTile extends StatelessWidget {
+  final Patient patient;
+  final VoidCallback onAdmit;
+  final VoidCallback onDischarge;
+  final VoidCallback onRefer;
+
+  const PatientTile({
+    required this.patient,
+    required this.onAdmit,
+    required this.onDischarge,
+    required this.onRefer,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return FTile(
+      title: patient.name.text(),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              UrgencyIndicator(urgency: patient.urgency),
+              const SizedBox(width: 8),
+              Icon(
+                patient.canPay ? Icons.attach_money : Icons.money_off,
+                size: 16,
+                color: patient.canPay ? Colors.green : Colors.red,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Wait: ${patient.remainingTime}m',
+                style: theme.textTheme.labelLarge,
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ActionButtons(
+            onAdmit: onAdmit,
+            onDischarge: onDischarge,
+            onRefer: onRefer,
+          ),
+          const SizedBox(height: 8),
+          FProgress(value: patient.satisfaction / 100),
+          Text(
+            'Satisfaction: ${patient.satisfaction.toStringAsFixed(0)}%',
+            style: TextStyle(
+              fontSize: 12,
+              color: patient.satisfaction > 70
+                  ? Colors.green
+                  : patient.satisfaction > 40
+                      ? Colors.orange
+                      : Colors.red,
+            ),
+            textAlign: TextAlign.end,
+          ),
+        ],
+      ),
+      suffixIcon: patient.canPay
+          ? FIcon(FAssets.icons.dollarSign)
+          : FIcon(FAssets.icons.circleAlert),
+    );
+  }
+}
+
+class UrgencyIndicator extends StatelessWidget {
+  final Urgency urgency;
+
+  const UrgencyIndicator({required this.urgency, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = urgency == Urgency.lifeThreatening
+        ? Colors.red
+        : urgency == Urgency.critical
+            ? Colors.orange
+            : Colors.green;
+
+    final icon = urgency == Urgency.lifeThreatening
+        ? Icons.emergency
+        : urgency == Urgency.critical
+            ? Icons.warning
+            : Icons.info;
+
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: color),
+        const SizedBox(width: 4),
+        Text(
+          urgency.toString().split('.').last,
+          style: TextStyle(color: color, fontSize: 12),
+        ),
+      ],
+    );
+  }
+}
+
+class ActionButtons extends StatelessWidget {
+  final VoidCallback onAdmit;
+  final VoidCallback onDischarge;
+  final VoidCallback onRefer;
+
+  const ActionButtons({
+    required this.onAdmit,
+    required this.onDischarge,
+    required this.onRefer,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: FButton.icon(
+            onPress: onAdmit,
+            child: Tooltip(
+              message: 'Admit Patient',
+              child: FIcon(FAssets.icons.plus),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: FButton.icon(
+            onPress: onDischarge,
+            child: Tooltip(
+              message: 'Discharge Patient',
+              child: FIcon(FAssets.icons.check),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: FButton.icon(
+            onPress: onRefer,
+            child: Tooltip(
+              message: 'Refer Patient',
+              child: FIcon(FAssets.icons.folderClosed),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

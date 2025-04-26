@@ -7,7 +7,7 @@ part of 'doctor.dart';
 // **************************************************************************
 
 abstract class _$DoctorCWProxy {
-  Doctor id(int? id);
+  Doctor id(int id);
 
   Doctor name(String name);
 
@@ -22,7 +22,7 @@ abstract class _$DoctorCWProxy {
   /// Doctor(...).copyWith(id: 12, name: "My name")
   /// ````
   Doctor call({
-    int? id,
+    int id,
     String name,
     int price,
     int statusIndex,
@@ -36,7 +36,7 @@ class _$DoctorCWProxyImpl implements _$DoctorCWProxy {
   final Doctor _value;
 
   @override
-  Doctor id(int? id) => this(id: id);
+  Doctor id(int id) => this(id: id);
 
   @override
   Doctor name(String name) => this(name: name);
@@ -65,7 +65,7 @@ class _$DoctorCWProxyImpl implements _$DoctorCWProxy {
       id: id == const $CopyWithPlaceholder()
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
-          : id as int?,
+          : id as int,
       name: name == const $CopyWithPlaceholder()
           ? _value.name
           // ignore: cast_nullable_to_non_nullable

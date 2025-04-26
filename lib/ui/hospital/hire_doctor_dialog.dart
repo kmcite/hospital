@@ -1,27 +1,22 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
-import 'package:hospital/domain/models/doctor.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/models/doctor.dart';
 import 'package:hospital/navigator.dart';
 
 mixin HireDoctorX {
   late final doctorRM = RM.inject(_generateDoctor);
-  bool get isHiringLimitReached => true
-      // doctorsRepository.getAll().length >= settingsRepository().doctorsCapacity
-      ;
-  Doctor _generateDoctor() => Doctor()
-    ..price = random.integer(
-      200,
-      min: 50,
-    );
+  bool get isHiringLimitReached => true;
+
+  Doctor _generateDoctor() => Doctor()..price = random.integer(200, min: 50);
 
   void confirmHiring() {
     if (isHiringLimitReached) {
-      RM.scaffold.showSnackBar(
-        SnackBar(
+      ScaffoldMessenger.of(RM.context!).showSnackBar(
+        const SnackBar(
           content:
-              'Hiring limit reached. please upgrade hiring capacity.'.text(),
+              Text('Hiring limit reached. Please upgrade hiring capacity.'),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -31,35 +26,75 @@ mixin HireDoctorX {
 
 class HireDoctorDialog extends UI with HireDoctorX {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
+    final theme = Theme.of(context);
     return Dialog(
-      child: !isHiringLimitReached
-          ? 'HIRING LIMIT REACHED'.text().pad()
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                'HIRE DOCTOR?'.text().pad(),
-                doctorRM.state.name.text(),
-                doctorRM.state.price.text(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: navigator.back,
-                      icon: FIcon(FAssets.icons.x),
-                    ),
-                    IconButton(
-                      onPressed: () => doctorRM,
-                      icon: FIcon(FAssets.icons.refreshCcw),
-                    ),
-                    IconButton(
-                      onPressed: confirmHiring,
-                      icon: FIcon(FAssets.icons.checkCheck),
-                    ),
-                  ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: !isHiringLimitReached
+            ? const Center(
+                child: Text(
+                  'HIRING LIMIT REACHED',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-              ],
-            ).pad(),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'HIRE DOCTOR?',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            doctorRM.state.name,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '\$${doctorRM.state.price}',
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: navigator.back,
+                        icon: const Icon(Icons.close),
+                        tooltip: 'Cancel',
+                      ),
+                      IconButton(
+                        onPressed: () => doctorRM,
+                        icon: const Icon(Icons.refresh),
+                        tooltip: 'Generate New',
+                      ),
+                      IconButton(
+                        onPressed: confirmHiring,
+                        icon: const Icon(Icons.check_circle),
+                        color: theme.colorScheme.primary,
+                        tooltip: 'Confirm Hire',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

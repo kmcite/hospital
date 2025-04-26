@@ -3,10 +3,10 @@ class Settings {
   int nursingCapacity = 1;
   int funds = 100;
   int charity = 100;
-  int admissionBeds = 4;
+  int beds = 4;
   int waitingBeds = 4;
 
-  ///
+  @deprecated
   bool dark = false;
 
   Settings({
@@ -14,9 +14,9 @@ class Settings {
     this.nursingCapacity = 1,
     this.funds = 100,
     this.charity = 100,
-    this.admissionBeds = 4,
+    this.beds = 4,
     this.waitingBeds = 4,
-    this.dark = false,
+    this.dark = true,
   });
 
   Settings.fromJson(Map<String, dynamic> json)
@@ -24,9 +24,8 @@ class Settings {
         nursingCapacity = json['nursingCapacity'] ?? 1,
         funds = json['funds'] ?? 100,
         charity = json['charity'] ?? 100,
-        admissionBeds = json['admissionBeds'] ?? 4,
-        waitingBeds = json['waitingBeds'] ?? 4,
-        dark = json['dark'] ?? false;
+        beds = json['admissionBeds'] ?? 4,
+        waitingBeds = json['waitingBeds'] ?? 4;
 
   Settings copyWith({
     int? doctorsCapacity,
@@ -42,9 +41,8 @@ class Settings {
       nursingCapacity: nursingCapacity ?? this.nursingCapacity,
       funds: funds ?? this.funds,
       charity: charity ?? this.charity,
-      admissionBeds: admissionBeds ?? this.admissionBeds,
+      beds: admissionBeds ?? beds,
       waitingBeds: waitingBeds ?? this.waitingBeds,
-      dark: dark ?? this.dark,
     );
   }
 
@@ -54,9 +52,8 @@ class Settings {
       "nursingCapacity": nursingCapacity,
       "funds": funds,
       "charity": charity,
-      "admissionBeds": admissionBeds,
+      "admissionBeds": beds,
       "waitingBeds": waitingBeds,
-      "dark": dark,
     };
   }
 }

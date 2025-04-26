@@ -1,37 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/domain/api/settings_repository.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/ui/core/funds_badge.dart';
+import 'package:manager/dark/dark_repository.dart';
 
-mixin HospitalBannerX {
-  void toggle() {
-    settingsRepository
-      ..state = (settingsRepository.state..dark = !dark)
-      ..notify();
-  }
+bool get _dark => darkRepository.dark;
+void _toggle() => darkRepository.toggle();
 
-  bool get dark => settingsRepository.state.dark;
-}
-
-class HospitalBanner extends UI
-    with HospitalBannerX
-    implements PreferredSizeWidget {
+@deprecated
+class HospitalBanner extends UI implements PreferredSizeWidget {
   HospitalBanner();
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text('ER'),
+  Widget build(context) {
+    return FHeader(
+      title: const Text('Hospital'),
       actions: [
-        FundsBadge(),
-        VerticalDivider(),
-        CharityBadge(),
-        IconButton(
-          icon: Icon(
-            dark ? Icons.light_mode : Icons.dark_mode,
+        FButton.icon(
+          child: FIcon(
+            _dark ? FAssets.icons.moon : FAssets.icons.sun,
           ),
-          onPressed: () => toggle(),
-        ).pad()
+          onPress: _toggle,
+        ),
       ],
     );
   }

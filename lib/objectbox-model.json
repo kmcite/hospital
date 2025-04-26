@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3589654410475671040",
-      "lastPropertyId": "8:7091596234148460842",
+      "lastPropertyId": "9:6295609149330277630",
       "name": "Patient",
       "properties": [
         {
@@ -43,9 +43,23 @@
           "id": "7:5386671366383370203",
           "name": "statusIndex",
           "type": 6
+        },
+        {
+          "id": "9:6295609149330277630",
+          "name": "doctorId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:6526479809396503328",
+          "relationTarget": "Doctor"
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "3:6247702666988126792",
+          "name": "symptoms",
+          "targetId": "2:966435369277457379"
+        }
+      ]
     },
     {
       "id": "2:966435369277457379",
@@ -149,11 +163,40 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:6706155608055063161",
+      "lastPropertyId": "4:7169252498438211223",
+      "name": "Resource",
+      "properties": [
+        {
+          "id": "1:4392675369765218745",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:3955320649697329928",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:180220307429161005",
+          "name": "total",
+          "type": 6
+        },
+        {
+          "id": "4:7169252498438211223",
+          "name": "available",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:3157690795780189958",
-  "lastIndexId": "1:7254869800110046398",
-  "lastRelationId": "2:2152878305696205034",
+  "lastEntityId": "5:6706155608055063161",
+  "lastIndexId": "2:6526479809396503328",
+  "lastRelationId": "3:6247702666988126792",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

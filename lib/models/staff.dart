@@ -23,7 +23,7 @@ class StaffMember {
     required this.quality,
   });
 
-  static StaffMember generateStaff(String role) {
+  factory StaffMember.generateStaff(String role) {
     final names = ["Dr. Smith", "Nurse Adams", "Dr. Gupta", "Nurse Lee"];
     final name = names[Random().nextInt(names.length)];
     int salary = role == "Doctor" ? 1000 : 500;
