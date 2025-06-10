@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/api/resources_repository.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/domain/models/resource.dart';
+import 'package:hospital/domain/repositories/resources_repository.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/resource.dart';
 import 'package:hospital/navigator.dart';
 
 mixin ResourceManagementBloc {
@@ -26,20 +27,20 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
   @override
   Widget build(context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
+    return FScaffold(
+      header: FHeader(
         title: const Text('Resource Management'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: navigator.back,
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: navigator.back,
+        // ),
       ),
-      body: ListView(
+      child: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildResourceSection(
             'Hospital Beds',
-            Icons.bed,
+            FIcons.hospital,
             beds,
             ResourceType.bed,
             theme,
@@ -47,7 +48,7 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
           const SizedBox(height: 24),
           _buildResourceSection(
             'Medical Equipment',
-            Icons.medical_services,
+            FIcons.medal,
             equipment,
             ResourceType.equipment,
             theme,
@@ -55,16 +56,20 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
           const SizedBox(height: 24),
           _buildResourceSection(
             'Medicines',
-            Icons.medication,
+            FIcons.briefcaseMedical,
             medicines,
             ResourceType.medicine,
             theme,
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddResourceDialog(context),
-        child: const Icon(Icons.add),
+      sidebar: FSidebar(
+        header: FButton.icon(
+          onPress: () => _showAddResourceDialog(context),
+          child: const Icon(Icons.add),
+        ),
+        children: [],
+        width: 50,
       ),
     );
   }
@@ -91,7 +96,7 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
         ),
         const SizedBox(height: 8),
         if (resources.isEmpty)
-          Card(
+          FCard(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(
@@ -105,16 +110,16 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
             ),
           )
         else
-          ...resources.map(
-            (resource) => Card(
-              margin: const EdgeInsets.only(bottom: 8),
-              child: ListTile(
+          ...resources
+              .where(
+            (resource) => resource.type == type,
+          )
+              .map(
+            (resource) {
+              return FTile(
                 title: Text(resource.name),
-                subtitle: LinearProgressIndicator(
-                  value: resource.available / resource.total,
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                ),
-                trailing: Column(
+                subtitle: FProgress(value: resource.available / resource.total),
+                suffixIcon: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -127,8 +132,11 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
                     ),
                   ],
                 ),
-              ),
-            ),
+                onPress: () => navigator.to(
+                  ResourcePage(resource),
+                ),
+              );
+            },
           ),
       ],
     );
@@ -169,12 +177,16 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
                 labelText: 'Resource Type',
                 border: OutlineInputBorder(),
               ),
-              items: ResourceType.values.map((type) {
-                return DropdownMenuItem(
-                  value: type,
-                  child: Text(type.toString().split('.').last),
-                );
-              }).toList(),
+              items: List.generate(
+                ResourceType.values.length,
+                (i) {
+                  return DropdownMenuItem(
+                    value: ResourceType.values[i],
+                    child:
+                        Text(ResourceType.values[i].toString().split('.').last),
+                  );
+                },
+              ),
               onChanged: (value) {
                 if (value != null) {
                   selectedType = value;
@@ -206,4 +218,40 @@ class ResourceManagementPage extends UI with ResourceManagementBloc {
       ),
     );
   }
+}
+
+class ResourcePage extends UI {
+  final Resource resource;
+
+  ResourcePage(this.resource);
+  @override
+  Widget build(BuildContext context) {
+    return FScaffold(
+      header: FHeader.nested(
+        prefixes: [
+          FButton.icon(
+            onPress: navigator.back,
+            child: const Icon(Icons.arrow_back),
+          ),
+        ],
+        title: 'RESOURCE ${resource.id}'.text(),
+      ),
+      child: ListView(
+        children: [
+          resource.name.text(),
+          resource.available.text(),
+          resource.total.text(),
+          resource.type.text(),
+          FButton(
+            onPress: () => toggleType(resource),
+            child: 'to equipment'.text(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+void toggleType(Resource r) {
+  resourcesRepository.put(r..type = ResourceType.equipment);
 }

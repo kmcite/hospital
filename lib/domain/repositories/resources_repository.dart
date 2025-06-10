@@ -1,5 +1,6 @@
-import '../models/resource.dart';
 import 'package:hospital/main.dart';
+
+import '../models/resource.dart';
 
 final resourcesRepository = ResourcesRepository();
 
@@ -11,10 +12,9 @@ class ResourcesRepository extends CRUD<Resource> {
       orElse: () {
         final newResource = Resource(
           name: name,
-          type: type,
           total: defaultTotal,
           available: defaultTotal,
-        );
+        )..type = type;
         put(newResource);
         return newResource;
       },

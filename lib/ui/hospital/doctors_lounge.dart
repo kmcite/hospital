@@ -1,9 +1,9 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
-import 'package:hospital/api/doctors.dart';
-import 'package:hospital/api/faker.dart';
+import 'package:hospital/domain/models/doctor.dart';
+import 'package:hospital/domain/repositories/doctors.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/doctor.dart';
 
 /// DoctorsLounge Bloc
 mixin DoctorsLoungeBloc {
@@ -74,11 +74,11 @@ class DoctorsLounge extends UI with DoctorsLoungeBloc {
                       onPress: () {
                         doctorsRepository.put(
                           Doctor()
-                            ..name = personFaker.name()
+                            ..name = faker.person.name()
                             ..status = DoctorStatus.availableForHire,
                         );
                       },
-                      child: FIcon(FAssets.icons.plus),
+                      child: Icon(FIcons.plus),
                     )
                   ],
                 ),

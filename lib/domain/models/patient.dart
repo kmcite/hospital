@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
-import 'package:hospital/api/patients_repository.dart';
+import 'package:flutter/foundation.dart';
+import 'package:hospital/main.dart';
 
 import 'doctor.dart';
 import 'symptom.dart';
 import 'package:objectbox/objectbox.dart';
 
-// @Entity()
+@Entity()
 class Patient extends Model with ChangeNotifier {
-  // @Id(assignable: true)
+  @Id()
   int id;
   String name;
   int admissionTime;
@@ -36,11 +36,17 @@ class Patient extends Model with ChangeNotifier {
       (timer) {
         if (remainingTime > 0) {
           remainingTime--;
+          satisfaction -= 0.01;
         } else {
           timer.cancel();
           status = Status.discharged;
         }
+        if (satisfaction < 0) {
+          satisfaction = 0;
+          status = Status.discharged;
+        }
         notifyListeners();
+        // patientsRepository(this);
       },
     );
   }
@@ -63,6 +69,11 @@ class Patient extends Model with ChangeNotifier {
         'status: $status, '
         // 'symptoms: ${symptoms.map((s) => s.toString()).toList()}' // Include symptoms in toString
         '}';
+  }
+
+  dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }
 

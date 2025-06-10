@@ -133,9 +133,4 @@ class SymptomsRepository extends CRUD<Symptom> {
       "Flashing lights or floaters",
     ];
   }
-
-  List<Symptom> getAll() {
-    // Return all symptoms for random selection
-    return super.getAll().toList();
-  }
 }

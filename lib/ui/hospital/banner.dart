@@ -3,7 +3,7 @@ import 'package:forui/forui.dart';
 import 'package:hospital/main.dart';
 import 'package:manager/dark/dark_repository.dart';
 
-bool get _dark => darkRepository.dark;
+bool get _dark => darkRepository.state;
 void _toggle() => darkRepository.toggle();
 
 @deprecated
@@ -14,10 +14,10 @@ class HospitalBanner extends UI implements PreferredSizeWidget {
   Widget build(context) {
     return FHeader(
       title: const Text('Hospital'),
-      actions: [
+      suffixes: [
         FButton.icon(
-          child: FIcon(
-            _dark ? FAssets.icons.moon : FAssets.icons.sun,
+          child: Icon(
+            _dark ? FIcons.moon : FIcons.sun,
           ),
           onPress: _toggle,
         ),

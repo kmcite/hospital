@@ -2,11 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 
-import '../main.dart';
+import '../../main.dart';
 import '../models/settings.dart';
 
 final settingsRepository = SettingsRepository();
-final pageController = PageController(initialPage: 1);
+final indexRM = RM.injectTabPageView(length: 4, initialIndex: 2);
 
 class SettingsRepository extends ChangeNotifier {
   final settingsRM = RM.inject(() => Settings());

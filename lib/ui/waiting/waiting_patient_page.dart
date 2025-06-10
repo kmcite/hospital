@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/patient.dart';
+import 'package:hospital/domain/models/patient.dart';
 import 'package:hospital/navigator.dart';
 import 'package:hospital/ui/admitted/admitted_patients_page.dart';
 

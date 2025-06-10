@@ -1,36 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/api/patients_repository.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/domain/repositories/patients_repository.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/patient.dart';
+import 'package:hospital/domain/models/patient.dart';
 
-CollectionModifier<Patient> get patients => patientsRepository;
 void admit(Patient p) {
-  patients(p..status = Status.admitted);
+  patientsRepository(p..status = Status.admitted);
 }
 
 void refer(Patient p) {
-  patients(p..status = Status.referred);
+  patientsRepository(p..status = Status.referred);
+}
+
+final _patientsRM = RM.injectStream(
+  patientsRepository.watch,
+  initialState: patientsRepository(),
+);
+
+void _remove(Patient p) {
+  patientsRepository.remove(p.id);
+}
+
+void _removeAll() {
+  patientsRepository.removeAll();
 }
 
 class TotalPatientsPage extends UI {
   @override
-  get listenables => super.listenables..add(patientsRepository);
-
-  @override
   Widget build(context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: 'total patients'.text(),
+    return FScaffold(
+      header: FHeader(
+        title: 'Patients'.text(),
+        // prefixes: [
+        //   FButton.icon(
+        //     child: const Icon(Icons.arrow_back),
+        //     onPress: navigator.back,
+        //   ),
+        // ],
+        suffixes: [
+          FButton.icon(
+            child: Icon(FIcons.delete),
+            onPress: _removeAll,
+          ),
+        ],
       ),
-      body: ListView(
-        // label: 'patients'.text(),
-        children: patients().map(
+      child: FTileGroup(
+        children: _patientsRM.state.map(
           (patient) {
-            return ListTile(
+            return FTile(
               title: Text(patient.name),
               subtitle: Text(patient.status.toString()),
-              trailing: Text(patient.remainingTime.toString()),
-              onTap: patient.status == Status.admitted
+              suffixIcon: FButton.icon(
+                child: Text(patient.remainingTime.toString()),
+                onPress: () => _remove(patient),
+              ),
+              onPress: patient.status == Status.admitted
                   ? null
                   : () => admit(patient),
             );

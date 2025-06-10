@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:faker/faker.dart';
-import 'package:hospital/models/patient.dart';
-import 'package:states_rebuilder/states_rebuilder.dart';
-
-import 'crud.dart' show CRUD;
+import 'package:hospital/main.dart';
+import 'package:hospital/domain/models/patient.dart';
 
 final patientsRepository = PatientsRepository();
 
@@ -27,17 +25,17 @@ class PatientsRepository extends CRUD<Patient> {
   int totalTimeForPatient = 1;
   int remainingTimeForNextPatient = 0;
   void update(_) {
-    getAll().forEach((a) => print(a.name));
-    updateAllPatients();
+    // getAll().forEach((a) => print(a.name));
+    cleanup();
     if (remainingTimeForNextPatient > 0) {
       remainingTimeForNextPatient--;
+      remainingTimeForNextPatientController.add(value);
     } else {
       generatePatient();
     }
-    notifyListeners();
-    print(remainingTimeForNextPatient);
-    print(totalTimeForPatient);
-    print(value);
+    // print(remainingTimeForNextPatient);
+    // print(totalTimeForPatient);
+    // print(value);
   }
 
   void generatePatient() {
@@ -50,15 +48,40 @@ class PatientsRepository extends CRUD<Patient> {
     totalTimeForPatient = remainingTimeForNextPatient;
   }
 
-  void updateAllPatients() {
+  void cleanup() {
     for (final pt in getAll()) {
       if (pt.status == Status.discharged) {
         remove(pt.id);
       }
     }
   }
+
+  /// REMAINIG TIME FOR NEXT PATIENT
+  final remainingTimeForNextPatientController =
+      StreamController<double>.broadcast();
 }
 
-abstract class Model {
-  int get id;
+final waitingPatients = WaitingPatients();
+
+class WaitingPatients {
+  final controller = StreamController<Iterable<Patient>>.broadcast();
+  Stream<Iterable<Patient>> get stream => controller.stream;
+  final cache = <int, Patient>{};
+  void put(Patient pt) {
+    cache[pt.id] = pt;
+    controller.add(waiting);
+  }
+
+  void remove(int id) {
+    cache.remove(id);
+    controller.add(waiting);
+  }
+
+  Iterable<Patient> get waiting => cache.values;
+  int get length => cache.length;
+  Patient? get(int id) => cache[id];
+  void clear() {
+    cache.clear();
+    controller.add(waiting);
+  }
 }

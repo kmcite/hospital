@@ -1,11 +1,11 @@
 // ignore_for_file: unused_local_variable, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:hospital/api/doctors.dart';
-import 'package:hospital/api/patients_repository.dart';
+import 'package:hospital/domain/repositories/doctors.dart';
+import 'package:hospital/domain/repositories/patients_repository.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/doctor.dart';
-import 'package:hospital/models/patient.dart';
+import 'package:hospital/domain/models/doctor.dart';
+import 'package:hospital/domain/models/patient.dart';
 import 'package:hospital/navigator.dart';
 
 mixin AdmittedPatientBloc {

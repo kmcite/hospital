@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/symptom.dart';
+import 'package:hospital/domain/models/symptom.dart';
 import 'package:hospital/navigator.dart';
-import 'package:hospital/api/symptoms_repository.dart';
+import 'package:hospital/domain/repositories/symptoms_repository.dart';
 import 'package:hospital/ui/symptoms/symptoms_page.dart';
 
 mixin SymptomUpdaterBloc {
@@ -33,9 +33,9 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterBloc {
     return FDialog(
       title: FHeader(
         title: Text(symptom().name.isEmpty ? 'New Symptom' : symptom().name),
-        actions: [
+        suffixes: [
           FBadge(
-            label: Text(
+            child: Text(
               '\$${symptom().cost}',
             ),
           ),
@@ -45,12 +45,12 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterBloc {
         children: [
           FTextField(
             label: 'name'.text(),
-            initialValue: symptom().name,
+            initialText: symptom().name,
             onChange: (value) => symptom(symptom()..name = value),
           ),
           FTextField(
             label: 'description'.text(),
-            initialValue: symptom().description,
+            initialText: symptom().description,
             onChange: (value) => symptom(symptom()..description = value),
           ),
           FLabel(
@@ -63,7 +63,7 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterBloc {
                   onPress: () {
                     symptom(symptom()..cost = symptom().cost - 10);
                   },
-                  child: FIcon(FAssets.icons.delete),
+                  child: Icon(FIcons.delete),
                 ),
                 Text(
                   '\$${symptom().cost}',
@@ -72,7 +72,7 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterBloc {
                   onPress: () {
                     symptom(symptom()..cost = symptom().cost + 10);
                   },
-                  child: FIcon(FAssets.icons.plus),
+                  child: Icon(FIcons.plus),
                 ),
               ],
             ).pad(),
@@ -83,12 +83,12 @@ class SymptomUpdaterDialog extends UI with SymptomUpdaterBloc {
       actions: [
         FButton(
           onPress: save,
-          label: Text('Save'),
+          child: Text('Save'),
         ),
         FButton(
           onPress: back,
           style: FButtonStyle.destructive,
-          label: Text('Cancel'),
+          child: Text('Cancel'),
         ),
       ],
     );

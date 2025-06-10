@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/score.dart';
-import 'package:hospital/api/score_repository.dart';
+import 'package:hospital/domain/models/score.dart';
+import 'package:hospital/domain/repositories/score_repository.dart';
 
 mixin ScoreBadgeBloc {
   Score get score => scoreRepository.current;

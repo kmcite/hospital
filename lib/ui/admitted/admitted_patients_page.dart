@@ -1,78 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/api/patients_repository.dart';
-import 'package:hospital/api/settings_repository.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/domain/repositories/patients_repository.dart';
+import 'package:hospital/domain/repositories/settings_repository.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/patient.dart';
+import 'package:hospital/domain/models/patient.dart';
 import 'package:hospital/navigator.dart';
 import 'admitted_patient_page.dart';
-import '../core/funds_badge.dart';
-import '../core/score_badge.dart';
 
 final selectedPatientRepository = RM.inject(() => Patient());
 
-mixin class AdmittedPatientsBloc {
-  Modifier<int> get funds => settingsRepository.funds;
+final funds = settingsRepository.funds;
 
-  void discharge(Patient patient) {
-    int amountToAddToFunds = 0;
-    for (var symptom in patient.symptoms) {
-      amountToAddToFunds += symptom.cost;
-    }
-
-    funds(funds() + amountToAddToFunds);
-    patient.status = Status.discharged;
-    patientsRepository.put(patient);
+void discharge(Patient patient) {
+  int amountToAddToFunds = 0;
+  for (var symptom in patient.symptoms) {
+    amountToAddToFunds += symptom.cost;
   }
 
-  Iterable<Patient> get admittedPatients =>
-      patientsRepository.getByStatus(Status.admitted);
-
-  Injected<Patient> get selectPatient => selectedPatientRepository;
-
-  void details(Patient patient) {
-    selectPatient.state = patient;
-    navigator.to(AdmittedPatientPage());
-  }
+  funds(funds() + amountToAddToFunds);
+  patient.status = Status.discharged;
+  patientsRepository.put(patient);
 }
 
-class AdmittedPatientsPage extends UI with AdmittedPatientsBloc {
+Iterable<Patient> get admittedPatients =>
+    patientsRepository().where((pt) => pt.status == Status.admitted);
+
+Injected<Patient> get selectPatient => selectedPatientRepository;
+
+void details(Patient patient) {
+  selectPatient.state = patient;
+  navigator.to(AdmittedPatientPage());
+}
+
+class AdmittedPatientsPage extends UI {
   @override
   Widget build(context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admitted Patients'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: navigator.back,
-        ),
-        actions: [
-          ScoreBadge(),
-          SizedBox(width: 8),
-          FundsBadge(),
-          SizedBox(width: 8),
-          VerticalDivider(),
-          SizedBox(width: 8),
-          CharityBadge(),
-          SizedBox(width: 8),
+    return FScaffold(
+      header: FHeader(
+        // prefixes: [
+        //   FButton.icon(
+        //     child: const Icon(Icons.arrow_back),
+        //     onPress: navigator.back,
+        //   ),
+        // ],
+        title: const Text('Admissions'),
+        suffixes: [
+          // ScoreBadge(),
+          // FundsBadge(),
+          // CharityBadge(),
         ],
       ),
-      body: ListView.builder(
+      child: ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemCount: admittedPatients.length,
         itemBuilder: (context, index) {
           final patient = admittedPatients.elementAt(index);
           return Card(
             child: Column(
+              spacing: 8,
               children: [
-                '${patient.name}'.text(),
-                CircularProgressIndicator(value: patient.satisfaction).center(),
+                '${patient.name}'.text(textScaleFactor: 2),
+                ListenableBuilder(
+                  listenable: patient,
+                  builder: (context, child) => FProgress(
+                    value: patient.satisfaction,
+                  ),
+                ),
                 Icon(
                   patient.canPay ? Icons.attach_money : Icons.money_off,
                   size: 16,
                   color: patient.canPay
                       ? theme.colorScheme.primary
                       : theme.colorScheme.error,
+                ),
+                FButton.icon(
+                  onPress: () => discharge(patient),
+                  child: Icon(FIcons.badgeDollarSign),
                 ),
               ],
             ).pad(),

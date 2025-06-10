@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
-import 'package:hospital/api/patients_repository.dart';
-import 'package:hospital/api/settings_repository.dart';
+import 'package:hospital/domain/repositories/patients_repository.dart';
+import 'package:hospital/domain/repositories/settings_repository.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/patient.dart';
-import 'package:hospital/models/settings.dart';
+import 'package:hospital/domain/models/patient.dart';
 import 'package:hospital/navigator.dart';
 import 'package:hospital/ui/admitted/admitted_patients_page.dart';
 import 'waiting_patient_page.dart';
 
 mixin WaitingPatientsBloc {
-  Iterable<Patient> get patients => patientsRepository.getByStatus();
-  Modifier<int> get beds => settingsRepository.beds;
-  Modifier<int> get funds => settingsRepository.funds;
-  Modifier<int> get charity => settingsRepository.charity;
-  Modifier<int> get waitingBeds => settingsRepository.waitingBeds;
-  Modifier<Settings> get settings => settingsRepository.settings;
+  Iterable<Patient> get patients => patientsRepository().where(
+        (patient) {
+          return patient.status == Status.waiting;
+        },
+      );
+  final beds = settingsRepository.beds;
+  final funds = settingsRepository.funds;
+  final charity = settingsRepository.charity;
+  final waitingBeds = settingsRepository.waitingBeds;
+  final settings = settingsRepository.settings;
 
   final remove = patientsRepository.remove;
   final put = patientsRepository.put;
@@ -65,19 +68,18 @@ class WaitingPatientsPage extends UI with WaitingPatientsBloc {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
-      header: FHeader.nested(
+      header: FHeader(
         title: const Text('Waiting Patients'),
-        prefixActions: [
-          FButton.icon(
-            child: FIcon(FAssets.icons.arrowLeft),
-            onPress: () => navigator.back(),
-          ),
-        ],
+        // prefixes: [
+        //   FButton.icon(
+        //     child: Icon(FIcons.arrowLeft),
+        //     onPress: () => navigator.back(),
+        //   ),
+        // ],
       ),
-      content: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: patients.length,
-        itemBuilder: (context, index) {
+      child: FTileGroup.builder(
+        count: patients.length,
+        tileBuilder: (context, index) {
           final patient = patients.elementAt(index);
           return PatientTile(
             patient: patient,
@@ -162,9 +164,8 @@ class PatientTile extends StatelessWidget {
           ),
         ],
       ),
-      suffixIcon: patient.canPay
-          ? FIcon(FAssets.icons.dollarSign)
-          : FIcon(FAssets.icons.circleAlert),
+      suffixIcon:
+          patient.canPay ? Icon(FIcons.dollarSign) : Icon(FIcons.circleAlert),
     );
   }
 }
@@ -222,7 +223,7 @@ class ActionButtons extends StatelessWidget {
             onPress: onAdmit,
             child: Tooltip(
               message: 'Admit Patient',
-              child: FIcon(FAssets.icons.plus),
+              child: Icon(FIcons.plus),
             ),
           ),
         ),
@@ -232,7 +233,7 @@ class ActionButtons extends StatelessWidget {
             onPress: onDischarge,
             child: Tooltip(
               message: 'Discharge Patient',
-              child: FIcon(FAssets.icons.check),
+              child: Icon(FIcons.check),
             ),
           ),
         ),
@@ -242,7 +243,7 @@ class ActionButtons extends StatelessWidget {
             onPress: onRefer,
             child: Tooltip(
               message: 'Refer Patient',
-              child: FIcon(FAssets.icons.folderClosed),
+              child: Icon(FIcons.folderClosed),
             ),
           ),
         ),

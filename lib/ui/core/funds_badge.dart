@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/api/settings_repository.dart';
+import 'package:hospital/domain/repositories/settings_repository.dart';
 
 mixin FundsBloc {
-  Modifier<int> get funds => settingsRepository.funds;
-  Modifier<int> get charity => settingsRepository.charity;
+  final funds = settingsRepository.funds;
+  final charity = settingsRepository.charity;
 }
 
 class FundsBadge extends UI with FundsBloc {
@@ -13,7 +13,6 @@ class FundsBadge extends UI with FundsBloc {
     return Badge(
       label: Text(
         funds().toString(),
-        style: const TextStyle(color: Colors.white),
       ),
     );
   }

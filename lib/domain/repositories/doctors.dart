@@ -1,5 +1,5 @@
-import 'package:hospital/api/crud.dart';
-import 'package:hospital/api/patients_repository.dart';
+import 'package:hospital/domain/repositories/patients_repository.dart';
+import 'package:hospital/main.dart';
 // import 'package:manager/crud.dart';
 
 import '../models/doctor.dart';

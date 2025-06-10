@@ -1,7 +1,8 @@
+import 'package:hospital/main.dart';
 import 'package:objectbox/objectbox.dart';
 
-class Score {
-  @Id(assignable: true)
+class Score extends Model {
+  @Id()
   int id;
 
   int points;

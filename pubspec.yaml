@@ -7,7 +7,7 @@ environment:
   sdk: ^3.6.0
 dependencies:
   states_rebuilder: ^6.4.0
-  forui: ^0.10.0+1
+  forui: ^0.12.0
   flutter:
     sdk: flutter
   build_runner: ^2.4.15
@@ -23,5 +23,6 @@ dependencies:
   manager:
     path: ..//manager
   flame: ^1.27.0  
+  signals: ^6.0.2
 flutter:
   uses-material-design: true

@@ -1,9 +1,10 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:hospital/main.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
 @CopyWith()
-class Symptom {
+class Symptom extends Model {
   @Id(assignable: true)
   int id;
   String name;

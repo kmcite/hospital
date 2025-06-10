@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/symptom.dart';
+import 'package:hospital/domain/models/symptom.dart';
 import 'package:hospital/navigator.dart';
-import 'package:hospital/api/symptoms_repository.dart';
-import 'symptoms.dart';
+import 'package:hospital/domain/repositories/symptoms_repository.dart';
+import 'symptom_updater.dart';
 
 final selectedSymptomRepository = RM.inject(() => Symptom());
 
 mixin SymptomsBloc {
   Injected<Symptom> get symptom => selectedSymptomRepository;
-  CollectionModifier<Symptom> get symptoms => symptomsRepository;
+  final symptoms = symptomsRepository;
 }
 
 // ignore: must_be_immutable
@@ -20,23 +20,23 @@ class SymptomsPage extends UI with SymptomsBloc {
     return FScaffold(
       header: FHeader.nested(
         title: const Text('Symptoms'),
-        prefixActions: [
+        prefixes: [
           FButton.icon(
             onPress: navigator.back,
-            child: FIcon(FAssets.icons.arrowLeft),
+            child: Icon(FIcons.arrowLeft),
           ),
         ],
-        suffixActions: [
+        suffixes: [
           FButton.icon(
             onPress: () {
               symptom.state = Symptom();
               navigator.toDialog(const SymptomUpdaterDialog());
             },
-            child: FIcon(FAssets.icons.plus),
+            child: Icon(FIcons.plus),
           ),
         ],
       ),
-      content: ListView.builder(
+      child: ListView.builder(
         itemCount: symptomsRepository.getAll().length,
         itemBuilder: (context, index) {
           final _symptom = symptoms().elementAt(index);
@@ -44,7 +44,7 @@ class SymptomsPage extends UI with SymptomsBloc {
             title: Text(_symptom.name),
             subtitle: Text(_symptom.description),
             suffixIcon: FBadge(
-              label: Text('\$${_symptom.cost}'),
+              child: Text('\$${_symptom.cost}'),
             ),
             onPress: () {
               symptom.state = (_symptom);

@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital/domain/models/doctor.dart';
 import 'package:hospital/main.dart';
-import 'package:hospital/models/doctor.dart';
 import 'package:hospital/navigator.dart';
 
 mixin HireDoctorX {
