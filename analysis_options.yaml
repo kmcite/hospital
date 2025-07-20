@@ -1,5 +1,8 @@
 # include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  errors:
+    unused_field: ignore
+    deprecated_member_use: ignore
   plugins:
     - celest
