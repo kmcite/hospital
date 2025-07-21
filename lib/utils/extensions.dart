@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hospital/main.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:hospital/main.dart';
+// import 'package:package_info_plus/package_info_plus.dart';
 
-late PackageInfo appInfo;
+// late PackageInfo appInfo;
 
-late Box storage;
+// late Box storage;
 
-class HiveStorage implements IPersistStore {
-  @override
-  Future<void> init() async {
-    await Hive.initFlutter();
-    appInfo = await PackageInfo.fromPlatform();
-    storage = await Hive.openBox<String>(appInfo.appName);
-  }
+// class HiveStorage implements IPersistStore {
+//   @override
+//   Future<void> init() async {
+//     await Hive.initFlutter();
+//     appInfo = await PackageInfo.fromPlatform();
+//     storage = await Hive.openBox<String>(appInfo.appName);
+//   }
 
-  @override
-  Future<void> delete(String key) async => storage.delete(key);
+//   @override
+//   Future<void> delete(String key) async => storage.delete(key);
 
-  @override
-  Future<void> deleteAll() async => storage.clear();
+//   @override
+//   Future<void> deleteAll() async => storage.clear();
 
-  @override
-  String? read(String key) => storage.get(key);
+//   @override
+//   String? read(String key) => storage.get(key);
 
-  @override
-  Future<void> write<T>(String key, value) async => storage.put(key, value);
-}
+//   @override
+//   Future<void> write<T>(String key, value) async => storage.put(key, value);
+// }
 
 extension DynamicExtensions on dynamic {
   Text text({

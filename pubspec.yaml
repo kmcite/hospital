@@ -15,14 +15,6 @@ dependencies:
   icons_plus: ^5.0.0 
   path_provider: ^2.1.5
   faker: ^2.2.0
-  # objectbox: 4.3.0
-  # objectbox_flutter_libs: 4.3.0
-  # objectbox_generator: 4.3.0
-  # copy_with_extension: 
-  # copy_with_extension_gen: 
-  # manager:
-  #   path: D://applications//manager//manager
-  # flame: ^1.27.0  
   signals: ^6.0.2
   hive_flutter: ^1.1.0
   package_info_plus: ^8.3.0

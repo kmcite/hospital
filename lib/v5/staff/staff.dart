@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:hospital/main.dart';
+import 'package:hospital/utils/list_view.dart';
 
-class Staff {}
+class Staff {
+  String id = faker.guid.guid();
+  String name = faker.person.name();
+  String role = faker.vehicle.model();
+  String department = faker.company.name();
+  double salary = faker.randomGenerator.decimal(scale: 500, min: 50);
+}
 
-class StaffBloc extends ChangeNotifier {
-  final List<Staff> staff = [];
-  void hire(Staff staff) {
-    notifyListeners();
-  }
+final _staffs = mapSignal<String, Staff>({});
 
-  void fire(Staff staff) {
-    // staff.fire();
-    notifyListeners();
+final staffs = computed(() => _staffs.values);
+
+void fire_staff(Staff staff) {
+  _staffs.remove(staff.id);
+}
+
+void hire_staff(Staff staff) {
+  _staffs.putIfAbsent(staff.id, () => staff);
+}
+
+class StaffsUI extends UI {
+  @override
+  Widget build(BuildContext context) {
+    return listView(
+      staffs(),
+      (staff) => FTile(
+        title: staff.name.text(),
+      ),
+    );
   }
 }
