@@ -1,0 +1,56 @@
+---
+# Duty Assignment System
+
+## Overview
+
+The **Duty Assignment Loop** (`startDutyAssignment`) is responsible for assigning active staff members to their respective duty slots in real time.
+It continuously runs in the background, checking every second for available staff and assigning them if a slot is free.
+---
+
+## Core Logic
+
+- The loop runs indefinitely with a **1-second delay** using `Future.delayed`.
+- It iterates over all available staff from `staffs()`.
+- For each staff member:
+
+  - **Nurse**: Assigned to `currentNurse` if no nurse is currently on duty.
+    Cleared after `dutyAmount()` seconds.
+  - **Doctor**: Assigned to `currentDoctor` if no doctor is currently on duty.
+    Cleared after `dutyAmount()` seconds.
+  - **Receptionist**: Assigned to `currentReceptionist` if no receptionist is currently on duty.
+    Cleared after `dutyAmount()` seconds.
+
+---
+
+## Data Updates
+
+- After assignment checks, the loop updates the central registries:
+
+  - `nurses[staff.id]`
+  - `doctors[staff.id]`
+  - `receptionists[staff.id]`
+
+This ensures the staff state is **always synchronized** across the system.
+
+---
+
+## Important Variables
+
+- `currentNurse` → Currently assigned nurse.
+- `currentDoctor` → Currently assigned doctor.
+- `currentReceptionist` → Currently assigned receptionist.
+- `staffs()` → Provides the list of available staff.
+- `dutyAmount()` → Duration (in seconds) a staff member serves before being freed.
+- `nurses`, `doctors`, `receptionists` → Maps for tracking latest staff state.
+
+---
+
+## Simulation Purpose
+
+This system simulates:
+
+- **Real-time duty allocation** in the hospital.
+- **Automatic rotation** of staff based on time.
+- **Consistent updates** of staff registries for the dashboard.
+
+---

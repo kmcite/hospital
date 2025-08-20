@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:states_rebuilder/states_rebuilder.dart' show RM;
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hospital/main.dart';
+import 'package:navigation_builder/navigation_builder.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-final navigator = RM.navigate;
+final navigator = NavigationBuilder.navigate;
 
 abstract class KeyValueStore {
   Future<void> setItem(String key, String value);

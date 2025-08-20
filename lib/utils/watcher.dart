@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signals/signals.dart' as core;
-import 'package:signals/signals_flutter.dart';
+import 'package:hospital/main.dart';
 
 class GUI extends UI {
   const GUI(
@@ -38,7 +37,7 @@ abstract class UI<T extends Widget> extends StatefulWidget {
 
   T build(BuildContext context);
   final String? debugLabel;
-  final List<core.ReadonlySignal<dynamic>> dependencies;
+  final List<ReadonlySignal<dynamic>> dependencies;
 
   @override
   State<UI<T>> createState() => _WatchState<T>();
@@ -66,8 +65,8 @@ class _WatchState<T extends Widget> extends State<UI<T>> with SignalsMixin {
   @override
   void reassemble() {
     super.reassemble();
-    final target = core.SignalsObserver.instance;
-    if (target is core.DevToolsSignalsObserver) {
+    final target = SignalsObserver.instance;
+    if (target is DevToolsSignalsObserver) {
       target.reassemble();
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {

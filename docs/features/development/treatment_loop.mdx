@@ -1,0 +1,59 @@
+---
+# 🏥 Treatment Loop
+
+The **`startTreatmentLoop`** function is the core of the hospital workflow. It continuously monitors for available staff and patients, and manages the **treatment process** from reception → nurse → doctor.
+---
+
+## ⚙️ How It Works
+
+1. **Looping**
+
+   - Runs in an infinite loop with a 1-second delay between checks.
+
+2. **Staff Availability Checks**
+
+   - 🧑‍💼 Receptionist: If none available → ❌ skip iteration.
+   - 👩‍⚕️ Nurse: If none available → ❌ skip iteration.
+   - 🩺 Doctor: If none available → ❌ skip iteration.
+
+3. **Workload Check**
+
+   - If the nurse is already working (`isWorking()`), the loop continues without assigning new patients.
+
+4. **Reception Queue Check**
+
+   - If no receptions are available, logs `NoReceptionsAvailable`.
+
+5. **Assigning Reception to Nurse**
+
+   - Takes the **last reception** from the list.
+   - Assigns the **current nurse** to handle the patient.
+
+6. **Consultation Time Calculation**
+
+   - Iterates over consultation options and sums up their **duration**.
+
+7. **Start Work**
+
+   - The nurse starts working for the calculated total consultation time.
+
+---
+
+## 📝 Example Flow
+
+- ✅ Receptionist, Nurse, Doctor all on duty.
+- 📋 Reception queue has patients.
+- 🧑‍⚕️ Nurse is free → takes the patient.
+- ⏱ Calculates total consultation duration.
+- 👩‍⚕️ Nurse works for that time → loop waits.
+
+---
+
+## 🔑 Key Points
+
+- Ensures **sequential treatment flow**.
+- Patients are only seen when **all staff roles are filled**.
+- Nurses cannot be overloaded — they finish current tasks first.
+- Logs system state (`NoReceptionistOnDuty`, `NoNurseOnDuty`, `NoDoctorOnDuty`, `NoReceptionsAvailable`).
+
+---

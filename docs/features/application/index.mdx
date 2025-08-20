@@ -1,0 +1,188 @@
+Got it 👍 You want me to generate **documentation / pointers** for this code, but **without showing the actual code**. Here’s a structured doc you could include in your project:
+
+---
+
+# 📘 Hospital App – Documentation
+
+### 🔹 Global State & Subscriptions
+
+- **`dark`** → a computed value bound to app settings for theme mode (light/dark).
+- **`subscriptions`** → a global list that stores all active stream subscriptions.
+- **`subscribe()`** → helper to register new subscriptions into the list.
+- **`cancelSubscriptions()`** → cancels and clears all active subscriptions (called during dispose).
+
+---
+
+### 🔹 HospitalApp Class (Main UI Entry)
+
+- Extends a custom `UI` base class.
+- **`initState()`** → runs app startup logic:
+
+  - Starts patient generation.
+  - (Other simulation loops like staff generation, duty assignment, treatment, salaries, etc. can be toggled on/off here).
+
+- **`dispose()`** → cleans up subscriptions to prevent memory leaks.
+
+---
+
+### 🔹 MaterialApp Configuration
+
+- Uses **`navigatorKey`** from a custom navigator utility for global navigation.
+- **`debugShowCheckedModeBanner`** is disabled for production.
+- **Themes**:
+
+  - Dark and light themes are provided via `HuxTheme`.
+  - Customizations applied to `ProgressIndicatorTheme` and `SliderTheme`.
+
+- **ThemeMode** → automatically switches between dark and light mode based on user settings (`dark`).
+- **Home Page** → The main landing page is the **Dashboard** widget.
+
+---
+
+✅ **Key Takeaways**
+
+- Centralized subscription handling → no memory leaks.
+- Simulation features (patients, staff, treatments, salaries) are modular and can be started/stopped in `initState()`.
+- Adaptive theming with a global `dark` computed state.
+- Entry point `HospitalApp` sets up navigation, theming, and home screen.
+
+---
+
+## 🚀 Project Structure
+
+### Domain Layer
+
+- **Models** (`/lib/apis/*`):
+
+  - `Receipt`
+  - this entity is use for maintaining balance/money transactions
+  - `Staff`
+    - `Doctor`
+    - `Nurse`
+    - `Receptionist`
+  - Example:
+    - `Patient` includes properties like `name`, `admissionTime`, `remainingTime`, `satisfaction`, and relationships with `Doctor` and `Symptom`.
+    - `Facility` tracks hospital-level attributes like `waitingAreaBeds`, `admissionBeds`, `nursesCapacity`, and `doctorsCapacity`.
+
+- **Repositories** (`/lib/apis/*`):
+- **APIs/Repositories** (`/lib/domain/api/`):
+  - `DoctorsRepository` manages doctor-related operations like assigning doctors to patients.
+  - `NursesRepository` manages doctor-related operations like assigning doctors to patients.
+  - `ReceptionistsRepository` manages doctor-related operations like assigning doctors to patients.
+  - `SettingsRepository` handles global settings like funds and dark mode preferences.
+  - `BalanceRepository` handles transactions
+
+---
+
+### UI Layer
+
+- **Pages** (`/lib/ui/`):
+
+  - Organized by feature, such as `admitted`, `waiting`, and `hospital`.
+  - Example:
+    - `AdmittedPatientsPage` displays a list of admitted patients and allows actions like discharge or referral.
+    - `WaitingPatientsPage` shows patients waiting for admission and provides options to admit, refer, or discharge them.
+
+- **Components**:
+  - Reusable UI components like `FundsBadge`, `CharityBadge`, and `HospitalBanner`.
+
+---
+
+### Utils
+
+- **Utility Functions** (`/lib/utils/`):
+  - Contains helper functions and shared logic used across the application.
+
+---
+
+## Key Features
+
+### Patient Management
+
+- Patients are generated with attributes like urgency, satisfaction, and payment ability.
+- Players can admit, refer, or discharge patients based on hospital resources.
+
+### Resource Management
+
+- Resources like beds, doctors, and equipment are tracked and updated in real-time.
+- The `Facility` model defines the hospital's capacity for resources.
+
+### Doctor Management
+
+- Doctors can be hired, assigned to patients, or put on leave.
+- The `DoctorsLounge` UI provides an overview of doctors' statuses.
+
+### State Management
+
+- Uses `states_rebuilder` for reactive state updates.
+- Repositories provide a centralized way to access and manipulate state.
+
+### Data Persistence
+
+- ObjectBox is used for storing game data, including patients, doctors, and resources.
+- Relationships between entities (e.g., `Patient` and `Doctor`) are managed using ObjectBox's `ToOne` and `ToMany` relations.
+
+---
+
+## Gameplay Flow
+
+1. **Waiting Room**:
+
+   - Patients arrive and wait for admission.
+   - Players can admit patients if resources are available.
+
+2. **Admitted Patients**:
+
+   - Admitted patients are treated by doctors.
+   - Players can discharge or refer patients based on their status.
+
+3. **Resource Management**:
+
+   - Players must manage resources like beds and staff to ensure smooth operations.
+
+4. **Progression**:
+   - Players earn points and funds based on successful treatments.
+   - Funds can be used to hire doctors or upgrade the facility.
+
+---
+
+## Development Guidelines
+
+### Coding Style
+
+- **Variables, Functions, Methods**: camelCase
+- **Classes, Interfaces, Enums**: PascalCase
+- **Files**: snake_case (e.g., `admitted_patients_page.dart`)
+
+### Architecture Patterns
+
+- Repository pattern for data access.
+- Separation of UI and business logic using mixins and blocs.
+
+### State Management
+
+- Reactive programming with `states_rebuilder`.
+- State updates are triggered through repository methods.
+
+---
+
+## Future Enhancements
+
+- Add progression mechanics like hospital upgrades and new features.
+- Enhance UI/UX with animations and sound effects.
+- Implement offline save and resume functionality.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Flutter SDK
+- Dart SDK
+
+## Contributors
+
+- DrAdn - Dr Adnan Farooq
+
+---

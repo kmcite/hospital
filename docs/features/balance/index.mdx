@@ -1,0 +1,55 @@
+---
+# Salary Awarding System
+
+## Overview
+
+The **Salary Awarding Loop** (`startGivingOutSalaries`) is responsible for paying all hired staff at regular intervals.
+It ensures staff members receive their salary automatically, simulating real-world payroll.
+---
+
+## Core Logic
+
+- Runs indefinitely with a **30-second delay** (`Future.delayed`).
+- On each cycle:
+
+  - Logs `"[AwardingSalariesToHiredStaffs]"` to track payroll events.
+  - Iterates through all hired staff:
+
+    - Nurses (`nurses.values`)
+    - Doctors (`doctors.values`)
+    - Receptionists (`receptionists.values`)
+
+  - Issues a **salary payment** to each staff member.
+
+---
+
+## Salary Processing
+
+- A `Receipt` object is created for each staff salary.
+- Fields set in the receipt:
+
+  - `balance` → Equal to the staff’s salary.
+  - `details` → `"Salary"`.
+
+- Sent to `balanceRepository.useBalance` for accounting.
+
+---
+
+## Important Variables
+
+- `nurses`, `doctors`, `receptionists` → Maps of active staff members.
+- `staff.salary` → Salary amount for each staff member.
+- `balanceRepository` → Manages financial transactions (income & expenses).
+- `Receipt` → Data structure for recording salary disbursement.
+
+---
+
+## Simulation Purpose
+
+This system simulates:
+
+- **Automated payroll** for all hired staff.
+- **Financial deductions** from hospital balance.
+- **Bookkeeping consistency** via receipts.
+
+---

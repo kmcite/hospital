@@ -1,0 +1,24 @@
+```dart
+import 'package:hospital/main.dart';
+
+class Consultation {
+  final options = listSignal<ConsultationOptions>([]);
+  DateTime? date = DateTime.now();
+}
+
+enum ConsultationOptions {
+  admission,
+  injections,
+  referral,
+  discharge;
+
+  int get duration {
+    return switch (this) {
+      ConsultationOptions.admission => 5,
+      ConsultationOptions.injections => 1,
+      ConsultationOptions.referral => 2,
+      ConsultationOptions.discharge => 3,
+    };
+  }
+}
+```

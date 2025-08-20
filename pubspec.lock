@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  charcode:
+    dependency: transitive
+    description:
+      name: charcode
+      sha256: fb0f1107cac15a5ea6ef0a6ef71a807b9e4267c713bb93e00e92d737cc8dbd8a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -153,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  cristalyse:
+    dependency: transitive
+    description:
+      name: cristalyse
+      sha256: "43fc0e54bf1160ecb4a861f564874bef1b1a4619f2912b7a74bcd4ae642a87c9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   crypto:
     dependency: transitive
     description:
@@ -161,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   dart_style:
     dependency: transitive
     description:
@@ -206,11 +230,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_localizations:
+  flutter_feather_icons:
     dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
+    description:
+      name: flutter_feather_icons
+      sha256: b33b9c276fc8108254632da6644cf01f71af6c17fbfb26e136a86945f5ff9b67
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+1"
   flutter_svg:
     dependency: transitive
     description:
@@ -224,22 +251,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  forui:
-    dependency: "direct main"
-    description:
-      name: forui
-      sha256: "6b364e7918492caf79fadf15a46666d29d0054e9e4ba855cabb418916c282914"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.14.1"
-  forui_assets:
-    dependency: transitive
-    description:
-      name: forui_assets
-      sha256: "207df3d1baf3a4d5d898fbc3e0272b44758e48bfd13f3b654f24a0bfdbfa6698"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.14.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -260,10 +271,10 @@ packages:
     dependency: transitive
     description:
       name: google_fonts
-      sha256: b1ac0fe2832c9cc95e5e88b57d627c5e68c223b9657f4b96e1487aa9098c7b82
+      sha256: df9763500dadba0155373e9cb44e202ce21bd9ed5de6bdbd05c5854e86839cb8
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.1"
+    version: "6.3.0"
   graphs:
     dependency: transitive
     description:
@@ -288,6 +299,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      sha256: "6d1264f2dffa1b1101c25a91dff0dc2daee4c18e87cd8538729773c073dbf602"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.6"
   http:
     dependency: transitive
     description:
@@ -312,6 +331,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  hux:
+    dependency: "direct main"
+    description:
+      name: hux
+      sha256: "02d99f7eb57364dfd5d0027d35ce205ee64961d9f6806dfb1fb64610046290ea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   icons_plus:
     dependency: "direct main"
     description:
@@ -385,21 +412,13 @@ packages:
     source: hosted
     version: "2.0.0"
   navigation_builder:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: navigation_builder
       sha256: d1b145dde5869849613d9b93ecd8f5a3ae929471ef81d1ba017f476b70bd7c39
       url: "https://pub.dev"
     source: hosted
     version: "0.0.4"
-  nitrogen_types:
-    dependency: transitive
-    description:
-      name: nitrogen_types
-      sha256: "5d4ec453aea14e34607bc6021ff1381192e8fcd8541bf103638baa4d013e668f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0+1"
   package_config:
     dependency: transitive
     description:
@@ -560,14 +579,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  signals:
-    dependency: "direct main"
-    description:
-      name: signals
-      sha256: "85225d03e71720b6fff62a8296ba7328a3e363d1ffbb9f3a85efaa05d9e85e67"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.2"
   signals_core:
     dependency: transitive
     description:
@@ -577,7 +588,7 @@ packages:
     source: hosted
     version: "6.0.2"
   signals_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: signals_flutter
       sha256: "66b36ed0b5961cc7d8d0606813bc3fd66758dc1728cbfcffef0d2a97c7a706a2"
@@ -613,14 +624,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
-  states_rebuilder:
-    dependency: "direct main"
-    description:
-      name: states_rebuilder
-      sha256: f760498bb7adbe12d0d6da67f23c07e6c41de6261052ba8794356222fe27ddf3
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.4.0"
   stream_channel:
     dependency: transitive
     description:
@@ -645,14 +648,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
-  sugar:
-    dependency: transitive
-    description:
-      name: sugar
-      sha256: a0a97f1d3552a3ef4cbec7c6e62c7b52c151cd5c11e984e8311700a918f73dc5
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   term_glyph:
     dependency: transitive
     description:
@@ -685,6 +680,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  universal_html:
+    dependency: transitive
+    description:
+      name: universal_html
+      sha256: "56536254004e24d9d8cfdb7dbbf09b74cf8df96729f38a2f5c238163e3d58971"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.4"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   uuid:
     dependency: "direct main"
     description:
@@ -791,4 +802,4 @@ packages:
     version: "3.1.3"
 sdks:
   dart: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  flutter: ">=3.27.0"

@@ -1,0 +1,31 @@
+## Patients
+
+```dart
+import "package:hospital/main.dart";
+import "package:hospital/v5/api/patient.dart";
+
+import "../../apis/chit.mdx";
+
+final patientFees = signal(400.0);
+final patientReferalFees = signal(100.0);
+
+// final patientsRepository = PatientsRepository();
+
+class PatientsRepository {
+final referredPatients = mapSignal<String, Patient>({});
+final waitingPatients = mapSignal<String, Patient>({});
+final managedPatients = mapSignal<String, Patient>({});
+
+void manage(Patient patient) {
+managedPatients[patient.id] = patient;
+}
+
+void wait(Patient patient) {
+waitingPatients[patient.id] = patient;
+}
+}
+
+final receptionistQueue = mapSignal<String, Patient>({});
+final receptions = mapSignal(<String, Reception>{});
+final managedPatients = mapSignal(<String, Patient>{});
+```

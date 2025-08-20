@@ -1,0 +1,3 @@
+import 'package:hospital/main.dart';
+
+final ambulanceFees = signal(100.0);

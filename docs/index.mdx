@@ -1,0 +1,61 @@
+---
+title: Hospital Simulation Game
+description: developer guide for the Hospital game.
+---
+
+```dart
+void main() async {
+  SignalsObserver.instance = null;
+  runApp(HospitalApp());
+}
+```
+
+
+# 🏥 Hospital Simulation Game
+
+## 🎮 Overview
+
+The **Hospital Simulation Game** is a Flutter-based project where players manage a virtual hospital.  
+Your goal is to **admit patients, hire staff, allocate resources, and keep operations running smoothly**.
+
+The project is built with:
+
+- ⚡ Reactive state management
+- 💾 ObjectBox for local data persistence
+- 🧩 Modular, scalable architecture
+
+---
+
+## 🏗 Game Components
+
+The hospital is divided into major departments. Each plays a key role in gameplay and development.
+
+### 🚨 Emergency
+
+- First point of contact for critical patients.
+- Players must allocate staff quickly to save lives.
+
+### 🏢 Administration
+
+- Manages hospital finances, resources, and upgrades.
+- Ensures the balance between costs and quality of care.
+
+### 👩‍⚕️ Outpatient Department (OPD)
+
+- Handles non-emergency consultations.
+- Involves scheduling doctors, assigning nurses, and managing patient flow.
+
+### 🧑‍💼 Human Resources (HR)
+
+- Hire, assign, and manage staff (doctors, nurses, receptionists).
+- Balance workloads to avoid burnout and inefficiency.
+
+---
+
+## 🚀 For Developers
+
+- Built in **Flutter** with **ObjectBox** as the database.
+- Uses **reactive signals** for state management.
+- Designed with a **modular architecture** for feature expansion (new departments, staff, or game mechanics).
+
+---

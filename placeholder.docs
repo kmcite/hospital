@@ -1,0 +1,82 @@
+  "sidebar": [
+    {
+      "group": "APIs",
+      "pages": [
+        {
+          "title": "Balance API",
+          "href": "/apis/balance"
+        },
+        {
+          "title": "Medications API",
+          "href": "/apis/medications"
+        },
+        {
+          "title": "Patients Generator",
+          "href": "/apis/patients_generator"
+        },
+        {
+          "title": "Settings API",
+          "href": "/apis/settings"
+        }
+      ]
+    },
+    {
+      "group": "Models",
+      "pages": [
+        {
+          "title": "Receipt",
+          "href": "/apis/receipt"
+        },
+        {
+          "title": "Patient",
+          "href": "/apis/patient"
+        },
+        {
+          "title": "Reception",
+          "href": "/apis/reception"
+        }
+      ]
+    },
+    {
+      "group": "Play",
+      "pages": [
+        {
+          "title": "First Run",
+          "href": "/play"
+        }
+      ]
+    },
+    {
+      "group": "Development",
+      "pages": [
+        {
+          "title": "Application",
+          "href": "/development/index"
+        },
+        {
+          "title": "Auto Treatment",
+          "href": "/development/auto_treatment"
+        },
+        {
+          "title": "Start Duty Assignment",
+          "href": "/development/duty_assignment"
+        },
+        {
+          "title": "Salaries Imbursement",
+          "href": "/development/salaries"
+        },
+        {
+          "title": "Chit Issuance",
+          "href": "/development/chits"
+        },
+        {
+          "title": "Generation",
+          "href": "/development/generation"
+        },
+        {
+          "title": "Treatment Loop",
+          "href": "/development/treatment_loop"
+        }
+      ]
+    }
+  ]

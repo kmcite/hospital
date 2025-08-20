@@ -1,0 +1,69 @@
+---
+
+# **autoTreatment Function (Docs)**
+
+### **Purpose**
+
+* Automatically manages the consultation flow for patients at fixed time intervals.
+* Runs continuously in the background.
+
+---
+
+### **Process Flow**
+
+1. **Timer Loop**
+
+   - Repeats every **10 seconds**.
+
+2. **Reception Queue Check**
+
+   - If **no patients** in reception → does nothing.
+   - If **patients exist** → proceeds.
+
+3. **Doctor Assignment**
+
+   - If **no current doctor** is on duty:
+
+     - Logs `[NoDoctorOnDuty]`.
+     - If available doctors exist, assigns the first doctor as **current doctor**.
+     - Otherwise logs `[NoDoctorAvailable]`.
+
+4. **Patient Selection**
+
+   - Selects the **last patient (chit)** from the reception queue.
+   - Removes them from `receptions`.
+
+5. **Consultation Process**
+
+   - Assigns the current doctor to the chit.
+   - Creates a **Consultation** object with randomized options.
+
+6. **Billing**
+
+   - Deducts patient consultation fees from balance via `balanceRepository`.
+   - Records the fee in a **Receipt** with details.
+
+7. **Finalization**
+
+   - Adds updated chit back to `receptions`.
+   - Moves patient to `managedPatients`.
+
+---
+
+### **Key Dependencies**
+
+- **Repositories/Collections:**
+
+  - `receptions` (patient queue)
+  - `doctors` (available doctors)
+  - `currentDoctor` (active doctor reference)
+  - `balanceRepository` (financial transactions)
+  - `managedPatients` (patients under care)
+
+- **Models:**
+
+  - `Consultation`
+  - `ConsultationOptions`
+  - `Receipt`
+
+---

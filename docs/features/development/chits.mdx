@@ -1,0 +1,53 @@
+---
+# 🏥 Chit Issuing System
+
+## 🔎 Overview
+
+The **Chit Issuing Loop** (`startIssuingChits`) manages how patients at the **reception desk** are registered and billed.
+It simulates a **real hospital front desk workflow** where patients get a chit 📝 before moving to treatment.
+---
+
+## ⚙️ Core Logic
+
+- Runs **every second** (`Future.delayed(Duration(seconds: 1))`).
+- Checks if a **receptionist is on duty**:
+
+  - ❌ If **none** → wait & retry.
+  - ✅ If available → process all waiting patients.
+
+---
+
+## 👥 Reception Flow
+
+1. Loops through patients in `receptionistQueue`.
+2. Creates a `Reception` object for each patient:
+
+   - `patient` → the incoming patient 👩‍⚕️👨‍⚕️
+   - `receptionist` → the active receptionist 🧾
+
+3. Stores the reception in the global `receptions` map.
+4. Issues a **chit fee receipt** 💰 via `balanceRepository.useBalance()`.
+5. Waits **600 ms** ⏱️ before moving to the next patient (simulating service time).
+6. Clears the queue once all patients are processed.
+
+---
+
+## 📦 Important Variables
+
+- `receptionistQueue` → Patients waiting at reception 🪑.
+- `currentReceptionist()` → Returns the receptionist currently on duty.
+- `Reception` → Links a patient with a receptionist + generates MR (medical record) ID.
+- `Receipt` → Stores chit fee details for bookkeeping 💳.
+- `balanceRepository` → Tracks money inflow/outflow.
+
+---
+
+## 🎯 Simulation Purpose
+
+This system models:
+
+- 🧾 **Front desk operations** (chit generation).
+- 💸 **Hospital income tracking** from chit fees.
+- ⏱️ **Service timing** between patient registrations.
+
+---

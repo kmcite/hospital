@@ -1,32 +1,7 @@
+import 'dart:developer' as dev show log;
+
 import 'package:flutter/material.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:hospital/main.dart';
-// import 'package:package_info_plus/package_info_plus.dart';
-
-// late PackageInfo appInfo;
-
-// late Box storage;
-
-// class HiveStorage implements IPersistStore {
-//   @override
-//   Future<void> init() async {
-//     await Hive.initFlutter();
-//     appInfo = await PackageInfo.fromPlatform();
-//     storage = await Hive.openBox<String>(appInfo.appName);
-//   }
-
-//   @override
-//   Future<void> delete(String key) async => storage.delete(key);
-
-//   @override
-//   Future<void> deleteAll() async => storage.clear();
-
-//   @override
-//   String? read(String key) => storage.get(key);
-
-//   @override
-//   Future<void> write<T>(String key, value) async => storage.put(key, value);
-// }
+import 'package:hospital/main.dart' show signal;
 
 extension DynamicExtensions on dynamic {
   Text text({
@@ -126,6 +101,16 @@ extension WidgetExtensions on Widget {
       clipBehavior: clipBehavior,
       semanticContainer: semanticContainer,
       child: this,
+    );
+  }
+}
+
+final debug = signal(true);
+
+void print(dynamic any) {
+  if (debug()) {
+    dev.log(
+      any.toString(),
     );
   }
 }

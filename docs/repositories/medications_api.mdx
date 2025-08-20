@@ -1,0 +1,25 @@
+import 'package:hospital/main.dart';
+import 'package:hospital/v5/api/medication.dart';
+
+final medicationsRepository = MedicationsRepository();
+
+class MedicationsRepository {
+  final _medications = mapSignal<String, Medication>({});
+  late final medications = computed(() => _medications.values);
+  late final length = computed(
+    () => medications.value.fold(
+      0,
+      (prev, next) => prev + next.amount,
+    ),
+  );
+  void putMedication(Medication medication) {
+    _medications.putIfAbsent(
+      medication.id,
+      () => medication,
+    );
+  }
+
+  void removeMedication(Medication medication) {
+    _medications.remove(medication.id);
+  }
+}

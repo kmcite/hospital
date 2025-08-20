@@ -1,0 +1,177 @@
+{
+  "$schema": "https://docs.page/schema.json",
+  "name": "docs.page",
+  "description": "Ship documentation, like you ship code",
+  "logo": {
+    "light": "https://static.invertase.io/assets/docs.page/docs-page-logo.png"
+  },
+  "favicon": "https://static.invertase.io/assets/docs.page/docs-page-logo.png",
+  "theme": {
+    "primary": "#ECC918",
+    "primaryLight": "#BFA213"
+  },
+  "content": {
+    "showPageTitle": true,
+    "showPageImage": true
+  },
+
+  "tabs": [
+    {
+      "id": "main",
+      "title": "main.dart",
+      "href": "/"
+    },
+    {
+      "id": "features",
+      "title": "features",
+      "href": "/features"
+    },
+    {
+      "id": "models",
+      "title": "models",
+      "href": "/models"
+    },
+    {
+      "id": "repositories",
+      "title": "repositories",
+      "href": "/repositories"
+    },
+    {
+      "id": "utils",
+      "title": "utils",
+      "href": "/utils"
+    }
+  ],
+  "sidebar": [
+    {
+      "group": "Features",
+      "tab": "features",
+      "pages": [
+        {
+          "title": "Application",
+          "href": "/features/application",
+          "icon": "book"
+        },
+        {
+          "title": "Balance",
+          "href": "/features/balance",
+          "icon": "dollar"
+        },
+        {
+          "title": "Dashboard",
+          "href": "/features/dashboard",
+          "icon": "dashboard"
+        },
+        {
+          "title": "Patients",
+          "href": "/features/patients",
+          "icon": "hospital"
+        },
+
+        {
+          "title": "reception",
+          "href": "/features/reception",
+          "icon": "circle-info"
+        },
+        {
+          "title": "Settings",
+          "href": "/features/settings",
+          "icon": "gear"
+        }
+      ]
+    },
+    {
+      "group": "models",
+      "tab": "models",
+      "pages": [
+        {
+          "title": "Consultation",
+          "href": "/models/consultation",
+          "icon": "code"
+        },
+        {
+          "title": "investment",
+          "href": "/models/investment",
+          "icon": "square-caret-down"
+        },
+        {
+          "title": "medication",
+          "href": "/models/medication",
+          "icon": "bullhorn"
+        },
+        {
+          "title": "patient",
+          "href": "/models/patient",
+          "icon": "square-full"
+        },
+        {
+          "title": "receipt",
+          "href": "/models/receipt",
+          "icon": "code"
+        },
+        {
+          "title": "reception",
+          "href": "/models/reception",
+          "icon": "laptop-code"
+        }
+      ]
+    },
+    {
+      "group": "repositories",
+      "tab": "repositories",
+      "pages": [
+        {
+          "title": "ambulance fees",
+          "href": "/repositories/ambulance_fees",
+          "icon": "globe"
+        },
+        {
+          "title": "balance",
+          "href": "/repositories/balance",
+          "icon": "magnifying-glass"
+        },
+
+        {
+          "title": "medications_api",
+          "href": "/repositories/medications_api",
+          "icon": "language"
+        },
+        {
+          "title": "patients_generator",
+          "href": "/repositories/patients_generator",
+          "icon": "github"
+        },
+        {
+          "title": "medications_api",
+          "href": "/repositories/medications_api",
+          "icon": "terminal"
+        },
+        {
+          "title": "settings_api",
+          "href": "/repositories/settings_api",
+          "icon": "gear"
+        }
+      ]
+    },
+    {
+      "tab": "utils",
+      "group": "utils",
+      "pages": [
+        { "title": "Extensions", "href": "/utils/extensions" },
+        { "title": "List View", "href": "/utils/listview" },
+        { "title": "Navigator", "href": "/utils/navigator" },
+        { "title": "Watcher", "href": "/utils/watcher" }
+      ]
+    },
+    {
+      "tab": "main",
+      "group": "main.dart",
+      "pages": [
+        {
+          "title": "Application Startup",
+          "href": "/"
+        }
+      ]
+    }
+  ]
+}

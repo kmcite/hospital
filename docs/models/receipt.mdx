@@ -1,0 +1,14 @@
+```dart
+import 'package:hospital/main.dart';
+import 'package:hospital/v5/api/balance_api.dart';
+
+class Receipt {
+  String id = faker.guid.guid();
+  String details;
+  double balance;
+  Receipt({
+    this.balance = 150000,
+    this.details = INITIAL_BALANCE_STATE,
+  });
+}
+```
