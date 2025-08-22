@@ -1,7 +1,7 @@
 import 'dart:developer' as dev show log;
 
 import 'package:flutter/material.dart';
-import 'package:hospital/main.dart' show signal;
+import 'package:hospital/main.dart' show listSignal, signal;
 
 extension DynamicExtensions on dynamic {
   Text text({
@@ -106,8 +106,10 @@ extension WidgetExtensions on Widget {
 }
 
 final debug = signal(true);
+final information = listSignal(<String>[]);
 
-void print(dynamic any) {
+void print(any) {
+  information.insert(0, any.toString());
   if (debug()) {
     dev.log(
       any.toString(),

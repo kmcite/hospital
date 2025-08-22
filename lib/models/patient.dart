@@ -29,7 +29,7 @@ class Patient {
   Staff? manager;
   Receptionist? receptionist;
   final satisfactionTime = signal(10);
-  late final satisfactionProgress = computed(() => satisfactionTime.value / 10);
+  late final satisfactionProgress = computed(() => satisfactionTime() / 10);
   final isSatisfied = signal(true);
   bool get isManaged => manager != null;
 }

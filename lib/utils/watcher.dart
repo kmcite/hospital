@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
 
 class GUI extends UI {
@@ -40,14 +39,14 @@ abstract class UI<T extends Widget> extends StatefulWidget {
   final List<ReadonlySignal<dynamic>> dependencies;
 
   @override
-  State<UI<T>> createState() => _WatchState<T>();
+  State<UI<T>> createState() => _UI<T>();
 
   void initState() {}
 
   void dispose() {}
 }
 
-class _WatchState<T extends Widget> extends State<UI<T>> with SignalsMixin {
+class _UI<T extends Widget> extends State<UI<T>> with SignalsMixin {
   late final result = createComputed(() {
     return widget.build(context);
   }, debugLabel: widget.debugLabel);
@@ -91,11 +90,11 @@ class _WatchState<T extends Widget> extends State<UI<T>> with SignalsMixin {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.dependencies != widget.dependencies) {
       for (final dep in oldWidget.dependencies) {
-        final idx = widget.dependencies.indexOf(dep);
-        if (idx == -1) unbindSignal(dep);
+        final index = widget.dependencies.indexOf(dep);
+        if (index == -1) unbindSignal(dep);
       }
-      for (final dep in widget.dependencies) {
-        bindSignal(dep);
+      for (final dependency in widget.dependencies) {
+        bindSignal(dependency);
       }
     } else if (oldWidget.build != widget.build) {
       result.recompute();

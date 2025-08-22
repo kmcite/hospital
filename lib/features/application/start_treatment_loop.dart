@@ -1,35 +1,27 @@
 import 'package:hospital/main.dart';
+import 'package:hospital/repositories/receptions_api.dart';
 
 import '../../models/consultation.dart';
-import '../../repositories/patients_api.dart';
 import '../../repositories/staff_api.dart';
 
 void startTreatmentLoop() async {
   print('[StartingTreatmentLoop]');
   while (true) {
     await Future.delayed(Duration(seconds: 1));
-    if (staffRepository.currentReceptionist() == null) {
-      print('NoReceptionistOnDuty - WaitingForDutyAssignment');
+    if (!checkOnDutyStaff()) {
       continue;
     }
-    if (staffRepository.currentNurse() == null) {
-      print('NoNurseOnDuty - WaitingForDutyAssignment');
-      continue;
-    }
-    if (staffRepository.currentDoctor() == null) {
-      print('NoDoctorOnDuty - WaitingForDutyAssignment');
+    if (!checkReceptions()) {
       continue;
     }
 
     if (staffRepository.currentNurse()!.isWorking()) {
       continue;
     }
-    if (receptions.isEmpty) {
-      print('NoReceptionsAvailable');
-      continue;
-    }
-    final reception = receptions.values.toList().removeLast();
-    receptions.remove(reception.mr);
+
+    final reception =
+        receptionsRepository.receptions.values.toList().removeLast();
+    receptionsRepository.receptions.remove(reception.mr);
     reception.nurse = staffRepository.currentNurse();
     int time = 0;
     for (final act
@@ -39,5 +31,30 @@ void startTreatmentLoop() async {
     staffRepository.currentNurse.set(
       staffRepository.currentNurse()!..work(time),
     );
+  }
+}
+
+bool checkOnDutyStaff() {
+  if (staffRepository.currentReceptionist() == null) {
+    print('NoReceptionistOnDuty - WaitingForDutyAssignment');
+    return false;
+  }
+  if (staffRepository.currentNurse() == null) {
+    print('NoNurseOnDuty - WaitingForDutyAssignment');
+    return false;
+  }
+  if (staffRepository.currentDoctor() == null) {
+    print('NoDoctorOnDuty - WaitingForDutyAssignment');
+    return false;
+  }
+  return true;
+}
+
+bool checkReceptions() {
+  if (receptionsRepository.receptions.isEmpty) {
+    print('NoReceptionsAvailable');
+    return false;
+  } else {
+    return true;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:hospital/main.dart';
+import 'package:hospital/repositories/receptions_api.dart';
 
 import '../../repositories/balance_api.dart';
 import '../../models/consultation.dart';
@@ -11,19 +12,19 @@ import '../../repositories/staff_api.dart';
 void autoTreatment() async {
   while (true) {
     await Future.delayed(Duration(seconds: 10));
-    if (receptions.isNotEmpty) {
+    if (receptionsRepository.receptions.isNotEmpty) {
       if (staffRepository.currentDoctor() == null) {
         print('[NoDoctorOnDuty]');
-        if (staffRepository.doctors.isNotEmpty) {
-          final doctor = staffRepository.doctors.values.first;
+        if (staffRepository.doctors().isNotEmpty) {
+          final doctor = staffRepository.doctors().first;
           staffRepository.currentDoctor.set(doctor);
         } else {
           print('[NoDoctorAvailable]');
         }
       } else {
-        final all = receptions.values.toList();
+        final all = receptionsRepository.receptions.values.toList();
         final chit = all.removeLast();
-        receptions.remove(chit.mr);
+        receptionsRepository.receptions.remove(chit.mr);
         // START CONSULTATION
         chit.doctor = staffRepository.currentDoctor();
         chit.consultation = Consultation()
@@ -37,10 +38,10 @@ void autoTreatment() async {
         balanceRepository.useBalance(
           Receipt(
             balance: patientFees(),
-            details: 'Consultation Fees',
+            metadata: {'type': 'Consultation Fees'},
           ),
         );
-        receptions[chit.mr] = chit;
+        receptionsRepository.receptions[chit.mr] = chit;
         managedPatients[chit.mr] = chit.patient;
       }
     }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
 import 'package:hospital/utils/list_view.dart';
 
@@ -25,7 +24,7 @@ class ReceiptsPage extends UI {
         (item) {
           return ListTile(
             title: Text(item.balance.toString()),
-            subtitle: Text(item.details),
+            subtitle: Text(item.metadata.toString()),
           );
         },
       ),

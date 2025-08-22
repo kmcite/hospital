@@ -6,49 +6,46 @@ import 'package:hospital/repositories/staff_api.dart';
 import '../../models/staff/doctor.dart';
 import '../../models/staff/nurse.dart';
 import '../../models/staff/receptionist.dart';
-import '../../models/staff/staff.dart';
 
 void startDutyAssignment() async {
   print('[DutyAssignementLoop]');
   while (true) {
     await Future.delayed(Duration(seconds: 1));
-    List<Staff> updates = [];
     for (final staff in staffs()) {
       if (staff is Nurse && staffRepository.currentNurse() == null) {
-        staffRepository.currentNurse.set(staff);
+        staffRepository.currentNurse.set(staff..isWorking.set(true));
+        staffRepository.put(staff);
         Timer(
-          Duration(seconds: staff.dutyAmount()),
-          () => staffRepository.currentNurse.set(null),
+          Duration(seconds: staff.currentDuty().toInt()),
+          () {
+            staffRepository.currentNurse.set(null);
+            staffRepository.put(staff..isWorking.set(false));
+          },
         );
       }
       if (staff is Doctor && staffRepository.currentDoctor() == null) {
-        staffRepository.currentDoctor.set(staff);
+        staffRepository.currentDoctor.set(staff..isWorking.set(true));
+        staffRepository.put(staff);
+
         Timer(
-          Duration(seconds: staff.dutyAmount()),
-          () => staffRepository.currentDoctor.set(null),
+          Duration(seconds: staff.currentDuty().toInt()),
+          () {
+            staffRepository.currentDoctor.set(null);
+            staffRepository.put(staff..isWorking.set(false));
+          },
         );
       }
       if (staff is Receptionist &&
           staffRepository.currentReceptionist() == null) {
-        staffRepository.currentReceptionist.set(staff);
+        staffRepository.currentReceptionist.set(staff..isWorking.set(true));
+        staffRepository.put(staff);
         Timer(
-          Duration(seconds: staff.dutyAmount()),
+          Duration(seconds: (staff.currentDuty() * 10).toInt()),
           () {
             staffRepository.currentReceptionist.set(null);
+            staffRepository.put(staff..isWorking.set(false));
           },
         );
-      }
-      updates.add(staff);
-    }
-    for (final staff in updates) {
-      if (staff is Nurse) {
-        staffRepository.nurses[staff.id] = staff;
-      }
-      if (staff is Doctor) {
-        staffRepository.doctors[staff.id] = staff;
-      }
-      if (staff is Receptionist) {
-        staffRepository.receptionists[staff.id] = staff;
       }
     }
   }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
 
 class Investment {
@@ -20,7 +19,7 @@ class Investment {
 
   Timer? _updatesTimer;
   Timer? _maturityTimer;
-  VoidCallback? onComplete;
+  void Function()? onComplete;
 
   Investment({
     required this.id,
@@ -47,7 +46,7 @@ class Investment {
     }
   }
 
-  void start(VoidCallback onCompleted) {
+  void start(void Function() onCompleted) {
     onComplete = onCompleted;
     _maturityTimer = Timer(duration, () => onComplete?.call());
   }

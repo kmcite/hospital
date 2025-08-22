@@ -1,15 +1,13 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/features/medications/medications.dart';
 import 'package:hospital/main.dart';
 import 'package:hospital/repositories/generation_api.dart';
-import 'package:hospital/utils/list_view.dart';
 import 'package:hospital/utils/navigator.dart';
-import 'package:hospital/repositories/medications_api.dart';
 import 'package:hux/hux.dart';
 
-import '../../repositories/ambulance_fees_api.dart';
-import '../../models/medication.dart';
+import '../../repositories/patients_api.dart';
 import '../../repositories/settings_api.dart';
 
 final _clinicName = signal('HOSPITAL');
@@ -21,64 +19,44 @@ final ambulanceFeesString = computed(
 
 final focusNode = FocusNode();
 
-final controller = TextEditingController()..text = clinicName();
-
 class SettingsPage extends UI {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return FScaffold(
+      header: FHeader(
         title: Text('Settings'),
-        actions: [
-          IconButton(
-            icon: Icon(FeatherIcons.plus),
-            onPressed: () => medicationsRepository.putMedication(Medication()),
-          ).pad(),
+        suffixes: [
+          FHeaderAction(
+            icon: Icon(FeatherIcons.arrowLeftCircle),
+            onPress: () => navigator.back(),
+          ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
         children: [
-          HuxButton(
-            child: 'Dark Mode'.text(),
+          IconButton(
+            icon: Icon(FeatherIcons.moon),
             onPressed: () => settingsRepository.toggleDark(),
-          ).pad(),
-          HuxCard(
-            title: 'Ambulance Fees',
-            child: HuxButton(
-              onPressed: null,
-              child: ambulanceFeesString().text(),
-            ),
-            onTap: () => openAmbulanceFeeModificationDialog(),
-          ).pad(),
-          HuxCard(
-            title: 'Clear Unsatisfied List',
-            child: HuxButton(
-              onPressed: () => generationRepository.unsatisfiedPatients.clear(),
-              child: 'Clear'.text(),
-            ),
-          ).pad(),
-          HuxTextField(
-            controller: controller,
-            onChanged: _clinicName.set,
-          ).pad(),
-          ListTile(
-            title: Text(
-              'Medications: ${medicationsRepository.length()}',
-            ),
           ),
-          Expanded(
-            child: listView(
-              medicationsRepository.medications(),
-              (item) {
-                return HuxCard(
-                  title: item.name,
-                  subtitle: item.amount.toString(),
-                  onTap: () => medicationsRepository.removeMedication(item),
-                  child: item.text(),
-                ).pad();
-              },
-            ),
+          IconButton(
+            onPressed: openAmbulanceFeeModificationDialog,
+            icon: Icon(FeatherIcons.edit),
+          ),
+          IconButton(
+            onPressed: () {
+              generationRepository.unsatisfiedPatients.clear();
+            },
+            icon: Icon(FeatherIcons.trash),
+          ),
+          IconButton(
+            onPressed: () => navigator.to(MedicationsPage()),
+            icon: Icon(FeatherIcons.hexagon),
+          ),
+          FTextField(
+            initialText: clinicName(),
+            onChange: _clinicName.set,
           ),
         ],
       ),
@@ -103,7 +81,7 @@ Future<void> openAmbulanceFeeModificationDialog() {
             HuxCard(
               title: 'Enter New Fee',
               subtitle: currentFees(),
-              child: HuxTextField(
+              child: HuxInput(
                 controller: controller,
                 keyboardType: TextInputType.number,
                 onChanged: (val) => _currentFees.set(double.tryParse(val) ?? 0),

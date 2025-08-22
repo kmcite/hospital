@@ -1,0 +1,332 @@
+---
+title: Hospital Simulation Game - Product Requirements Document
+description: Comprehensive PRD for the Hospital Management Simulation Game
+---
+
+# Hospital Simulation Game - Product Requirements Document (PRD)
+
+## 📋 **Executive Summary**
+
+**Product Name**: Hospital Simulation Game  
+**Platform**: Flutter (Cross-platform)  
+**Target Audience**: Simulation game enthusiasts, healthcare management learners  
+**Core Vision**: Create an engaging hospital management simulation where players balance patient care, staff management, and financial sustainability.
+
+---
+
+## 🎯 **Product Objectives**
+
+### Primary Goals
+
+1. **Patient Care Excellence** - Manage patient flow from admission to discharge
+2. **Resource Optimization** - Balance staff, equipment, and financial resources
+3. **Progressive Gameplay** - Unlock new features and expand hospital capabilities
+4. **Educational Value** - Provide insights into healthcare management challenges
+
+### Success Metrics
+
+- Patient satisfaction rates
+- Financial sustainability (positive cash flow)
+- Staff efficiency and utilization
+- Hospital reputation and growth
+
+---
+
+## 🏥 **Core Game Features**
+
+### **1. Patient Management System**
+
+**Status**: 🟡 Partially Implemented
+
+#### Current Implementation:
+
+- ✅ Patient generation with random complaints
+- ✅ Basic patient model with satisfaction tracking
+- ✅ Waiting queue system
+- ✅ Patient referral system
+
+#### Missing Features:
+
+- ❌ Patient admission workflow
+- ❌ Treatment progress tracking
+- ❌ Patient discharge process
+- ❌ Emergency patient prioritization
+- ❌ Patient history and medical records
+
+### **2. Staff Management System**
+
+**Status**: 🟡 Partially Implemented
+
+#### Current Implementation:
+
+- ✅ Staff models (Doctor, Nurse, Receptionist)
+- ✅ Basic hiring system
+- ✅ Salary management
+- ✅ Duty time tracking
+- ✅ Staff activity status
+
+#### Missing Features:
+
+- ❌ Staff specializations and skills
+- ❌ Performance evaluation system
+- ❌ Staff training and development
+- ❌ Shift scheduling
+- ❌ Staff burnout and morale system
+
+### **3. Financial Management System**
+
+**Status**: 🟢 Well Implemented
+
+#### Current Implementation:
+
+- ✅ Balance tracking (PKR currency)
+- ✅ Investment system with time-based returns
+- ✅ Receipt and transaction logging
+- ✅ Fee management (ambulance fees)
+- ✅ Revenue from patient treatments
+
+#### Enhancement Opportunities:
+
+- 🔄 Budget planning and forecasting
+- 🔄 Expense categorization
+- 🔄 Insurance claim processing
+
+### **4. Hospital Infrastructure**
+
+**Status**: 🔴 Not Implemented
+
+#### Required Features:
+
+- ❌ Bed management system
+- ❌ Equipment inventory
+- ❌ Department organization
+- ❌ Facility upgrades
+- ❌ Capacity management
+
+### **5. Medical Services**
+
+**Status**: 🟡 Basic Implementation
+
+#### Current Implementation:
+
+- ✅ Basic consultation system
+- ✅ Treatment options (admission, injections, referral, discharge)
+- ✅ Medication model
+- ✅ Treatment duration tracking
+
+#### Missing Features:
+
+- ❌ Diagnostic procedures
+- ❌ Surgery scheduling
+- ❌ Laboratory services
+- ❌ Pharmacy management
+- ❌ Emergency services
+
+---
+
+## 🚀 **Development Roadmap & Task Checklist**
+
+### **Phase 1: Core Gameplay Foundation** (Priority: HIGH)
+
+#### Patient Flow System
+
+- [ ] **Implement patient admission workflow**
+  - [ ] Create admission criteria logic
+  - [ ] Bed assignment system
+  - [ ] Admission fee processing
+- [ ] **Complete patient treatment cycle**
+  - [ ] Treatment progress tracking
+  - [ ] Doctor-patient assignment
+  - [ ] Treatment completion logic
+- [ ] **Patient discharge system**
+  - [ ] Discharge criteria
+  - [ ] Final billing
+  - [ ] Patient satisfaction scoring
+
+#### Staff Management Enhancement
+
+- [ ] **Implement staff specializations**
+  - [ ] Doctor specialties (cardiology, surgery, etc.)
+  - [ ] Skill-based patient assignment
+  - [ ] Experience and level system
+- [ ] **Staff scheduling system**
+  - [ ] Shift management
+  - [ ] Overtime tracking
+  - [ ] Staff availability
+
+#### Hospital Infrastructure
+
+- [ ] **Bed management system**
+  - [ ] Bed types (ICU, general, emergency)
+  - [ ] Bed availability tracking
+  - [ ] Room assignments
+- [ ] **Equipment inventory**
+  - [ ] Medical equipment catalog
+  - [ ] Maintenance scheduling
+  - [ ] Equipment utilization
+
+### **Phase 2: Advanced Features** (Priority: MEDIUM)
+
+#### Emergency System
+
+- [ ] **Emergency patient handling**
+  - [ ] Priority queue system
+  - [ ] Emergency response team
+  - [ ] Critical care protocols
+- [ ] **Ambulance service**
+  - [ ] Ambulance fleet management
+  - [ ] Emergency call system
+  - [ ] Response time tracking
+
+#### Medical Services Expansion
+
+- [ ] **Laboratory services**
+  - [ ] Test ordering system
+  - [ ] Lab result processing
+  - [ ] Diagnostic workflows
+- [ ] **Pharmacy management**
+  - [ ] Medication inventory
+  - [ ] Prescription processing
+  - [ ] Drug interaction checking
+- [ ] **Surgery department**
+  - [ ] Operating room scheduling
+  - [ ] Surgical team management
+  - [ ] Post-operative care
+
+#### Quality & Compliance
+
+- [ ] **Patient safety system**
+  - [ ] Incident reporting
+  - [ ] Safety protocols
+  - [ ] Quality metrics
+- [ ] **Regulatory compliance**
+  - [ ] Health department inspections
+  - [ ] Accreditation system
+  - [ ] Compliance scoring
+
+### **Phase 3: Advanced Gameplay** (Priority: LOW)
+
+#### Hospital Expansion
+
+- [ ] **Multi-department system**
+  - [ ] Department specialization
+  - [ ] Inter-department coordination
+  - [ ] Department budgets
+- [ ] **Hospital upgrades**
+  - [ ] Facility expansion
+  - [ ] Technology upgrades
+  - [ ] Capacity increases
+
+#### Advanced Analytics
+
+- [ ] **Performance dashboards**
+  - [ ] KPI tracking
+  - [ ] Trend analysis
+  - [ ] Predictive analytics
+- [ ] **Reporting system**
+  - [ ] Financial reports
+  - [ ] Operational reports
+  - [ ] Regulatory reports
+
+---
+
+## 🔧 **Technical Debt & Optimization**
+
+### **High Priority Issues**
+
+1. **Commented Code Cleanup**
+
+   - Remove extensive commented code in application features
+   - Clean up archived versions (v1-v5)
+   - Consolidate active implementation
+
+2. **State Management Consistency**
+
+   - Standardize signal usage across components
+   - Implement proper error handling
+   - Add loading states for async operations
+
+3. **Data Persistence**
+   - Implement proper Hive database schemas
+   - Add data migration strategies
+   - Implement backup and restore functionality
+
+### **Medium Priority Issues**
+
+1. **UI/UX Improvements**
+
+   - Consistent design system implementation
+   - Responsive design for different screen sizes
+   - Accessibility improvements
+
+2. **Performance Optimization**
+
+   - Optimize list rendering for large datasets
+   - Implement proper memory management
+   - Add performance monitoring
+
+3. **Testing Infrastructure**
+   - Unit tests for business logic
+   - Widget tests for UI components
+   - Integration tests for workflows
+
+---
+
+## 📊 **Current Feature Status Summary**
+
+| Feature Category         | Implementation Status | Completion % |
+| ------------------------ | --------------------- | ------------ |
+| Patient Management       | Partial               | 40%          |
+| Staff Management         | Partial               | 50%          |
+| Financial System         | Good                  | 80%          |
+| Hospital Infrastructure  | Not Started           | 0%           |
+| Medical Services         | Basic                 | 30%          |
+| Emergency System         | Not Started           | 0%           |
+| Analytics & Reporting    | Not Started           | 0%           |
+| Settings & Configuration | Basic                 | 60%          |
+
+**Overall Project Completion: ~35%**
+
+---
+
+## 🎮 **Game Mechanics & Balance**
+
+### **Core Loop**
+
+1. **Patient Arrival** → **Reception** → **Waiting** → **Treatment** → **Discharge**
+2. **Revenue Generation** → **Staff Hiring** → **Facility Upgrades** → **Capacity Expansion**
+3. **Reputation Building** → **More Patients** → **Higher Complexity** → **Greater Rewards**
+
+### **Balancing Factors**
+
+- **Patient Satisfaction** vs **Treatment Speed**
+- **Staff Costs** vs **Service Quality**
+- **Investment Returns** vs **Operational Needs**
+- **Growth** vs **Sustainability**
+
+---
+
+## 🚀 **Next Steps Recommendation**
+
+### **Immediate Actions (Next 2 weeks)**
+
+1. Clean up commented code and consolidate active features
+2. Implement complete patient admission workflow
+3. Add bed management system
+4. Create staff-patient assignment logic
+
+### **Short Term (1-2 months)**
+
+1. Complete patient treatment and discharge cycle
+2. Implement emergency patient system
+3. Add hospital infrastructure management
+4. Create comprehensive testing suite
+
+### **Long Term (3-6 months)**
+
+1. Add advanced medical services
+2. Implement multi-department system
+3. Create analytics and reporting features
+4. Launch beta testing program
+
+This PRD provides a comprehensive roadmap for transforming the current prototype into a fully-featured hospital simulation game with engaging gameplay mechanics and educational value.

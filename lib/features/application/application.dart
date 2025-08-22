@@ -1,11 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-// import 'package:hospital/features/application/start_patient_generation.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/main.dart';
 import 'package:hospital/utils/navigator.dart';
 import 'package:hospital/features/dashboard/dashboard.dart';
 import 'package:hux/hux.dart';
+
+// Add imports for core loop functions
+import 'start_duty_assignment.dart';
+import 'start_treatment_loop.dart';
+import 'start_issuing_chits.dart';
+import 'auto_treatment.dart';
+import 'start_giving_out_salaries.dart';
 
 import '../../repositories/settings_api.dart';
 
@@ -26,13 +32,11 @@ void cancelSubscriptions() {
 class HospitalApp extends UI {
   @override
   void initState() {
-    // startStaffGeneration();
-    // startPatientGeneration();
-    // startDutyAssignment();
-    // startTreatmentLoop();
-    // startIssuingChits();
-    // autoTreatment();
-    // startGivingOutSalaries();
+    startDutyAssignment();
+    startTreatmentLoop();
+    startIssuingChits();
+    autoTreatment();
+    startGivingOutSalaries();
   }
 
   @override
@@ -65,6 +69,10 @@ class HospitalApp extends UI {
                 year2023: false,
               ),
             ),
+      builder: (context, child) => FTheme(
+        data: dark() ? FThemes.yellow.dark : FThemes.yellow.light,
+        child: child!,
+      ),
       themeMode: dark() ? ThemeMode.dark : ThemeMode.light,
       home: Dashboard(),
     );

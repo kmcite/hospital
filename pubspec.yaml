@@ -16,7 +16,8 @@ dependencies:
   signals_flutter: ^6.0.2
   hive_flutter: ^1.1.0
   package_info_plus: ^8.3.0
-  hux: ^0.3.2
+  hux: ^0.4.0
   navigation_builder: ^0.0.4
+  forui: ^0.15.1
 flutter:
   uses-material-design: true

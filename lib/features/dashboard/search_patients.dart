@@ -1,20 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
 import 'package:hospital/utils/list_view.dart';
 import 'package:hospital/utils/navigator.dart';
 import 'package:hospital/features/patients/patient_details_page.dart';
 import 'package:hux/hux.dart';
 
-import '../../repositories/patients_api.dart';
+import 'package:hospital/repositories/generation_api.dart';
+
+import '../../models/patient.dart';
 
 final searchQuery = signal('');
 final searchedPatients = computed(
   () {
-    return managedPatients.values.where(
+    final query = searchQuery().toLowerCase();
+    if (query.isEmpty) {
+      return <Patient>[];
+    }
+    return generationRepository.waitingPatients.values.where(
       (pt) {
-        return pt.name.contains(
-          searchQuery(),
-        );
+        return pt.name.toLowerCase().contains(query) ||
+            (pt.complaints.toLowerCase().contains(query));
       },
     );
   },
@@ -27,15 +31,20 @@ Widget searchPatients() {
         children: [
           searchBar(),
           Expanded(
-            child: listView(
-              searchedPatients(),
-              (pt) => HuxCard(
-                title: pt.name,
-                subtitle: pt.complaints,
-                child: pt.text(),
-                onTap: () => navigator.to(patientDetailsPage(pt)),
-              ).pad(),
-            ),
+            child: () {
+              if (searchedPatients().isEmpty && searchQuery().isNotEmpty) {
+                return Center(child: Text('No patients found.'));
+              }
+              return listView(
+                searchedPatients(),
+                (pt) => HuxCard(
+                  title: pt.name,
+                  subtitle: pt.complaints,
+                  child: pt.text(),
+                  onTap: () => navigator.to(PatientDetailsPage(pt)),
+                ).pad(),
+              );
+            }(),
           ),
         ],
       );

@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "type": "command",
+            "name": "Flutter Run",
+            "program": "flutter run --windows"
+        }
+    ]
+}

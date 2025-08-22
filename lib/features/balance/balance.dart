@@ -1,15 +1,19 @@
 import 'package:hospital/main.dart';
-import 'package:hux/hux.dart';
 
 import '../../repositories/balance_api.dart';
 import '../../models/receipt.dart';
-import 'investments.dart';
+import '../../repositories/investments_api.dart';
 
-balance() => GUI(
-      () => HuxBadge(
-        label: 'PKR ${balanceRepository.balance().toStringAsFixed(0)}',
+class Balance extends UI {
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      label: Text(
+        'PKR ${balanceRepository.balance().toStringAsFixed(0)}',
       ),
     );
+  }
+}
 
 // class Balance extends UI {
 //   @override

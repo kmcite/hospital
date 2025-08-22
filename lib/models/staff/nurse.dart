@@ -13,7 +13,7 @@ class Nurse extends Staff {
       Duration(seconds: seconds),
       () {
         count.value++;
-        dutyAmount.value -= seconds;
+        currentDuty.value -= seconds;
 
         isWorking.set(false);
       },

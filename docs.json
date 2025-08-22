@@ -40,6 +40,11 @@
       "id": "utils",
       "title": "utils",
       "href": "/utils"
+    },
+    {
+      "id": "prd",
+      "title": "prd",
+      "href": "/prd"
     }
   ],
   "sidebar": [
@@ -107,7 +112,7 @@
         {
           "title": "receipt",
           "href": "/models/receipt",
-          "icon": "code"
+          "icon": "registered"
         },
         {
           "title": "reception",
@@ -155,12 +160,28 @@
     },
     {
       "tab": "utils",
-      "group": "utils",
+      "group": "utils.dart",
       "pages": [
-        { "title": "Extensions", "href": "/utils/extensions" },
-        { "title": "List View", "href": "/utils/listview" },
-        { "title": "Navigator", "href": "/utils/navigator" },
-        { "title": "Watcher", "href": "/utils/watcher" }
+        {
+          "title": "Extensions",
+          "href": "/utils/extensions",
+          "icon": "gears"
+        },
+        {
+          "title": "List View",
+          "href": "/utils/listview",
+          "icon": "list-alt"
+        },
+        {
+          "title": "Navigator",
+          "href": "/utils/navigator",
+          "icon": "navicon"
+        },
+        {
+          "title": "UI",
+          "href": "/utils/watcher",
+          "icon": "clock"
+        }
       ]
     },
     {

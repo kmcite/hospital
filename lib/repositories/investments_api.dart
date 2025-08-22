@@ -1,15 +1,15 @@
 import 'package:hospital/main.dart';
 
-import '../../repositories/balance_api.dart';
-import '../../models/investment.dart';
-import '../../models/receipt.dart';
+import 'balance_api.dart';
+import '../models/investment.dart';
+import '../models/receipt.dart';
 
 final activeInvestments = listSignal(<Investment>[]);
 final historyInvestments = listSignal(<Investment>[]);
-void invest({
+Future<void> invest({
   required double amount,
   required Duration duration,
-}) {
+}) async {
   double calculateProfitRate(Duration duration) {
     final seconds = duration.inSeconds;
     if (seconds <= 1) return 0.01; // 1%

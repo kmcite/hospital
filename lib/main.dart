@@ -1,9 +1,9 @@
 import 'package:hospital/features/application/application.dart';
-import 'package:flutter/material.dart';
+export 'package:flutter/material.dart';
 
 import 'main.dart';
 
-export 'package:faker/faker.dart';
+export 'package:faker/faker.dart' hide Image, Color;
 export 'package:hospital/utils/watcher.dart';
 export 'package:hospital/utils/extensions.dart';
 export 'package:signals_flutter/signals_flutter.dart';

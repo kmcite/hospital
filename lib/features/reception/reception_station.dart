@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/repositories/receptions_api.dart';
 import 'package:hospital/utils/list_view.dart';
 import 'package:hux/hux.dart';
 
-import '../../repositories/patients_api.dart';
 import '../../models/staff/receptionist.dart';
 import '../../repositories/staff_api.dart';
 
@@ -18,7 +17,7 @@ class ReceptionStation extends UI {
           DropdownMenu(
             label: Text('Employess'),
             width: double.maxFinite,
-            dropdownMenuEntries: staffRepository.receptionists.values.map(
+            dropdownMenuEntries: staffRepository.receptionists().map(
               (employee) {
                 return DropdownMenuEntry(
                   value: employee,
@@ -34,7 +33,7 @@ class ReceptionStation extends UI {
           ).pad(),
           Expanded(
             child: listView(
-              receptions.values.toList(),
+              receptionsRepository.receptions.values,
               (chit) => HuxCard(
                 title: (chit.patient.name),
                 subtitle: (chit.patient.complaints),

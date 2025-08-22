@@ -2,11 +2,11 @@ import 'package:hospital/main.dart';
 
 class Receipt {
   String id;
-  String details;
+  Map<String, dynamic> metadata;
   double balance;
   Receipt({
     String? customId,
     this.balance = 150000,
-    this.details = '',
+    this.metadata = const {},
   }) : id = customId ?? faker.guid.guid();
 }

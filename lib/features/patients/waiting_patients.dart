@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/repositories/receptions_api.dart';
 import 'package:hospital/utils/list_view.dart';
 import 'package:hux/hux.dart';
 
-import '../../repositories/ambulance_fees_api.dart';
 import '../../repositories/balance_api.dart';
 import '../../models/patient.dart';
 import '../../repositories/patients_api.dart';
@@ -14,7 +13,7 @@ void manage(Patient patient) {}
 Widget waitingPatientsList() => GUI(
       () {
         return listView(
-          receptions.values,
+          receptionsRepository.receptions.values,
           (patient) {
             return HuxCard(
               margin: EdgeInsetsGeometry.all(8),
@@ -68,25 +67,33 @@ Widget waitingPatientsList() => GUI(
 // }
 
 void referPatientElsewhere(Patient patient) {
-  batch(() {
-    /// remove from waiting list
-    // patientsRepository.waitingPatients.remove(patient.id);
+  batch(
+    () {
+      /// remove from waiting list
+      // patientsRepository.waitingPatients.remove(patient.id);
 
-    // /// add to referred list
-    // patientsRepository.referredPatients[patient.id] = patient;
+      // /// add to referred list
+      // patientsRepository.referredPatients[patient.id] = patient;
 
-    /// penalty for referral
-    balanceRepository.useBalance(
-      Receipt()
-        ..balance = patientReferalFees()
-        ..details = 'Referral Penalty ${patient.name}',
-    );
+      /// penalty for referral
+      balanceRepository.useBalance(
+        Receipt(
+          balance: patientReferalFees(),
+          metadata: {
+            'type': 'Referral Penalty ${patient.name}',
+          },
+        ),
+      );
 
-    /// penalty for ambulance
-    balanceRepository.useBalance(
-      Receipt()
-        ..balance = ambulanceFees()
-        ..details = 'Ambulance Penalty ${patient.name}',
-    );
-  });
+      /// penalty for ambulance
+      balanceRepository.useBalance(
+        Receipt(
+          balance: ambulanceFees(),
+          metadata: {
+            'type': 'Ambulance Penalty ${patient.name}',
+          },
+        ),
+      );
+    },
+  );
 }

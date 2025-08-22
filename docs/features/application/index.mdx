@@ -1,33 +1,31 @@
-Got it 👍 You want me to generate **documentation / pointers** for this code, but **without showing the actual code**. Here’s a structured doc you could include in your project:
-
 ---
 
-# 📘 Hospital App – Documentation
+# Hospital App – Documentation
 
-### 🔹 Global State & Subscriptions
+### Global State & Subscriptions
 
 - **`dark`** → a computed value bound to app settings for theme mode (light/dark).
-- **`subscriptions`** → a global list that stores all active stream subscriptions.
-- **`subscribe()`** → helper to register new subscriptions into the list.
+- **`subscriptions`** → a global list that stores all active stream subscriptions that HospitalApp listens to.
+- **`subscribe(StreamSubscription subscription)`** → helper to register new subscriptions into the list.
 - **`cancelSubscriptions()`** → cancels and clears all active subscriptions (called during dispose).
 
 ---
 
-### 🔹 HospitalApp Class (Main UI Entry)
+### HospitalApp Class (Main UI Entry)
 
 - Extends a custom `UI` base class.
 - **`initState()`** → runs app startup logic:
-
+  - initialises application state
   - Starts patient generation.
   - (Other simulation loops like staff generation, duty assignment, treatment, salaries, etc. can be toggled on/off here).
 
 - **`dispose()`** → cleans up subscriptions to prevent memory leaks.
-
+  - clears up memory.
 ---
 
-### 🔹 MaterialApp Configuration
+### MaterialApp
 
-- Uses **`navigatorKey`** from a custom navigator utility for global navigation.
+- Uses **`navigatorKey`** from a custom navigator [navigator](utils/navigator) for global navigation.
 - **`debugShowCheckedModeBanner`** is disabled for production.
 - **Themes**:
 
