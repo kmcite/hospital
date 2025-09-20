@@ -1,38 +1,44 @@
-import 'package:forui/forui.dart';
+// import 'package:forui/forui.dart'; // Removed - using Material Design
 import 'package:hospital/main.dart';
 import 'package:hospital/repositories/medications_api.dart';
 import 'package:hospital/utils/list_view.dart';
-import 'package:hospital/utils/navigator.dart';
-import 'package:hux/hux.dart';
+
+// import 'package:hux/hux.dart'; // Already imported through main.dart
 
 import '../../models/medication.dart';
 
-class MedicationsPage extends UI {
+class MedicationsPage extends Feature<MedicationsBloc> {
   @override
-  Widget build(BuildContext context) {
-    return FScaffold(
-      header: FHeader.nested(
-        prefixes: [
-          FHeaderAction.back(onPress: navigator.back),
-        ],
+  Widget build(BuildContext context, controller) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: navigator.back,
+        ),
         title: Text('Medications'),
-        suffixes: [
-          FHeaderAction(
-            icon: Icon(FeatherIcons.plus),
-            onPress: () => medicationsRepository.putMedication(Medication()),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => medicationsRepository.putMedication(Medication()),
           ),
         ],
       ),
-      child: listView(
-        medicationsRepository.medications(),
+      body: listView(
+        medicationsRepository.medications,
         (item) {
-          return HuxCard(
-            child: Text(item.name),
-            subtitle: item.amount.toString(),
+          return ListTile(
+            title: Text(item.name),
+            subtitle: Text(item.amount.toString()),
             onTap: () => medicationsRepository.removeMedication(item),
           );
         },
       ),
     );
   }
+
+  @override
+  MedicationsBloc create() => MedicationsBloc();
 }
+
+class MedicationsBloc extends Bloc {}

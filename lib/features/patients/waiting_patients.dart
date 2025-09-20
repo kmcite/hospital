@@ -1,44 +1,63 @@
 import 'package:hospital/main.dart';
+import 'package:hospital/repositories/patients_api.dart';
 import 'package:hospital/repositories/receptions_api.dart';
+import 'package:hospital/repositories/settings_api.dart';
 import 'package:hospital/utils/list_view.dart';
-import 'package:hux/hux.dart';
+// import 'package:hux/hux.dart'; // Already imported through main.dart
 
 import '../../repositories/balance_api.dart';
 import '../../models/patient.dart';
-import '../../repositories/patients_api.dart';
-import '../../models/receipt.dart';
 
-void manage(Patient patient) {}
+class WaitingPatientsBloc extends Bloc {
+  late final BalanceRepository balanceRepository = watch();
+  late final ReceptionsRepository receptionsRepository = watch();
+  late final SettingsRepository settingsRepository = watch();
+  late PatientsRepository patientsRepository = watch();
 
-Widget waitingPatientsList() => GUI(
-      () {
-        return listView(
-          receptionsRepository.receptions.values,
-          (patient) {
-            return HuxCard(
-              margin: EdgeInsetsGeometry.all(8),
-              title: patient.patient.name,
-              subtitle: patient.patient.complaints,
-              child: Row(
-                spacing: 8,
-                children: [
-                  HuxButton(
-                    onPressed: () {},
-                    child: Icon(FeatherIcons.activity),
-                  ),
-                  HuxButton(
-                    onPressed: () {
-                      // referPatientElsewhere(patient);
-                    },
-                    child: Icon(FeatherIcons.arrowUpRight),
-                  ),
-                ],
-              ),
-            );
-          },
+  Iterable<Patient> get waiting => patientsRepository.waiting;
+
+  void manage(Patient patient) => patientsRepository.manage(patient);
+
+  void referPatientElsewhere(Patient patient) {
+    patientsRepository.refer(patient);
+  }
+}
+
+class WaitingPatientsList extends Feature<WaitingPatientsBloc> {
+  const WaitingPatientsList({super.key});
+  @override
+  WaitingPatientsBloc create() => WaitingPatientsBloc();
+  @override
+  Widget build(BuildContext context, WaitingPatientsBloc controller) {
+    return listView(
+      controller.waiting,
+      (patient) {
+        return Card(
+          margin: EdgeInsets.all(8),
+          child: ListTile(
+            title: Text(patient.name),
+            subtitle: Text(patient.complaints),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.local_activity),
+                ),
+                IconButton(
+                  onPressed: () {
+                    controller.referPatientElsewhere(patient);
+                  },
+                  icon: Icon(Icons.arrow_outward),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
+  }
+}
 
 // /// Revert a receipt (negate amount)
 // void useBalance(Receipt r) {
@@ -65,35 +84,3 @@ Widget waitingPatientsList() => GUI(
 //     );
 //   });
 // }
-
-void referPatientElsewhere(Patient patient) {
-  batch(
-    () {
-      /// remove from waiting list
-      // patientsRepository.waitingPatients.remove(patient.id);
-
-      // /// add to referred list
-      // patientsRepository.referredPatients[patient.id] = patient;
-
-      /// penalty for referral
-      balanceRepository.useBalance(
-        Receipt(
-          balance: patientReferalFees(),
-          metadata: {
-            'type': 'Referral Penalty ${patient.name}',
-          },
-        ),
-      );
-
-      /// penalty for ambulance
-      balanceRepository.useBalance(
-        Receipt(
-          balance: ambulanceFees(),
-          metadata: {
-            'type': 'Ambulance Penalty ${patient.name}',
-          },
-        ),
-      );
-    },
-  );
-}

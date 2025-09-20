@@ -1,28 +1,34 @@
-import 'package:forui/forui.dart';
+// import 'package:forui/forui.dart'; // Removed - using Material Design
 import 'package:hospital/main.dart';
-import 'package:hospital/utils/navigator.dart';
 
 import '../../models/staff/staff.dart';
 
-class StaffPage extends UI {
+class StaffBloc extends Bloc {
+  StaffBloc(this.staff);
+  Staff staff;
+}
+
+class StaffPage extends Feature<StaffBloc> {
   final Staff staff;
-  StaffPage({
+  const StaffPage({
     super.key,
-    super.debugLabel,
-    super.dependencies,
     required this.staff,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return FScaffold(
-      header: FHeader.nested(
-        title: staff.name.text(),
-        prefixes: [
-          FHeaderAction.back(onPress: navigator.back),
-        ],
+  StaffBloc create() => StaffBloc(staff);
+
+  @override
+  Widget build(BuildContext context, StaffBloc controller) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(staff.name),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: navigator.back,
+        ),
       ),
-      child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -40,8 +46,14 @@ class StaffPage extends UI {
                         : null,
                   ),
                   SizedBox(height: 16),
-                  staff.name.text(),
-                  staff.role.text(style: TextStyle(color: Colors.grey)),
+                  Text(
+                    staff.name,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    staff.role,
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
                 ],
               ),
             ),
@@ -49,55 +61,67 @@ class StaffPage extends UI {
             Divider(height: 32),
 
             // Contact Information
-            "Contact Information".text(),
-            SizedBox(height: 8),
-            FTile(
-              prefix: Icon(Icons.email),
-              title: "Email".text(),
-              subtitle: staff.email.text(),
+            Text(
+              'Contact Information',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            FTile(
-              prefix: Icon(Icons.phone),
-              title: "Phone".text(),
-              subtitle: staff.phone.text(),
+            SizedBox(height: 8),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('Email'),
+              subtitle: Text(staff.email),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text('Phone'),
+              subtitle: Text(staff.phone),
             ),
 
             Divider(height: 32),
 
             // Professional Details
-            "Professional Details".text(),
+            Text(
+              'Professional Details',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
-            FTile(
-              prefix: Icon(Icons.badge),
-              title: "ID".text(),
-              subtitle: staff.id.text(),
+            ListTile(
+              leading: Icon(Icons.badge),
+              title: Text('ID'),
+              subtitle: Text(staff.id.toString()),
             ),
-            FTile(
-              prefix: Icon(Icons.work),
-              title: "Department".text(),
-              subtitle: staff.department.text(),
+            ListTile(
+              leading: Icon(Icons.work),
+              title: Text('Department'),
+              subtitle: Text(staff.department),
             ),
-            FTile(
-              prefix: Icon(Icons.calendar_today),
-              title: "Join Date".text(),
-              subtitle: staff.joinDate.toString().text(),
+            ListTile(
+              leading: Icon(Icons.calendar_today),
+              title: Text('Join Date'),
+              subtitle: Text(staff.joinDate.toString()),
             ),
 
             if (staff.specialization != null) ...[
               Divider(height: 32),
-              "Specialization".text(),
+              Text(
+                'Specialization',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 8),
-              staff.specialization!.text(),
+              Text(staff.specialization!),
             ],
 
             if (staff.qualifications.isNotEmpty) ...[
               Divider(height: 32),
-              "Qualifications".text(),
+              Text(
+                'Qualifications',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 8),
               ...staff.qualifications.map(
                 (qual) => ListTile(
                   leading: Icon(Icons.school),
-                  title: qual.text(),
+                  title: Text(qual),
                 ),
               ),
             ],

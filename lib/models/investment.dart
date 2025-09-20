@@ -1,58 +1,76 @@
 import 'dart:async';
+import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:hospital/main.dart';
 
-class Investment {
-  final String id;
-  final double amount;
+/// Explicit lifecycle: Created → Active → Matured/Cancelled → Archived
+class Investment extends ChangeNotifier implements ValueListenable<Investment> {
+  final String id = faker.guid.guid();
+  final double investedAmount;
   final Duration duration;
-  final double profitRate;
-  final DateTime startTime;
-  DateTime get endTime => startTime.add(duration);
 
-  final Signal<bool> isClaimed = signal(false);
-  final Signal<bool> isWithdrawnEarly = signal(false);
-  final Signal<Duration> timeRemaining = signal(Duration.zero);
-  late final Computed<bool> isMatured;
-  final Computed<double> profit;
-  final Computed<double> totalReturn;
-  final Computed<double> earlyWithdrawalReturn;
+  bool isMatured = false;
+  bool isCancelled = false;
+  double currentAmount;
+  Timer? _untilMatured;
+  Duration remaining;
 
-  Timer? _updatesTimer;
-  Timer? _maturityTimer;
-  void Function()? onComplete;
+  /// Always non-null for predictability — default to noop.
+  final void Function(Investment investment) onCompleted;
 
   Investment({
-    required this.id,
-    required this.amount,
+    required this.investedAmount,
     required this.duration,
-    this.profitRate = 0.10,
-  })  : startTime = DateTime.now(),
-        profit = computed(() => amount * profitRate),
-        totalReturn = computed(() => amount * (1 + profitRate)),
-        earlyWithdrawalReturn = computed(() => amount * 0.8) {
-    _updatesTimer = Timer.periodic(
-      const Duration(seconds: 1),
+    void Function(Investment investment)? onCompleted,
+  })  : currentAmount = investedAmount,
+        onCompleted = onCompleted ?? _noop,
+        remaining = duration {
+    _startTimer();
+  }
+
+  void _startTimer() async {
+    if (duration <= Duration.zero) {
+      log('⚠️ Skipping timer for zero/negative duration.');
+      return;
+    }
+
+    _untilMatured = Timer.periodic(
+      Durations.long2,
       (_) {
-        final remaining = endTime.difference(DateTime.now());
-        timeRemaining.set(remaining.isNegative ? Duration.zero : remaining);
+        final profitRate = faker.randomGenerator.decimal(
+          min: 0.10, // Minimum 10% profit
+          scale: 0.25, // Upto 35% profit
+        );
+        log('💰 Investment $id matured. Profit rate: ${(profitRate * 100).toStringAsFixed(2)}%');
+        remaining -= Durations.long2;
+        isMatured = true;
+        currentAmount += investedAmount * profitRate;
+        notifyListeners();
       },
     );
-    {
-      isMatured = computed(
-        () => DateTime.now().isAfter(
-          startTime.add(duration),
-        ),
-      );
+    await Future.delayed(duration);
+    _untilMatured?.cancel();
+    _untilMatured = null;
+    onCompleted(this);
+  }
+
+  void cancel({bool refund = false}) {
+    if (_untilMatured == null) return;
+
+    _untilMatured?.cancel();
+    _untilMatured = null;
+    isCancelled = true;
+
+    if (refund) {
+      log('💸 Investment $id cancelled, refunding: $currentAmount');
+    } else {
+      log('💸 Investment $id cancelled, funds forfeited.');
+      currentAmount = 0;
     }
   }
 
-  void start(void Function() onCompleted) {
-    onComplete = onCompleted;
-    _maturityTimer = Timer(duration, () => onComplete?.call());
-  }
+  static void _noop(Investment _) {}
 
-  void cancel() {
-    _maturityTimer?.cancel();
-    _updatesTimer?.cancel();
-  }
+  @override
+  Investment get value => this;
 }

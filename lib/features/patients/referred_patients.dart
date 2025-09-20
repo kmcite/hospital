@@ -1,23 +1,34 @@
+import 'package:hospital/models/patient.dart';
 import 'package:hospital/utils/list_view.dart';
-import 'package:hux/hux.dart';
+// import 'package:hux/hux.dart'; // Already imported through main.dart
 
 import '../../main.dart';
 import '../../repositories/patients_api.dart';
 
-class ReferredPatients extends UI {
+class ReferredPatientsBloc extends Bloc {
+  late final PatientsRepository patientsRepository = watch();
+  Iterable<Patient> get referred => patientsRepository.referred;
+}
+
+class ReferredPatients extends Feature<ReferredPatientsBloc> {
   @override
-  Widget build(BuildContext context) {
+  ReferredPatientsBloc create() => ReferredPatientsBloc();
+
+  @override
+  Widget build(BuildContext context, controller) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Referred Patients'),
+        title: Text('Reffered Patients'),
       ),
       body: listView(
-        referredPatients.values,
+        controller.referred,
         (patient) {
-          return HuxCard(
-            title: patient.name,
-            subtitle: patient.complaints,
-            child: Text(patient.name),
+          return Card(
+            child: ListTile(
+              title: Text(patient.name),
+              subtitle: Text(patient.complaints),
+              trailing: Text(patient.status.name),
+            ),
           );
         },
       ),

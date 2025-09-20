@@ -1,12 +1,18 @@
-import 'package:hospital/main.dart';
+import 'package:objectbox/objectbox.dart';
 
+@Entity()
 class Receipt {
-  String id;
-  Map<String, dynamic> metadata;
-  double balance;
+  @Id()
+  int id = 0;
+  Map<String, String> metadata = {};
+  double balance = 0;
+  @Property(type: PropertyType.date)
+  late DateTime createdOn;
+
   Receipt({
-    String? customId,
-    this.balance = 150000,
     this.metadata = const {},
-  }) : id = customId ?? faker.guid.guid();
+    this.balance = 0,
+  }) {
+    createdOn = DateTime.now();
+  }
 }

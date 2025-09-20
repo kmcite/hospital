@@ -1,36 +1,48 @@
-import 'package:forui/forui.dart';
+// import 'package:forui/forui.dart'; // Removed - using Material Design
 import 'package:hospital/main.dart';
+import 'package:hospital/models/patient.dart';
 import 'package:hospital/repositories/generation_api.dart';
 
-final unsatisfiedPatients = computed(
-  () => generationRepository.unsatisfiedPatients.values,
-);
+// final unsatisfiedPatients = Any(
+//   generationRepository.unsatisfiedPatients.values,
+// );
 
-class UnsatisfiedPatientsPage extends UI {
+class UnsatisfiedPatientsBloc extends Bloc {
+  late GenerationRepository generationRepository = watch();
+
+  Iterable<Patient> get unsatisfiedPatients {
+    return generationRepository.unsatisfiedPatients.values;
+  }
+}
+
+class UnsatisfiedPatientsPage extends Feature<UnsatisfiedPatientsBloc> {
   @override
-  Widget build(BuildContext context) {
-    return FScaffold(
-      header: FHeader(
+  Widget build(BuildContext context, controller) {
+    return Scaffold(
+      appBar: AppBar(
         title: Text('Unsatisfied Patients'),
-        suffixes: [
-          FHeaderAction(
-            icon: Icon(Icons.clean_hands),
-            onPress: () {},
+        actions: [
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => navigator.back(),
           ),
         ],
       ),
-      child: Column(
+      body: Column(
         children: List.generate(
-          unsatisfiedPatients().take(10).length,
+          controller.unsatisfiedPatients.take(10).length,
           (i) {
-            final pt = unsatisfiedPatients().elementAt(i);
+            final pt = controller.unsatisfiedPatients.elementAt(i);
             return Column(
               children: [
-                pt.name.text(),
-                FProgress(
-                  key: Key(pt.id),
-                  value: pt.satisfactionProgress(),
-                ).pad()
+                Text(pt.name),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: LinearProgressIndicator(
+                      // key: Key(pt.id),
+                      // value: pt.satisfactionProgress,
+                      ),
+                )
               ],
             );
           },
@@ -38,4 +50,7 @@ class UnsatisfiedPatientsPage extends UI {
       ),
     );
   }
+
+  @override
+  UnsatisfiedPatientsBloc create() => UnsatisfiedPatientsBloc();
 }

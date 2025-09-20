@@ -1,17 +1,19 @@
+// import 'package:forui/forui.dart'; // Removed - using Material Design
 import 'package:hospital/main.dart';
 import 'package:hospital/utils/list_view.dart';
-import 'package:hospital/utils/navigator.dart';
 import 'package:hospital/features/patients/patient_details_page.dart';
-import 'package:hux/hux.dart';
+// import 'package:hux/hux.dart'; // Already imported through main.dart
 
 import 'package:hospital/repositories/generation_api.dart';
 
 import '../../models/patient.dart';
 
-final searchQuery = signal('');
-final searchedPatients = computed(
-  () {
-    final query = searchQuery().toLowerCase();
+class SearchPatientsBloc extends Bloc {
+  late final GenerationRepository generationRepository = watch();
+  String searchQuery = '';
+
+  Iterable<Patient> get searchedPatients {
+    final query = searchQuery.toLowerCase();
     if (query.isEmpty) {
       return <Patient>[];
     }
@@ -21,44 +23,53 @@ final searchedPatients = computed(
             (pt.complaints.toLowerCase().contains(query));
       },
     );
-  },
-);
+  }
 
-Widget searchPatients() {
-  return GUI(
-    () {
-      return Column(
-        children: [
-          searchBar(),
-          Expanded(
-            child: () {
-              if (searchedPatients().isEmpty && searchQuery().isNotEmpty) {
-                return Center(child: Text('No patients found.'));
-              }
-              return listView(
-                searchedPatients(),
-                (pt) => HuxCard(
-                  title: pt.name,
-                  subtitle: pt.complaints,
-                  child: pt.text(),
-                  onTap: () => navigator.to(PatientDetailsPage(pt)),
-                ).pad(),
-              );
-            }(),
-          ),
-        ],
-      );
-    },
-  );
+  void search(String query) {
+    searchQuery = query;
+    notifyListeners();
+  }
 }
 
-Widget searchBar() {
-  return TextFormField(
-    initialValue: searchQuery(),
-    decoration: InputDecoration(
-      hintText: "Search for patients",
-      prefixIcon: Icon(FeatherIcons.search).pad(left: 4),
-    ),
-    onChanged: searchQuery.set,
-  ).pad();
+class SearchPatients extends Feature<SearchPatientsBloc> {
+  @override
+  SearchPatientsBloc create() => SearchPatientsBloc();
+  @override
+  Widget build(context, controller) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search for patients',
+              border: OutlineInputBorder(),
+            ),
+            onChanged: controller.search,
+          ),
+        ),
+        Expanded(
+          child: () {
+            if (controller.searchedPatients.isEmpty &&
+                controller.searchQuery.isNotEmpty) {
+              return Center(child: Text('No patients found.'));
+            }
+            return listView(
+              controller.searchedPatients,
+              (pt) => Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Card(
+                  child: ListTile(
+                    title: Text(pt.name),
+                    subtitle: Text(pt.complaints),
+                    onTap: () => navigator.to(PatientDetailsPage(pt)),
+                  ),
+                ),
+              ),
+            );
+          }(),
+        ),
+      ],
+    );
+  }
 }

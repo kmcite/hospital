@@ -1,0 +1,212 @@
+---
+
+# Architecture guide for Apps
+
+
+---
+
+## 📦 Architecture Components
+
+### Layers
+
+| APIs      | Purpose                                      |
+|-----------|----------------------------------------------|
+| `UI<T>`   | Statefull reactive view bound to a global controller |
+| `Feature<T>` | Stateful logic + lifecycle + auto-disposal       |
+| `ChangeNotifier` | Reactive controller with optional lifecycle hook |
+| `Registry` | Global instance management and disposal      |
+
+---
+
+## 🔧 Core Components
+
+### `View` main UI composition
+
+implement this to create UI. `controller` is used to access logic.
+
+
+
+```dart
+class CounterView extends View {
+  Widget build(context){
+    return Text(controller.count.toString());
+  }
+}
+```
+
+---
+
+### `Feature` is for locally injected state
+
+```dart
+abstract class Feature<T extends ChangeNotifier> extends StatefulWidget {
+  const Feature({super.key});
+
+  T create();
+  Widget build(BuildContext context, T controller);
+
+  @override
+  State<Feature<T>> createState() => FeatureState<T>();
+}
+
+class FeatureState<T extends ChangeNotifier> extends State<Feature<T>> {
+  late final T controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.create();
+    controller.addListener(_listener);
+    controller.initState?.call(); // Optional lifecycle hook
+  }
+
+  void _listener() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_listener);
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.build(context, controller);
+  }
+}
+```
+
+---
+
+### `ChangeNotifier` Lifecycle Extension
+
+```dart
+extension Lifecycle on ChangeNotifier {
+  void initState() {}
+}
+```
+
+Use this to define lifecycle logic without needing a base class.
+
+---
+
+### Registry
+
+```dart
+final _registered = <Type, dynamic>{};
+
+T read<T>([T? instance]) {
+  if (instance != null) {
+    _registered[T] = instance;
+    log('[I] -> $T');
+    return instance;
+  }
+
+  final found = _registered[T];
+  if (found == null) {
+    throw Exception('Instance of type $T not found. Did you forget to register it?');
+  }
+  return found;
+}
+
+void disposeAll() {
+  log('Disposing all registered instances...');
+  for (final instance in _registered.values.toList()) {
+    if (instance is ChangeNotifier) instance.dispose();
+  }
+  _registered.clear();
+  log('All instances disposed and registry cleared.');
+}
+```
+
+---
+
+## 🚀 Usage Example
+
+### Controller
+
+```dart
+class CounterController extends ChangeNotifier {
+  int count = 0;
+
+  void increment() {
+    count++;
+    notifyListeners();
+  }
+
+  @override
+  void initState() {
+    log('CounterController initialized');
+  }
+}
+```
+
+### Feature
+
+```dart
+class CounterFeature extends Feature<CounterController> {
+  const CounterFeature({super.key});
+
+  @override
+  CounterController create() => CounterController();
+
+  @override
+  Widget build(BuildContext context, CounterController controller) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Counter')),
+      body: Center(child: Text('Count: ${controller.count}')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: controller.increment,
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+
+### UI
+
+```dart
+class CounterUI extends UI<CounterController> {
+  const CounterUI({super.key});
+
+  @override
+  Widget build(BuildContext context, CounterController controller) {
+    return Text('Count: ${controller.count}');
+  }
+}
+```
+
+---
+
+## 🧼 Design Principles
+
+- **No mixins** → avoids generic conflicts
+- **Direct lifecycle integration** → no base class needed
+- **Registry-based DI** → simple and testable
+- **Explicit disposal** → avoids memory leaks
+- **Modular separation** → easy onboarding and extension
+
+---
+
+## 🧪 Testing Tips
+
+- Use `read<T>(mockInstance)` to inject mocks
+- Call `disposeAll()` in teardown
+- Use `controller.notifyListeners()` to simulate state changes
+
+---
+
+## 🧠 Ideal For
+
+- Simulation modeling
+- ER workflows
+- Lifecycle-driven UI
+- Teaching maintainable patterns
+
+---
+
+
+---

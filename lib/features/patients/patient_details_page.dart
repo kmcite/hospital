@@ -1,203 +1,256 @@
 import 'package:hospital/main.dart';
-import 'package:hospital/repositories/patients_api.dart';
 import 'package:hospital/repositories/balance_api.dart';
 import 'package:hospital/models/receipt.dart';
-import 'package:hospital/utils/navigator.dart';
+import 'package:hospital/repositories/settings_api.dart';
 import 'package:hux/hux.dart';
 
 import '../../models/patient.dart';
 
-class PatientDetailsPage extends UI {
-  const PatientDetailsPage(this.pt, {super.key});
-  final Patient pt;
-  Widget build(BuildContext context) {
-    return GUI(
-      () {
-        return Scaffold(
-          appBar: AppBar(
-            title: pt.name.text(),
-            actions: [
-              // Discharge patient button
-              IconButton(
-                icon: Icon(FeatherIcons.userX),
-                onPressed: () {
-                  patientsRepository.discharge(pt);
-                  navigator.back();
-                },
-                tooltip: 'Discharge Patient',
-              ).pad(right: 8),
-            ],
-          ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Patient Basic Information Card
-                HuxCard(
-                  margin: EdgeInsets.only(bottom: 16),
-                  title: 'Patient Information',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildInfoRow('Name', pt.name),
-                      _buildInfoRow('Patient ID', pt.id),
-                      _buildInfoRow('Complaints', pt.complaints),
-                      _buildInfoRow('Status',
-                          pt.isManaged ? 'Under Treatment' : 'Waiting'),
-                    ],
-                  ),
-                ),
-
-                // Satisfaction Status Card
-                HuxCard(
-                  margin: EdgeInsets.only(bottom: 16),
-                  title: 'Satisfaction Status',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            pt.isSatisfied()
-                                ? FeatherIcons.smile
-                                : FeatherIcons.frown,
-                            color: pt.isSatisfied() ? Colors.green : Colors.red,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            pt.isSatisfied() ? 'Satisfied' : 'Unsatisfied',
-                            style: TextStyle(
-                              color:
-                                  pt.isSatisfied() ? Colors.green : Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                          'Satisfaction Time: ${pt.satisfactionTime()} seconds'),
-                      SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: pt.satisfactionProgress(),
-                        backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          pt.isSatisfied() ? Colors.green : Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Staff Assignment Card
-                HuxCard(
-                  margin: EdgeInsets.only(bottom: 16),
-                  title: 'Staff Assignment',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildStaffInfo(
-                          'Manager', pt.manager?.name ?? 'Not Assigned'),
-                      _buildStaffInfo('Receptionist',
-                          pt.receptionist?.name ?? 'Not Assigned'),
-                    ],
-                  ),
-                ),
-
-                // Patient Actions Card
-                HuxCard(
-                  title: 'Patient Actions',
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: HuxButton(
-                              onPressed: pt.isManaged
-                                  ? null
-                                  : () {
-                                      patientsRepository.manage(pt);
-                                    },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(FeatherIcons.userCheck),
-                                  SizedBox(width: 8),
-                                  Text('Manage Patient'),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: HuxButton(
-                              onPressed: () {
-                                patientsRepository.refer(pt);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(FeatherIcons.arrowUpRight),
-                                  SizedBox(width: 8),
-                                  Text('Refer Patient'),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        width: double.infinity,
-                        child: HuxButton(
-                          onPressed: () {
-                            _collectPatientFee(pt);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(FeatherIcons.dollarSign),
-                              SizedBox(width: 8),
-                              Text(
-                                  'Collect Fee (\$${patientFees().toStringAsFixed(0)})'),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        width: double.infinity,
-                        child: HuxButton(
-                          onPressed: () {
-                            patientsRepository.discharge(pt);
-                            navigator.back();
-                          },
-                          variant: HuxButtonVariant.secondary,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(FeatherIcons.userX),
-                              SizedBox(width: 8),
-                              Text('Discharge Patient'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+class PatientDetailsBloc extends Bloc {
+  late final BalanceRepository balanceRepository = watch();
+  late final SettingsRepository settingsRepository = watch();
+  double get patientFees => settingsRepository.patientFees;
+  void collectPatientFee(Patient patient) {
+    final receipt = Receipt(
+      balance: settingsRepository.patientFees,
+      metadata: {
+        'type': 'Patient consultation fee - ${patient.name}',
+        'patientId': patient.id.toString(),
       },
+    );
+    balanceRepository.put(receipt);
+  }
+
+  void discharge(Patient patient) {
+    final receipt = Receipt(
+      balance: settingsRepository.patientReferalFees,
+      metadata: {
+        'type': 'Patient referal fee - ${patient.name}',
+        'patientId': patient.id.toString(),
+      },
+    );
+    balanceRepository.put(receipt);
+  }
+}
+
+class PatientDetailsPage extends Feature<PatientDetailsBloc> {
+  @override
+  PatientDetailsBloc create() => PatientDetailsBloc();
+  const PatientDetailsPage(this.patient, {super.key});
+  final Patient patient;
+  Widget build(BuildContext context, controller) {
+    return Scaffold(
+      appBar: AppBar(
+        title: patient.name.text(),
+        actions: [
+          // Discharge patient button
+          IconButton(
+            icon: Icon(FeatherIcons.userX),
+            onPressed: () => controller.discharge(patient),
+            tooltip: 'Discharge Patient',
+          ).pad(right: 8),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Patient Basic Information Card
+            Card(
+              margin: EdgeInsets.only(bottom: 16),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Patient Information',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    // _buildInfoRow('Name', patient.name),
+                    // _buildInfoRow('Patient ID', patient.id),
+                    // _buildInfoRow('Complaints', patient.complaints),
+                    // _buildInfoRow('Status',
+                    //     patient.isManaged ? 'Under Treatment' : 'Waiting'),
+                  ],
+                ),
+              ),
+            ),
+
+            // Satisfaction Status Card
+            Card(
+              margin: EdgeInsets.only(bottom: 16),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Satisfaction Status',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        // Icon(
+                        //   patient.isSatisfied
+                        //       ? FeatherIcons.smile
+                        //       : FeatherIcons.frown,
+                        //   // color: patient.isSatisfied ? Colors.green : Colors.red,
+                        // ),
+                        SizedBox(width: 8),
+                        // Text(
+                        //   patient.isSatisfied ? 'Satisfied' : 'Unsatisfied',
+                        //   style: TextStyle(
+                        //     // color:
+                        //     //     patient.isSatisfied ? Colors.green : Colors.red,
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    // Text(
+                    //     'Satisfaction Time: ${patient.satisfactionTime} seconds'),
+                    SizedBox(height: 8),
+                    LinearProgressIndicator(
+                      // value: patient.satisfactionProgress,
+                      backgroundColor: Colors.grey[300],
+                      // valueColor: AlwaysStoppedAnimation<Color>(
+                      //   patient.isSatisfied ? Colors.green : Colors.red,
+                      // ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Staff Assignment Card
+            Card(
+              margin: EdgeInsets.only(bottom: 16),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Staff Assignment',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    _buildStaffInfo('Manager', patient.name),
+                    _buildStaffInfo('Receptionist', patient.name),
+                  ],
+                ),
+              ),
+            ),
+
+            // Patient Actions Card
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Text(
+                      'Patient Actions',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed:
+                                // patient.isManaged
+                                //     ? null
+                                //     :
+                                () {
+                              // patientsRepository.manage(patient);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.person_add),
+                                SizedBox(width: 8),
+                                Text('Manage Patient'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // patientsRepository.refer(patient);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.arrow_outward),
+                                SizedBox(width: 8),
+                                Text('Refer Patient'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          controller.collectPatientFee(patient);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.attach_money),
+                            SizedBox(width: 8),
+                            Text(
+                                'Collect Fee (\$${controller.patientFees.toStringAsFixed(0)})'),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          controller.discharge(patient);
+                          navigator.back();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.person_remove),
+                            SizedBox(width: 8),
+                            Text('Discharge Patient'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 // Helper widget for information rows
-Widget _buildInfoRow(String label, String value) {
+// ignore: unused_element
+Widget _buildInfoRow(String label, int value) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 4),
     child: Row(
@@ -211,7 +264,7 @@ Widget _buildInfoRow(String label, String value) {
           ),
         ),
         Expanded(
-          child: Text(value),
+          child: Text(value.toString()),
         ),
       ],
     ),
@@ -237,16 +290,4 @@ Widget _buildStaffInfo(String role, String name) {
       ],
     ),
   );
-}
-
-// Helper function to collect patient fee
-void _collectPatientFee(Patient patient) {
-  final receipt = Receipt(
-    balance: patientFees(),
-    metadata: {
-      'type': 'Patient consultation fee - ${patient.name}',
-      'patientId': patient.id,
-    },
-  );
-  balanceRepository.useBalance(receipt);
 }

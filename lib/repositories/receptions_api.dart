@@ -1,36 +1,28 @@
-import 'dart:async';
-
 import 'package:hospital/models/reception.dart';
+import 'package:objectbox/objectbox.dart';
 
 import '../main.dart';
 
-final receptionsRepository = ReceptionsRepository();
+class ReceptionsRepository extends Repository {
+  final store = find<Store>();
+  late final box = store.box<Reception>();
 
-class ReceptionsRepository extends EventController<ReceptionsEvents> {
-  final receptions = mapSignal(<String, Reception>{});
+  /// READ
+  Iterable<Reception> getAll() => box.getAll();
+  Reception? get(int mr) => box.get(mr);
 
-  @override
-  void listen(ReceptionsEvents event) {
-    if (event is ChitIssue) {
-      receptions[event.chit.mr] = event.chit;
-    } else {
-      throw UnimplementedError();
-    }
-  }
-}
-
-class ReceptionsEvents {}
-
-class ChitIssue extends ReceptionsEvents {
-  final Reception chit;
-  ChitIssue(this.chit);
-}
-
-abstract class EventController<E> {
-  final controller = StreamController<E>.broadcast();
-  EventController() {
-    controller.stream.listen(listen);
+  /// WRITE
+  Reception? remove(int mr) {
+    final reception = box.get(mr);
+    box.remove(mr);
+    return reception;
   }
 
-  void listen(E event);
+  void clear() {
+    box.removeAll();
+  }
+
+  void put(Reception reception) {
+    box.put(reception);
+  }
 }
