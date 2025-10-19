@@ -1,7 +1,7 @@
 name: hospital
 description: "A hospital simulation game"
 publish_to: "none"
-version: 0.1.0
+version: 0.1.0 
 
 environment:
   sdk: ^3.6.0
@@ -14,14 +14,15 @@ dependencies:
   path_provider: ^2.1.5
   faker: ^2.2.0
   hive_flutter: ^1.1.0
-  package_info_plus: ^8.3.0
-  hux: ^0.4.0
+  package_info_plus: ^9.0.0
+  hux: ^0.14.1
   navigation_builder: ^0.0.4
-  # forui: # Removed - using Material Design instead
-  # manager:
-  #   path: D://applications//manager//manager
-  objectbox: ^4.3.0
-  objectbox_generator: ^4.3.0
-  objectbox_flutter_libs: ^4.3.0
+  objectbox: ^5.0.0
+  objectbox_generator: ^5.0.0
+  objectbox_flutter_libs: ^5.0.0
+  # spark:
+  #   path: C://Users//Adn//CascadeProjects//spark
+  forui: ^0.16.0
+  flutter_bloc: ^9.1.1
 flutter:
   uses-material-design: true

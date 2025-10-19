@@ -260,6 +260,264 @@ graph TD
 - **Background Processing**: Game continues when app is minimized
 - **Auto-save System**: Regular state persistence to prevent data loss
 
+## Game Actions Flow
+
+### Hospital Owner Actions Flow
+
+#### Staff Management Actions
+
+```mermaid
+flowchart TD
+    A[Hospital Owner Dashboard] --> B{Staff Management Action}
+    
+    B -->|Hire Staff| C[Browse Available Candidates]
+    C --> D[Review Qualifications & Salary]
+    D --> E{Accept Candidate?}
+    E -->|Yes| F[Create Employment Contract]
+    E -->|No| C
+    F --> G[Assign Department & Duties]
+    G --> H[Set Salary & Benefits Package]
+    H --> I[Staff Successfully Hired]
+    
+    B -->|Manage Existing Staff| J[View Staff List]
+    J --> K{Select Action}
+    K -->|Reassign Department| L[Choose New Department]
+    K -->|Adjust Salary| M[Modify Compensation]
+    K -->|Performance Review| N[Evaluate Staff Performance]
+    K -->|Terminate Employment| O[Fire Staff with Severance]
+    
+    L --> P[Update Duty Assignment]
+    M --> Q[Recalculate Total Compensation]
+    N --> R[Update Performance Record]
+    O --> S[Process Termination Benefits]
+    
+    I --> T[Update Hospital State]
+    P --> T
+    Q --> T
+    R --> T
+    S --> T
+```
+
+#### Department Operations Actions
+
+```mermaid
+flowchart TD
+    A[Department Management] --> B{Department Type}
+    
+    B -->|OPD Management| C[Configure Operating Hours]
+    C --> D[Assign Qualified Staff]
+    D --> E[Set Appointment Schedules]
+    E --> F[Monitor Patient Queue]
+    F --> G{Patient Treatment Decision}
+    G -->|Approve Treatment| H[Assign Appropriate Staff]
+    G -->|Defer Treatment| I[Schedule Future Appointment]
+    H --> J[Execute Treatment Protocol]
+    J --> K[Collect Payment]
+    K --> L[Update Revenue Records]
+    
+    B -->|Emergency Management| M[Ensure 24/7 Staffing]
+    M --> N[Monitor Emergency Queue]
+    N --> O{Triage Assessment}
+    O -->|Life Threatening| P[Immediate Free Treatment]
+    O -->|Non-Critical| Q{Payment Verification}
+    Q -->|Can Pay| R[Paid Emergency Treatment]
+    Q -->|Cannot Pay| S[Basic Stabilization Only]
+    P --> T[Claim Government Reimbursement]
+    R --> U[Collect Emergency Fees]
+    S --> V[Social Responsibility Record]
+    
+    L --> W[Update Hospital Finances]
+    T --> W
+    U --> W
+    V --> W
+```
+
+#### Financial Management Actions
+
+```mermaid
+flowchart TD
+    A[Financial Dashboard] --> B{Financial Action}
+    
+    B -->|Process Payroll| C[Calculate Staff Salaries]
+    C --> D[Include Performance Bonuses]
+    D --> E[Add Department Allowances]
+    E --> F[Calculate Overtime Pay]
+    F --> G[Deduct Benefits Contributions]
+    G --> H[Process Retirement Contributions]
+    H --> I[Execute Payroll Payment]
+    I --> J[Update Staff Financial Records]
+    
+    B -->|Manage Penalties| K[Review Compliance Violations]
+    K --> L{Penalty Type}
+    L -->|Staff Malpractice| M[Suspend Staff Member]
+    L -->|Department Violation| N[Pay Regulatory Fine]
+    L -->|License Issue| O[Address Compliance Requirements]
+    M --> P[Require Retraining]
+    N --> Q[Update Compliance Score]
+    O --> R[Submit Corrective Action Plan]
+    
+    B -->|Investment Decisions| S[Review Available Investments]
+    S --> T[Allocate Hospital Funds]
+    T --> U[Monitor Investment Returns]
+    U --> V[Reinvest or Withdraw]
+    
+    J --> W[Update Hospital Financial State]
+    P --> W
+    Q --> W
+    R --> W
+    V --> W
+```
+
+### System-Driven Actions Flow
+
+#### Automated Game Events
+
+```mermaid
+flowchart TD
+    A[Game Timer System] --> B{Scheduled Event}
+    
+    B -->|Patient Generation| C[Create Random Patient]
+    C --> D[Assign Economic Status]
+    D --> E[Generate Medical Condition]
+    E --> F[Determine Urgency Level]
+    F --> G[Route to Appropriate Department]
+    G --> H[Add to Department Queue]
+    
+    B -->|Staff Performance| I[Assess Staff Energy Levels]
+    I --> J{Energy Status}
+    J -->|Low Energy| K[Reduce Work Efficiency]
+    J -->|Normal Energy| L[Maintain Performance]
+    J -->|High Energy| M[Boost Performance]
+    K --> N[Update Staff Status]
+    L --> N
+    M --> N
+    
+    B -->|Compliance Audit| O[Random Compliance Check]
+    O --> P[Assess Department Staffing]
+    P --> Q[Review Treatment Decisions]
+    Q --> R{Violations Found?}
+    R -->|Yes| S[Generate Penalty]
+    R -->|No| T[Improve Compliance Score]
+    S --> U[Apply Financial Penalty]
+    T --> V[Update Hospital Reputation]
+    
+    B -->|Financial Cycles| W[Process Daily Expenses]
+    W --> X[Calculate Staff Costs]
+    X --> Y[Update Equipment Maintenance]
+    Y --> Z[Apply Utility Costs]
+    Z --> AA[Update Hospital Balance]
+    
+    H --> BB[Trigger UI Updates]
+    N --> BB
+    U --> BB
+    V --> BB
+    AA --> BB
+```
+
+#### Patient Treatment Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> PatientArrival
+    PatientArrival --> DepartmentTriage : assignDepartment()
+    
+    DepartmentTriage --> OPDQueue : isOPDPatient()
+    DepartmentTriage --> EmergencyTriage : isEmergencyPatient()
+    
+    OPDQueue --> PaymentVerification : nextInQueue()
+    PaymentVerification --> TreatmentAssignment : paymentConfirmed()
+    PaymentVerification --> TurnedAway : cannotPay()
+    
+    EmergencyTriage --> LifeSavingTreatment : isLifeThreatening()
+    EmergencyTriage --> EmergencyPaymentCheck : isNonCritical()
+    
+    EmergencyPaymentCheck --> PaidEmergencyTreatment : canPay()
+    EmergencyPaymentCheck --> BasicStabilization : cannotPay()
+    
+    TreatmentAssignment --> StaffAssignment : findQualifiedStaff()
+    LifeSavingTreatment --> StaffAssignment
+    PaidEmergencyTreatment --> StaffAssignment
+    BasicStabilization --> StaffAssignment
+    
+    StaffAssignment --> TreatmentExecution : staffAvailable()
+    StaffAssignment --> WaitingForStaff : noStaffAvailable()
+    
+    WaitingForStaff --> TreatmentExecution : staffBecomesAvailable()
+    
+    TreatmentExecution --> TreatmentOutcome : treatmentComplete()
+    TreatmentOutcome --> SuccessfulTreatment : treatmentSuccessful()
+    TreatmentOutcome --> TreatmentComplication : treatmentFailed()
+    
+    SuccessfulTreatment --> PaymentCollection : isPaidService()
+    SuccessfulTreatment --> GovernmentClaim : isFreeService()
+    TreatmentComplication --> PenaltyAssessment : assessMalpractice()
+    
+    PaymentCollection --> PatientDischarge
+    GovernmentClaim --> PatientDischarge
+    PenaltyAssessment --> PatientDischarge
+    TurnedAway --> [*]
+    PatientDischarge --> [*]
+```
+
+### User Interface Actions Flow
+
+#### Navigation and Screen Flow
+
+```mermaid
+flowchart TD
+    A[Game Launch] --> B[Hospital Owner Dashboard]
+    
+    B --> C{Main Navigation}
+    C -->|Staff Management| D[Staff Management Screen]
+    C -->|Department Operations| E[Department Management Screen]
+    C -->|Financial Overview| F[Financial Dashboard]
+    C -->|Compliance Monitor| G[Legal Compliance Screen]
+    C -->|Settings & Configuration| H[Game Settings Screen]
+    
+    D --> I{Staff Actions}
+    I -->|Hire New Staff| J[Staff Recruitment Screen]
+    I -->|Manage Existing| K[Staff Details Screen]
+    I -->|Performance Review| L[Staff Performance Screen]
+    I -->|Payroll Management| M[Payroll Processing Screen]
+    
+    E --> N{Department Actions}
+    N -->|OPD Management| O[OPD Operations Screen]
+    N -->|Emergency Management| P[Emergency Department Screen]
+    N -->|Patient Queue| Q[Patient Management Screen]
+    
+    F --> R{Financial Actions}
+    R -->|Revenue Analysis| S[Revenue Reports Screen]
+    R -->|Expense Tracking| T[Expense Management Screen]
+    R -->|Investment Portfolio| U[Investment Management Screen]
+    R -->|Penalty Management| V[Penalty Tracking Screen]
+    
+    G --> W{Compliance Actions}
+    W -->|Violation History| X[Violation Records Screen]
+    W -->|Staff Training| Y[Training Management Screen]
+    W -->|License Status| Z[License Monitoring Screen]
+    
+    J --> AA[Return to Staff Management]
+    K --> AA
+    L --> AA
+    M --> AA
+    O --> BB[Return to Department Management]
+    P --> BB
+    Q --> BB
+    S --> CC[Return to Financial Dashboard]
+    T --> CC
+    U --> CC
+    V --> CC
+    X --> DD[Return to Compliance Monitor]
+    Y --> DD
+    Z --> DD
+    
+    AA --> B
+    BB --> B
+    CC --> B
+    DD --> B
+    H --> B
+```
+
 ## Offline Game Architecture
 
 ### Local Data Persistence (ObjectBox)

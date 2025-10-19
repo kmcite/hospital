@@ -4,610 +4,214 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:1351790629751273250",
-      "lastPropertyId": "28:206055894570661236",
-      "name": "Staff",
+      "id": "1:6220857766937871376",
+      "lastPropertyId": "5:5451042993046725881",
+      "name": "MedicalRecord",
       "properties": [
         {
-          "id": "1:6901530467509883701",
+          "id": "1:355572829428406068",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:8773260981956735497",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "3:2365460509063910145",
-          "name": "salary",
-          "type": 8
-        },
-        {
-          "id": "4:4735897625827591892",
-          "name": "isActive",
-          "type": 1
-        },
-        {
-          "id": "6:3616274558662282232",
-          "name": "isHired",
-          "type": 1
-        },
-        {
-          "id": "11:1186352617886308174",
-          "name": "email",
-          "type": 9
-        },
-        {
-          "id": "12:8084441860902162670",
-          "name": "qualifications",
-          "type": 30
-        },
-        {
-          "id": "13:5787635611103541434",
-          "name": "phone",
-          "type": 9
-        },
-        {
-          "id": "14:1710927543980227497",
-          "name": "imageUrl",
-          "type": 9
-        },
-        {
-          "id": "15:8102589392471457886",
-          "name": "department",
-          "type": 9
-        },
-        {
-          "id": "16:2479194666403837994",
-          "name": "role",
-          "type": 9
-        },
-        {
-          "id": "17:1395195477564773528",
-          "name": "specialization",
-          "type": 9
-        },
-        {
-          "id": "18:5033719745269510722",
-          "name": "joinDate",
+          "id": "2:853848794729982505",
+          "name": "date",
           "type": 10
         },
         {
-          "id": "19:8392825071491090723",
-          "name": "lastWorkDate",
-          "type": 10
-        },
-        {
-          "id": "20:9211828036678152208",
-          "name": "isOnDuty",
-          "type": 1
-        },
-        {
-          "id": "21:4041408981358387713",
-          "name": "energyLevel",
-          "type": 8
-        },
-        {
-          "id": "22:8969412471923260080",
-          "name": "workEfficiency",
-          "type": 8
-        },
-        {
-          "id": "23:7828282475855678988",
-          "name": "tasksCompleted",
-          "type": 6
-        },
-        {
-          "id": "24:6043104712755490063",
-          "name": "totalWorkHours",
-          "type": 6
-        },
-        {
-          "id": "25:4369598343906072346",
-          "name": "workStateIndex",
-          "type": 6
-        },
-        {
-          "id": "26:912952143573498311",
-          "name": "performanceRating",
-          "type": 8
-        },
-        {
-          "id": "27:1760600780896364196",
-          "name": "patientsSeen",
-          "type": 6
-        },
-        {
-          "id": "28:206055894570661236",
-          "name": "averageTaskTime",
-          "type": 8
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "2:2581416555538830885",
-      "lastPropertyId": "17:7704051776631301652",
-      "name": "Patient",
-      "properties": [
-        {
-          "id": "1:2757681215905167384",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:5811053585033911145",
-          "name": "name",
+          "id": "3:2625965680639564787",
+          "name": "doctorId",
           "type": 9
         },
         {
-          "id": "3:8283309183938297532",
-          "name": "complaints",
-          "type": 9
-        },
-        {
-          "id": "4:667758663200460863",
-          "name": "createdAt",
-          "type": 10
-        },
-        {
-          "id": "5:2366918296949798304",
-          "name": "updatedAt",
-          "type": 10
-        },
-        {
-          "id": "6:5790420528641959283",
-          "name": "statusIndex",
-          "type": 6
-        },
-        {
-          "id": "7:3500597500049853498",
-          "name": "urgencyLevel",
-          "type": 9
-        },
-        {
-          "id": "8:1641116346305656184",
-          "name": "admittedAt",
-          "type": 10
-        },
-        {
-          "id": "9:3546059103903644661",
-          "name": "dischargedAt",
-          "type": 10
-        },
-        {
-          "id": "10:5172338562387917288",
-          "name": "totalBill",
-          "type": 8
-        },
-        {
-          "id": "11:663002973615098546",
-          "name": "amountPaid",
-          "type": 8
-        },
-        {
-          "id": "12:6399417074200008764",
-          "name": "isInsured",
-          "type": 1
-        },
-        {
-          "id": "13:7666064397751624785",
-          "name": "satisfactionScore",
-          "type": 8
-        },
-        {
-          "id": "14:4337699018360601734",
-          "name": "waitingTimeMinutes",
-          "type": 6
-        },
-        {
-          "id": "15:6159722800639282622",
-          "name": "notes",
-          "type": 9
-        },
-        {
-          "id": "16:8209086582027045160",
-          "name": "assignedDoctorId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "9:8718828603704935061",
-          "relationTarget": "Staff"
-        },
-        {
-          "id": "17:7704051776631301652",
-          "name": "assignedNurseId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "10:4571532011050922914",
-          "relationTarget": "Staff"
-        }
-      ],
-      "relations": [
-        {
-          "id": "2:3322270874801600277",
-          "name": "receptions",
-          "targetId": "3:2008252077173148943"
-        }
-      ]
-    },
-    {
-      "id": "3:2008252077173148943",
-      "lastPropertyId": "26:5965807172123247880",
-      "name": "Reception",
-      "properties": [
-        {
-          "id": "1:2116711610297752705",
-          "name": "mr",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:4001078492777137545",
-          "name": "notes",
-          "type": 9
-        },
-        {
-          "id": "5:3507637576250519774",
-          "name": "patientId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "2:6661889151109214743",
-          "relationTarget": "Patient"
-        },
-        {
-          "id": "6:4617092710100558017",
-          "name": "receptionistId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "3:6755193854088606652",
-          "relationTarget": "Staff"
-        },
-        {
-          "id": "9:6450668610248979436",
-          "name": "receptionId",
-          "type": 9
-        },
-        {
-          "id": "10:7486332544673111838",
-          "name": "purpose",
-          "type": 9
-        },
-        {
-          "id": "11:4209730180352220474",
-          "name": "arrivalTime",
-          "type": 10
-        },
-        {
-          "id": "12:6668801810579852710",
-          "name": "processingStartTime",
-          "type": 10
-        },
-        {
-          "id": "13:6899356116180260916",
-          "name": "processingEndTime",
-          "type": 10
-        },
-        {
-          "id": "14:6078888935367223670",
-          "name": "appointmentTime",
-          "type": 10
-        },
-        {
-          "id": "15:137356872693369850",
-          "name": "statusIndex",
-          "type": 6
-        },
-        {
-          "id": "16:2776737563622961213",
-          "name": "registrationFee",
-          "type": 8
-        },
-        {
-          "id": "17:5286292167882469852",
-          "name": "consultationFee",
-          "type": 8
-        },
-        {
-          "id": "18:4519029770806611624",
-          "name": "totalFees",
-          "type": 8
-        },
-        {
-          "id": "19:6921388733272111522",
-          "name": "isPaid",
-          "type": 1
-        },
-        {
-          "id": "20:5525491477859861924",
-          "name": "priorityIndex",
-          "type": 6
-        },
-        {
-          "id": "21:2654307109090281641",
-          "name": "hasInsurance",
-          "type": 1
-        },
-        {
-          "id": "22:4230320204302902246",
-          "name": "insuranceProvider",
-          "type": 9
-        },
-        {
-          "id": "23:661489037755305761",
-          "name": "documentationStatus",
-          "type": 9
-        },
-        {
-          "id": "24:7869058679441948928",
-          "name": "assignedDoctorId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "11:493019756950828546",
-          "relationTarget": "Staff"
-        },
-        {
-          "id": "25:2893746274904926576",
-          "name": "assignedNurseId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "12:4203856073711719449",
-          "relationTarget": "Staff"
-        },
-        {
-          "id": "26:5965807172123247880",
-          "name": "consultationId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "13:6175045140476909827",
-          "relationTarget": "Consultation"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "4:191945772425434654",
-      "lastPropertyId": "3:8514230599650138559",
-      "name": "Receipt",
-      "properties": [
-        {
-          "id": "1:7388848077581695473",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:3607234003011524346",
-          "name": "balance",
-          "type": 8
-        },
-        {
-          "id": "3:8514230599650138559",
-          "name": "createdOn",
-          "type": 10
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "5:7675916312686913667",
-      "lastPropertyId": "18:4604645961960956199",
-      "name": "Consultation",
-      "properties": [
-        {
-          "id": "1:603993907693671270",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:3001622858504831116",
-          "name": "consultationId",
-          "type": 9
-        },
-        {
-          "id": "3:6570486755728772470",
-          "name": "chiefComplaint",
-          "type": 9
-        },
-        {
-          "id": "4:8717319659646914546",
+          "id": "4:270997779213627763",
           "name": "diagnosis",
           "type": 9
         },
         {
-          "id": "5:8273521913949324623",
-          "name": "treatment",
-          "type": 9
-        },
-        {
-          "id": "6:440765139180407028",
-          "name": "notes",
-          "type": 9
-        },
-        {
-          "id": "7:5975238334113388344",
-          "name": "startTime",
-          "type": 10
-        },
-        {
-          "id": "8:194752290248701537",
-          "name": "endTime",
-          "type": 10
-        },
-        {
-          "id": "9:6371279412289413101",
-          "name": "estimatedDurationMinutes",
-          "type": 6
-        },
-        {
-          "id": "10:4909367872287640532",
-          "name": "statusIndex",
-          "type": 6
-        },
-        {
-          "id": "11:5982808767745186564",
-          "name": "consultationFee",
-          "type": 8
-        },
-        {
-          "id": "12:5494216360087306424",
-          "name": "additionalCharges",
-          "type": 8
-        },
-        {
-          "id": "13:3481253029050117333",
-          "name": "isPaid",
-          "type": 1
-        },
-        {
-          "id": "14:141610616527321550",
-          "name": "optionIndexes",
-          "type": 27
-        },
-        {
-          "id": "15:1590920018953961648",
-          "name": "priorityIndex",
-          "type": 6
-        },
-        {
-          "id": "16:1263334334134614615",
+          "id": "5:5451042993046725881",
           "name": "patientId",
           "type": 11,
           "flags": 520,
-          "indexId": "6:4773481640377590837",
+          "indexId": "1:7646871497628673530",
           "relationTarget": "Patient"
-        },
-        {
-          "id": "17:7017079746665262084",
-          "name": "doctorId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "7:6982230129849440172",
-          "relationTarget": "Staff"
-        },
-        {
-          "id": "18:4604645961960956199",
-          "name": "nurseId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "8:5161093105553673902",
-          "relationTarget": "Staff"
         }
       ],
-      "relations": [
-        {
-          "id": "1:9018254761138641229",
-          "name": "medications",
-          "targetId": "6:9125684900586367136"
-        }
-      ]
+      "relations": []
     },
     {
-      "id": "6:9125684900586367136",
-      "lastPropertyId": "14:2632136285384103700",
-      "name": "Medication",
+      "id": "2:4738811752630441609",
+      "lastPropertyId": "5:1172271226761831534",
+      "name": "Patient",
       "properties": [
         {
-          "id": "1:3425973955124516554",
+          "id": "1:2355407551182812344",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:7726008166825816494",
-          "name": "medicationId",
-          "type": 9
-        },
-        {
-          "id": "3:6502365838476404809",
+          "id": "2:4956601638798462868",
           "name": "name",
           "type": 9
         },
         {
-          "id": "4:4380265686817102445",
-          "name": "amount",
+          "id": "3:6825910703907571836",
+          "name": "age",
           "type": 6
         },
         {
-          "id": "5:4441623414127732974",
+          "id": "4:8017950836848578786",
+          "name": "gender",
+          "type": 9
+        },
+        {
+          "id": "5:1172271226761831534",
+          "name": "registrationDate",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2721432068943826423",
+      "lastPropertyId": "8:2301083813379955514",
+      "name": "Prescription",
+      "properties": [
+        {
+          "id": "1:5208628506039161867",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4968221789289479563",
+          "name": "medicineName",
+          "type": 9
+        },
+        {
+          "id": "3:2541579118986207054",
           "name": "dosage",
           "type": 9
         },
         {
-          "id": "6:6902952581913096718",
+          "id": "4:1696282553807032436",
           "name": "frequency",
           "type": 9
         },
         {
-          "id": "7:1887824502414531318",
-          "name": "unit",
-          "type": 9
-        },
-        {
-          "id": "8:3853669950421722697",
-          "name": "cost",
-          "type": 8
-        },
-        {
-          "id": "9:6956054418843202256",
-          "name": "instructions",
-          "type": 9
-        },
-        {
-          "id": "10:9022731781404213906",
-          "name": "stockQuantity",
-          "type": 6
-        },
-        {
-          "id": "11:2657998362503142427",
-          "name": "minimumStock",
-          "type": 6
-        },
-        {
-          "id": "12:396075539417182009",
-          "name": "expiryDate",
+          "id": "5:354194567283225182",
+          "name": "startDate",
           "type": 10
         },
         {
-          "id": "13:6642139504193782280",
-          "name": "manufacturer",
+          "id": "6:1969452431875348391",
+          "name": "endDate",
+          "type": 10
+        },
+        {
+          "id": "7:3878324151556742783",
+          "name": "notes",
           "type": 9
         },
         {
-          "id": "14:2632136285384103700",
-          "name": "batchNumber",
+          "id": "8:2301083813379955514",
+          "name": "medicalRecordId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:3444213983095570172",
+          "relationTarget": "MedicalRecord"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:6571383549521064480",
+      "lastPropertyId": "8:5443560183546466920",
+      "name": "StaffMember",
+      "properties": [
+        {
+          "id": "1:8269684296091370705",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2522641378973383162",
+          "name": "name",
           "type": 9
+        },
+        {
+          "id": "3:6266122725468113662",
+          "name": "role",
+          "type": 9
+        },
+        {
+          "id": "4:769897230166953730",
+          "name": "department",
+          "type": 9
+        },
+        {
+          "id": "5:8778813470781125921",
+          "name": "contactNumber",
+          "type": 9
+        },
+        {
+          "id": "6:4996117513336439419",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "7:1789036364641173890",
+          "name": "joinDate",
+          "type": 10
+        },
+        {
+          "id": "8:5443560183546466920",
+          "name": "isActive",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:2305596125913505573",
+      "lastPropertyId": "3:4474772723541273962",
+      "name": "Symptom",
+      "properties": [
+        {
+          "id": "1:1403421909548575982",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4844272103569229648",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4474772723541273962",
+          "name": "medicalRecordId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:6430270856096445239",
+          "relationTarget": "MedicalRecord"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "6:9125684900586367136",
-  "lastIndexId": "13:6175045140476909827",
-  "lastRelationId": "2:3322270874801600277",
+  "lastEntityId": "5:2305596125913505573",
+  "lastIndexId": "3:6430270856096445239",
+  "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [
-    1679846224633347206,
-    2386657789878072263,
-    5312526729160795299
-  ],
-  "retiredPropertyUids": [
-    8579421676149275667,
-    7043401415176863090,
-    4128886950788997007,
-    6467165230943959583,
-    5860833818364627534,
-    5552198979085181040,
-    2213331840504814896,
-    1219146330672213744,
-    5036070109548713527
-  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }
