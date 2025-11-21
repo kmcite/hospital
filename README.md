@@ -138,6 +138,21 @@ This project is a hospital simulation game built using Flutter. The game allows 
 2. Run `flutter pub get` to install dependencies.
 3. Run `flutter run` to start the application.
 
+### Web Deployment
+
+To build and deploy the web version of the app to GitHub Pages:
+
+1. Run the appropriate script for your platform:
+   - Windows: `build_and_deploy_web.bat` or `build_and_deploy_web.ps1`
+   - Mac/Linux: `build_and_deploy_web.sh`
+   
+2. The script will:
+   - Build the Flutter web app
+   - Copy the output to the `docs/` directory
+   - Create a `.nojekyll` file for GitHub Pages compatibility
+   
+3. Commit and push the changes to GitHub to deploy to GitHub Pages.
+
 ---
 
 ## Contributors

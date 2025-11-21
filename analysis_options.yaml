@@ -1,8 +1,10 @@
-# include: package:flutter_lints/flutter.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
     unused_field: ignore
     deprecated_member_use: ignore
-  plugins:
-    - celest
+    unused_element_parameter: ignore
+
+formatter:
+  trailing_commas: preserve
