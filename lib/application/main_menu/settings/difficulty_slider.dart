@@ -1,4 +1,5 @@
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 
 class DifficultySlider extends StatelessWidget {
   const DifficultySlider({super.key});

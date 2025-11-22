@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_rearch/flutter_rearch.dart';
-import 'package:hospital/main.dart';
+import 'package:forui/forui.dart';
 import 'package:rearch/rearch.dart';
 
 class StatisticsScreen extends RearchConsumer {

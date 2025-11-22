@@ -1,8 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/application/departments/departments_screen.dart';
 import 'package:hospital/application/statistics.dart';
+import 'package:hospital/domain/models/medical_record.dart';
+import 'package:hospital/domain/models/patient.dart';
 import 'package:hospital/domain/repositories/settings_repository.dart';
-import 'package:hospital/application/main_menu/game/top_gamebar/top_gamebar.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/utils/context.dart';
+import 'package:hospital/utils/notifier.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 class PatientWithRecords {
   final PatientModel patient;
@@ -56,7 +61,6 @@ class HomeScreen extends StatelessWidget {
       builder: (context, home) {
         return SafeArea(
           child: FScaffold(
-            header: TopGamebar(),
             child: PageView(
               controller: home.pageController,
               onPageChanged: home.onIndexChanged,

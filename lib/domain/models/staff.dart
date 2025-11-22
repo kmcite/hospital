@@ -1,12 +1,10 @@
 import 'package:hospital/utils/in_memory_collection.dart';
 import 'package:hospital/utils/model.dart';
 
-// import 'package:objectbox/objectbox.dart';
 class Staffs extends InMemoryCollection<StaffModel> {}
 
 typedef StaffMemberId = int;
 
-// @Entity()
 class StaffModel extends Model {
   // @Id()
   @override
@@ -54,6 +52,3 @@ class StaffModel extends Model {
     );
   }
 }
-
-// Run 'flutter pub run build_runner build' to generate the required code
-// for ObjectBox to work with these models.

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 import 'doctor_room/doctor_room.dart';
 

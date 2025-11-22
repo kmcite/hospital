@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/domain/repositories/settings_repository.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/utils/context.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 class ThemeNotifier extends ChangeNotifier {
   final BuildContext context;

@@ -1,5 +1,5 @@
-import 'package:hospital/main.dart';
-import 'package:provider/provider.dart' show Consumer;
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' show Consumer, ListenableProvider;
 
 /// just scoping to one widget only
 class NotifierProvider<T extends Listenable> extends StatelessWidget {

@@ -1,4 +1,9 @@
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/domain/models/medical_record.dart';
+import 'package:hospital/utils/context.dart';
+import 'package:hospital/utils/navigator.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 class RecordsNotifier extends ChangeNotifier {
   final BuildContext context;

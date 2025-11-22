@@ -1,7 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:hospital/application/departments/doctor_room/doctor_room.dart';
 import 'package:hospital/application/departments/staff_room/hire_staff.dart';
 import 'package:hospital/application/departments/staff_room/staff_list.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/domain/models/staff.dart';
+import 'package:hospital/utils/context.dart';
+import 'package:hospital/utils/navigator.dart';
+import 'package:hospital/utils/notifier.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 ///  │       ├── StaffRoomView
 ///  │       │   ├── Staff List

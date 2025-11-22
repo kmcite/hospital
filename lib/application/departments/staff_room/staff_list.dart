@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:hospital/application/departments/staff_room/staff_card.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/domain/models/staff.dart';
 
 class StaffList extends StatelessWidget {
   final List<StaffModel> staff;

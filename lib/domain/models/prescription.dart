@@ -1,10 +1,8 @@
-// import 'package:objectbox/objectbox.dart';
 import 'package:hospital/utils/model.dart';
 import 'package:hospital/domain/models/medical_record.dart';
 
 typedef PrescriptionId = int;
 
-// @Entity()
 class PrescriptionModel extends Model {
   // @Id()
   @override

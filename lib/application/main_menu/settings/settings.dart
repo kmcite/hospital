@@ -1,4 +1,6 @@
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/utils/navigator.dart';
 
 import 'difficulty_slider.dart';
 import 'theme_mode.dart';

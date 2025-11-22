@@ -1,7 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/application/home.dart';
 import 'package:hospital/application/main_menu/settings/settings.dart';
 import 'package:hospital/domain/repositories/game_repository.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/utils/context.dart';
+import 'package:hospital/utils/navigator.dart';
+import 'package:hospital/utils/notifier.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 class MainMenuNotifier extends Notifier {
   MainMenuNotifier(super.context);

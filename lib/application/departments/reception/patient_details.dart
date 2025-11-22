@@ -1,4 +1,4 @@
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
 
 class PatientDetailsOverlay extends StatelessWidget {
   const PatientDetailsOverlay({super.key});

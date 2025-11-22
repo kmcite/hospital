@@ -1,41 +1,16 @@
 import 'dart:async' show Timer;
 
+import 'package:flutter/material.dart';
 import 'package:flutter_rearch/flutter_rearch.dart';
+import 'package:forui/forui.dart';
+import 'package:hospital/utils/navigator.dart';
 import 'package:rearch/rearch.dart';
 
 import '../main_menu/main_menu.dart';
-import 'package:hospital/main.dart';
 
 /// this screen is used to show a splash screen
 /// it will navigate to the main menu screen after 2 seconds
 /// well its purpose is to load resources and maybe show progress indecator.
-
-// class SplashNotifier extends ChangeNotifier {
-//   final BuildContext context;
-
-//   Timer? _timer;
-//   double progress = 0;
-
-//   SplashNotifier(this.context) {
-//     _timer = Timer.periodic(
-//       const Duration(milliseconds: 200),
-//       (timer) {
-//         progress += 0.1;
-//         notifyListeners();
-//         if (progress >= 1) {
-//           timer.cancel();
-//           // navigator.to(MainMenuScreen());
-//         }
-//       },
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     _timer?.cancel();
-//     super.dispose();
-//   }
-// }
 
 class SplashScreen extends RearchConsumer {
   const SplashScreen({super.key});

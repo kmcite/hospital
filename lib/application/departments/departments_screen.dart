@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 import 'package:hospital/application/departments/staff_room/staff_room.dart';
-import 'package:hospital/main.dart';
+import 'package:hospital/utils/notifier_provider.dart';
 
 import 'pharmacy/pharmacy_room.dart';
 import 'doctor_room/doctor_room.dart';

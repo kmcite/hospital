@@ -1,4 +1,5 @@
-import 'package:hospital/main.dart';
+import 'package:flutter/material.dart';
+import 'package:hospital/domain/models/staff.dart';
 
 class StaffCard extends StatelessWidget {
   final StaffModel staff;

@@ -1,13 +1,11 @@
 import 'package:hospital/domain/models/medical_record.dart';
 import 'package:hospital/utils/in_memory_collection.dart';
 import 'package:hospital/utils/model.dart';
-// import 'package:objectbox/objectbox.dart';
 
 class Patients extends InMemoryCollection<PatientModel> {}
 
 typedef PatientId = int;
 
-// @Entity()
 class PatientModel extends Model {
   // @Id()
   @override
