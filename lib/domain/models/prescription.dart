@@ -18,7 +18,7 @@ class PrescriptionModel extends Model {
 
   final medicalRecords = <MedicalRecordId>[];
   PrescriptionModel({
-    required this.id,
+    this.id = 0,
     required this.medicineName,
     required this.dosage,
     required this.frequency,

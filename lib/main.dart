@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rearch/flutter_rearch.dart';
-import 'package:hospital/application/splash/splash.dart';
 import 'package:hospital/domain/repositories/game_repository.dart';
 import 'package:hospital/domain/repositories/settings_repository.dart';
+import 'package:hospital/features/splash/splash.dart';
 import 'package:hospital/utils/context.dart';
 import 'package:hospital/utils/navigator.dart';
 import 'package:hospital/utils/notifier.dart';
@@ -20,6 +18,7 @@ void main() async {
   // final path = await getApplicationDocumentsDirectory();
   // final store = await openStore(
   //   directory: join(path.path, appInfo.appName, 'db'),
+  //   );
   // );
 
   /// injections
@@ -39,33 +38,30 @@ void main() async {
 
   /// app
   runApp(
-    RearchBootstrapper(
-      child: MultiProvider(
-        providers: [
-          ListenableProvider.value(value: Games()),
-          ListenableProvider.value(value: Staffs()),
-          ListenableProvider.value(value: Patients()),
-          ListenableProvider.value(value: MedicalRecords()),
-          ListenableProvider.value(value: SettingsRepository()),
-        ],
-        child: const Application(),
-      ),
+    MultiProvider(
+      providers: [
+        ListenableProvider.value(value: Games()),
+        ListenableProvider.value(value: Staffs()),
+        ListenableProvider.value(value: Patients()),
+        ListenableProvider.value(value: MedicalRecords()),
+        ListenableProvider(create: (context) => SettingsRepository(context)),
+      ],
+      child: const Application(),
     ),
   );
 }
 
 class ApplicationNotifier extends Notifier {
-  late SettingsRepository settings = context.of();
-  Subscription? _subscription;
+  late SettingsRepository settings = context.of<SettingsRepository>();
   ApplicationNotifier(super.context) {
-    _subscription = settings.subscribe(notifyListeners);
+    settings.addListener(notifyListeners);
   }
 
-  bool get dark => settings.settings.themeMode == ThemeMode.dark;
+  ThemeMode get themeMode => settings.settings.themeMode;
 
   @override
   void dispose() {
-    _subscription?.dispose();
+    settings.removeListener(notifyListeners);
     super.dispose();
   }
 }
@@ -80,13 +76,18 @@ class Application extends StatelessWidget {
       builder: (context, application) => MaterialApp(
         debugShowCheckedModeBanner: false,
         navigatorKey: navigator.navigatorKey,
-        theme: ThemeData.light(),
-        builder: (context, child) => FTheme(
-          data: application.dark ? FThemes.green.dark : FThemes.green.light,
-          child: child!,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
-        darkTheme: ThemeData.dark(),
-        themeMode: application.dark ? ThemeMode.dark : ThemeMode.light,
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.green,
+            brightness: Brightness.dark,
+          ),
+        ),
+        themeMode: application.themeMode,
         home: const SplashScreen(),
       ),
     );

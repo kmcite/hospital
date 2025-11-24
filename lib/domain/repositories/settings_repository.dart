@@ -1,47 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:hospital/utils/notifier.dart';
 
-class Subscription {
-  final StreamSubscription subscription;
-  final void Function() disposer;
-  const Subscription(
-    this.subscription,
-    this.disposer,
-  );
-  void dispose() {
-    subscription.cancel();
-    disposer();
-  }
-}
+class SettingsRepository extends Notifier {
+  SettingsRepository(super.context); // Context not needed for repositories
 
-class SettingsRepository extends ChangeNotifier {
   var _settings = Settings();
   Settings get settings => _settings;
+
   void update(Settings value) {
     _settings = value;
-    notfiy(value);
-  }
-
-  final controller = StreamController<Settings>.broadcast();
-  Stream<void> get stream => controller.stream;
-  void notfiy(Settings settings) {
-    controller.add(settings);
     notifyListeners();
   }
 
   void onPageChanged(int index) {
-    settings.pageIndex = index;
-    notfiy(settings);
-  }
-
-  Subscription subscribe(VoidCallback callback) {
-    void disposer() => removeListener(callback);
-    final StreamSubscription<dynamic> subscription = stream.listen(
-      (_) => callback(),
-    );
-    addListener(callback);
-    return Subscription(subscription, disposer);
+    _settings.pageIndex = index;
+    notifyListeners();
   }
 }
 

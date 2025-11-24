@@ -2,24 +2,50 @@
 trigger: always_on
 alwaysApply: true
 ---
-import 'package:qoder/utils/notifier.dart';
+# Dart MCP Tool
+- use it for code modifications
+# Architecture Rules
 
-use [context] .of() to access dependencies/repositories. 
+## Project Structure
+- Follow **feature-first** structure.
+- Each feature folder contains one `StatelessWidget` and its matching `Notifier` in the same file.
+- Domain layer contains `models/` and `repositories/`.
 
-use [Notifier] and [NotifierProvider] utils from /lib/utils folder. it's for the state management
-one to one relation of StatelessWidget and the Notifier. use feature first folder struture to develop this project.
-use feature first folder struture to develop this project.
+## State Management
+- Use **Notifier** and **NotifierProvider** from `/utils`.
+- One-to-one relation between `StatelessWidget` and its `Notifier`.
+- Never use `StatefulWidget` or `State`.
 
-also use domain folder for Models and Repositories, for the injection of Repositories use ListenableProvider/Provider in main method. so its accessible to all the app from everywhere.
-Never use StatefulWidget and State. use StatelessWidget and Notifier.
+## Dependency Injection
+- Use `Provider` and `ListenableProvider` in `main()` to inject repositories.
+- Access dependencies using `context.of<T>()` everywhere.
+- Repositories must never be created inside widgets or notifiers.
 
-use [navigator] from utils has api for imperative navigation. use it for navigation.
- 
-[event_bus] from utils maybe used to communicate between repositories for cross cutting concerns.
+## Repositories
+- Use **Collection** or **InMemoryCollection<T>** for data storage.
+- Repositories live in `domain/repositories`.
+- Repositories may communicate via `event_bus` for cross-cutting concerns.
 
-use [Collection] and [InMemoryCollection<T>] for repositories of data/T. use it for repositories. can be injected using ListenableProvider/Provider.
+## Models
+- Models live in `domain/models`.
+- Models extend `Model` from `/utils`.
+- Models are plain data objects without business logic.
 
-data/T models can be created in /lib/domain/models folder use [Model] available from utils.
+## Navigation
+- Use the `navigator` utility for all navigation.
+- Do not use Flutter’s `Navigator.of(context)` APIs.
 
+## Event Bus
+- Use `event_bus` only for communication between repositories.
+- Do not use event bus for UI interaction.
 
+## UI Rules
+- UI must use `StatelessWidget` only.
+- All logic lives in the `Notifier`.
+- Build method stays declarative and clean.
 
+## Notifier Rules
+- Each feature has exactly one `Notifier`.
+- Notifier accesses repositories using `context.of<T>()`.
+- Notifier contains all logic for the feature.
+- Notifier is disposed automatically by NotifierProvider.

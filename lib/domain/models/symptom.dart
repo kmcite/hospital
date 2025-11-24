@@ -11,7 +11,7 @@ class SymptomModel extends Model {
   final medicalRecords = <MedicalRecordId>[];
 
   SymptomModel({
-    required this.id,
+    this.id = 0,
     required this.name,
   });
 }
