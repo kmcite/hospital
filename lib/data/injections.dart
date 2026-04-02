@@ -1,0 +1,25 @@
+/// its general clinic/hospital
+
+final injections = [
+  'inj. diclofenac 75mg',
+  'inj. dexamethasone 4mg',
+  'inj. tramadol 50mg',
+  'inj. ketorolac 30mg',
+  'inj. metoclopramide 10mg',
+  'inj. ondansetron 8mg',
+  'inj. promethazine 25mg',
+  'inj. chlorpheniramine 10mg',
+  'inj. hydrocortisone 100mg',
+  'inj. adrenaline 1mg',
+  'inj. atropine 1mg',
+  'inf. paracetamol 100cc (1000mg)',
+  'inf. normal saline 500cc',
+  'inf. ringer lactate 500cc',
+  'inf. pladex 100cc',
+  'inf. metronidazole 100cc',
+  'inj. omeprazole 40mg',
+  'inj. ceftrixone 1g',
+  'inj. cefotaxime 500mg',
+  'inj. furosemide 20mg',
+  'inj. drotaverine 10mg',
+];

@@ -1,33 +1,42 @@
 name: hospital
 description: "A hospital simulation game"
 publish_to: "none"
-version: 0.1.0 
+version: 0.1.0
 
 environment:
-  sdk: ^3.10.0-290.4.beta
+  sdk: ^3.10.3
 dependencies:
+  flame: ^1.36.0
   flutter:
     sdk: flutter
-  uuid: ^4.5.2
-  icons_plus: ^5.0.0
-  # path_provider: ^2.1.5
-  faker: ^2.2.0
-  # hive_flutter: ^1.1.0
-  # package_info_plus: ^9.0.0
-  navigation_builder: ^0.0.4
-  # objectbox: ^5.0.1
-  # objectbox_flutter_libs: ^5.0.1
-  # forui: ^0.16.0
-  # path: ^1.9.1
-  # package_info_plus: ^9.0.0
-  
-  provider: ^6.1.5+1
-dev_dependencies:
-  # objectbox_generator: ^5.0.1
-  build_runner: ^2.10.4
-  flutter_test:
-    sdk: flutter
-  flutter_lints:
-flutter:
+  flutter_native_splash: ^2.4.7
+  forui: ^0.19.0
+  manager:
+    path: D://projects//manager
+  signals: ^6.3.0
 
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.2
+flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/splash.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/splash.png"
+    # background_color: "#hexcode"
+    # theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/splash.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/splash.png"
