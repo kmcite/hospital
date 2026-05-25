@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/components/dark_mode.dart';
-import 'package:hospital/components/background_image.dart';
-import 'package:hospital/signals/game_state.dart';
-import 'package:hospital/components/ui.dart';
+import 'package:hospital/features/dark_mode.dart';
+import 'package:hospital/features/background_image.dart';
 
-class MenuPage extends UI {
-  const MenuPage({super.key});
+class Gatekeeper extends StatelessWidget {
+  const Gatekeeper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +22,13 @@ class MenuPage extends UI {
         child: SafeArea(
           child: Stack(
             children: [
-              const BackgroundImage(),
+              backgroundImage(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: .stretch,
                     children: [
                       const Icon(
                         Icons.medical_services_outlined,
@@ -47,7 +46,7 @@ class MenuPage extends UI {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Treat and manage patients.',
+                        'Treat and manage patients. \nSwipe left or right to see more.',
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: Theme.of(
@@ -55,29 +54,7 @@ class MenuPage extends UI {
                               ).textTheme.bodySmall?.color,
                             ),
                       ),
-                      const SizedBox(height: 64),
-                      SizedBox(
-                        width: 220,
-                        height: 56,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            gameStateSignal.set(.running);
-                          },
-                          icon: const Icon(Icons.play_arrow_rounded, size: 28),
-                          label: const Text(
-                            "Play Game",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                        ),
-                      ),
+
                       const SizedBox(height: 16),
                       DarkModeButton(),
                     ],

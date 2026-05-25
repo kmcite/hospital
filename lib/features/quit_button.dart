@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/signals/game_state.dart';
-import 'package:hospital/signals/navigation.dart';
+import 'package:hospital/utils/navigation.dart';
 
 class QuitButton extends StatelessWidget {
   @override
@@ -11,7 +10,7 @@ class QuitButton extends StatelessWidget {
 
         if (shouldPop == true && context.mounted) {
           navigateBack();
-          gameStateSignal.set(.paused);
+          // gameStateSignal.set(.paused);
         }
       },
       icon: Icon(Icons.close),
