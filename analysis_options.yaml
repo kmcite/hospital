@@ -1,6 +1,8 @@
 # include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  plugins:
+    - signals_lint
   errors:
     unused_field: ignore
     deprecated_member_use: ignore

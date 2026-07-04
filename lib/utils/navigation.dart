@@ -1,32 +1,52 @@
 import 'package:flutter/material.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
+extension NavigationContext on BuildContext {
+  NavigatorState get state => Navigator.of(this);
+  void pop() {
+    state.pop();
+  }
 
-void navigateTo(Widget page) {
-  navigatorKey.currentState?.push(
-    MaterialPageRoute(builder: (context) => page),
-  );
-}
+  void push(Widget child) {
+    state.push(MaterialPageRoute(builder: (context) => child));
+  }
 
-void navigateUntill(Widget page) {
-  navigatorKey.currentState?.pushAndRemoveUntil(
-    MaterialPageRoute(builder: (context) => page),
-    (route) => false,
-  );
-}
+  void pushReplacement(Widget child) {
+    state.pushReplacement(MaterialPageRoute(builder: (context) => child));
+  }
 
-void navigateBack<T>([T? result]) {
-  navigatorKey.currentState?.pop(result);
-}
-
-Future<T?> navigateToDialog<T>(Widget page) {
-  final context = navigatorKey.currentContext;
-  if (context == null) {
-    throw Exception('Navigator key is not initialized');
-  } else {
-    return showDialog<T>(
-      context: context,
-      builder: (context) => page,
+  void pushAndRemoveUntil(
+    Widget child,
+    bool Function(Route<dynamic>) predicate,
+  ) {
+    state.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => child),
+      predicate,
     );
+  }
+
+  void pushDialog(Widget child) {
+    showDialog(
+      context: this,
+      builder: (context) => child,
+    );
+  }
+
+  void pushBottomSheet(Widget child) {
+    showBottomSheet(
+      context: this,
+      builder: (context) => child,
+    );
+  }
+
+  void backUntil(bool Function(Route<dynamic>) predicate) {
+    state.popUntil(predicate);
+  }
+
+  void backToFirst() {
+    state.popUntil((route) => route.isFirst);
+  }
+
+  Future<T?> pushForResult<T>(Widget page) {
+    return state.push<T>(MaterialPageRoute(builder: (_) => page));
   }
 }

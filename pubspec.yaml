@@ -1,14 +1,16 @@
 name: hospital
-description: "A hospital simulation game"
+description: "A Hospital Clicker Game"
 publish_to: "none"
-version: 0.1.0
+version: 0.1.2
 environment:
-  sdk: ^3.10.3
+    sdk: ^3.10.3
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_bloc: ^9.1.1
-  faker: ^2.2.0
-  intl: ^0.20.2
+    flutter:
+        sdk: flutter
+    faker: ^2.2.0
+    flutter_rearch: ^1.7.3
+    rearch: ^1.16.1
 flutter:
-  uses-material-design: true
+    uses-material-design: true
+dev_dependencies:
+    flutter_lints: ^6.0.0
