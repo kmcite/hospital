@@ -1,47 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rearch/flutter_rearch.dart';
-import 'package:hospital/business/hospital.dart';
-import 'package:hospital/business/main_menu.dart';
-import 'package:hospital/screens/main_menu_screen.dart';
-import 'package:hospital/utils/di.dart';
+import 'package:hospital/business/dark.dart';
+import 'package:hospital/screens/game_menu_screen.dart';
+import 'package:hospital/screens/game_screen.dart';
+import 'package:hospital/screens/load_game_dialog.dart';
+import 'package:hospital/screens/settings_screen.dart';
+import 'package:hospital/utils/provider.dart';
+import 'package:objectbox/objectbox.dart' show Store;
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart'
+    show getApplicationDocumentsDirectory;
+import 'package:signals/signals.dart';
+import 'package:yaru/yaru.dart';
 
-void main() => runApp(
-  RearchBootstrapper(
-    child: ProviderScope(
-      builder: (context) => HospitalGame(
-        hospital: context.get(hospitalProvider),
-      ),
-    ),
-  ),
-);
+import 'objectbox.g.dart' show openStore;
 
-// ─────────────────────────────────────────────────────────────
-// App
-// ─────────────────────────────────────────────────────────────
+late Store store;
 
-final class HospitalGame extends RearchConsumer {
-  final HospitalProvider hospital;
-  const HospitalGame({super.key, required this.hospital});
+void main() async {
+  // Signal.observer = LoggingSignalObserver();
+  final directory = await getApplicationDocumentsDirectory();
+  store = await openStore(
+    directory: join(directory.path, 'hospital'),
+  );
+  runApp(
+    RefScope(child: HospitalGame()),
+  );
+}
+
+final class HospitalGame extends SignalConsumer {
+  const HospitalGame({super.key});
 
   @override
-  Widget build(BuildContext context, use) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: use(darkCapsule).value ? .dark : .light,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        // colorSchemeSeed: Colors.indigo,
-        // fontFamily: 'SUSE Mono',
-        // useMaterial3: false,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        // colorSchemeSeed: Colors.yellow,
-        // fontFamily: 'Martian Mono',
-        // useMaterial3: false,
-      ),
-      home: MainMenuScreen(
-        mainMenu: context.get(mainMenuProvider),
+      themeMode: darkRead.darkSignal.choose(.dark, .light),
+      theme: yaruLight,
+      darkTheme: yaruDark,
+      home: PageView(
+        children: [
+          GameScreen(),
+          SettingsScreen(),
+          GameMenuScreen(),
+          LoadGameDialog(),
+        ],
       ),
     );
   }

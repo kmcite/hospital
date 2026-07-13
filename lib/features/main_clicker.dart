@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/business/clicker.dart';
-import 'package:hospital/utils/sm.dart';
+import 'package:hospital/business/patient_arrival.dart';
+import 'package:hospital/utils/provider.dart';
+import 'package:signals/signals.dart';
 
-final class MainClicker extends UI {
-  final ClickerProvider clicker;
-  const MainClicker({required this.clicker});
+final class MainClicker extends SignalConsumer {
+  const MainClicker({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final patientArrival = context.of(patientArrivalProvider);
     final color = Theme.of(context).colorScheme;
 
     return Material(
@@ -16,9 +17,7 @@ final class MainClicker extends UI {
       elevation: 10,
       child: InkWell(
         customBorder: const CircleBorder(),
-        onTap: () {
-          clicker.clickerTapped();
-        },
+        onTap: () {},
         child: SizedBox(
           width: 180,
           height: 180,
@@ -28,10 +27,10 @@ final class MainClicker extends UI {
               Icon(Icons.health_and_safety, size: 64, color: color.onPrimary),
               const SizedBox(height: 8),
               Text(
-                'Click',
+                'Click=[${patientArrival.clicks()}]',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: color.onPrimary,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w100,
                 ),
               ),
             ],

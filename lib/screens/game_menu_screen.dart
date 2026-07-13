@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/business/hospital.dart';
+import 'package:hospital/apis/events.dart';
 import 'package:hospital/business/main_menu.dart';
-import 'package:hospital/screens/game_screen.dart';
 import 'package:hospital/features/main_menu_button.dart';
-import 'package:hospital/utils/navigation.dart';
+import 'package:hospital/screens/game_screen.dart';
+import 'package:hospital/screens/load_game_dialog.dart';
 import 'package:hospital/screens/settings_screen.dart';
-import 'package:hospital/utils/di.dart';
-import 'package:hospital/utils/sm.dart';
+import 'package:hospital/utils/messaging.dart';
+import 'package:hospital/utils/provider.dart';
+import 'package:navigation/navigation.dart';
 
-class MainMenuScreen extends UI {
-  final MainMenuProvider mainMenu;
-  const MainMenuScreen({super.key, required this.mainMenu});
+class GameMenuScreen extends StatelessWidget {
+  const GameMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mainMenu = context.of(mainMenuProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Hospital'),
@@ -27,32 +28,27 @@ class MainMenuScreen extends UI {
             MainMenuButton(
               text: 'Continue Game',
               icon: Icons.play_arrow,
-              onPressed: mainMenu.onContinueGame()
-                  ? () => mainMenu.continueGame()
-                  : null,
+              onPressed: () {
+                mainMenu.continueGame();
+                context.push(GameScreen());
+              },
             ),
 
             MainMenuButton(
               text: 'New Game',
               icon: Icons.add_circle_outline,
               onPressed: () {
-                mainMenu.startNewGame();
-                context.push(
-                  GameScreen(
-                    hospital: context.get(hospitalProvider),
-                  ),
-                );
+                send(StartGame());
+                context.push(GameScreen());
               },
             ),
 
             MainMenuButton(
               text: 'Load Game',
               icon: Icons.folder_open,
-              onPressed: mainMenu.onSavedGame()
-                  ? () {
-                      mainMenu.loadFromSavedGame();
-                    }
-                  : null,
+              onPressed: () {
+                context.pushDialog(LoadGameDialog());
+              },
             ),
 
             MainMenuButton(
@@ -60,9 +56,7 @@ class MainMenuScreen extends UI {
               icon: Icons.settings,
               onPressed: () {
                 context.push(
-                  SettingsScreen(
-                    hospital: context.get(hospitalProvider),
-                  ),
+                  SettingsScreen(),
                 );
               },
             ),
@@ -71,7 +65,7 @@ class MainMenuScreen extends UI {
               text: 'Exit',
               icon: Icons.exit_to_app,
               onPressed: () {
-                mainMenu.exitGame();
+                send(QuitGame());
               },
             ),
           ],

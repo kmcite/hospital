@@ -1,6 +1,8 @@
 # include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  enable-experiment:
+    - primary-constructors
   plugins:
     - signals_lint
   errors:
@@ -11,3 +13,4 @@ analyzer:
 
 formatter:
   trailing_commas: preserve
+

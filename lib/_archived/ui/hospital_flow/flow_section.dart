@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/archived/data/models/patient.dart';
+import 'package:hospital/_archived/data/models/patient.dart';
 
 class PatientGroup {
   const PatientGroup(this.label, this.patients);
